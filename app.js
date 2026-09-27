@@ -4,28 +4,6 @@ const DB = window.MsgDB;
 const RAW_API = `https://raw.githubusercontent.com/${C.owner}/${C.repo}/${C.branch}/messages.json`;
 const RAW_ALLOWED = `https://raw.githubusercontent.com/${C.owner}/${C.repo}/${C.branch}/allowed.json`;
 const RAW_CATS = `https://raw.githubusercontent.com/${C.owner}/${C.repo}/${C.branch}/categories.json`;
-// ═══════════════════════════════════════════════════════
-// 💬 دکمه پیام به مدیر — فقط برای کاربرای عادی
-// ═══════════════════════════════════════════════════════
-function addAdminMsgButton() {
-  if (isAdmin) return;  // ادمین نیازی نداره
-
-  // چک کن دکمه هست؟
-  if (document.getElementById('adminMsgBtn')) return;
-
-  // دکمه رو به header اضافه کن
-  const headerActions = document.querySelector('.header-actions');
-  if (!headerActions) return;
-
-  const btn = document.createElement('button');
-  btn.id = 'adminMsgBtn';
-  btn.title = 'پیام به مدیر';
-  btn.textContent = '💬';
-  btn.style.cssText = 'background:rgba(139,92,246,.15); color:#7c3aed; font-size:18px;';
-  btn.onclick = openAdminMsgDialog;
-
-  headerActions.insertBefore(btn, headerActions.firstChild);
-}
 
 // ═══════════════════════════════════════════════════════
 // 👑 ادمین
@@ -79,135 +57,11 @@ if (isAdmin && localStorage.getItem('adminUnlocked') !== 'true') {
 // ═══════════════════════════════════════════════════════
 // 📦 state
 // ═══════════════════════════════════════════════════════
-  // ═══════════════════════════════════════════════════════
-// 💬 پیام به مدیر — فقط برای کاربرای عادی
-// ═══════════════════════════════════════════════════════
-async function sendToAdmin(text, imageUrl) {
-  if (!text && !imageUrl) return;
-
-  const payload = {
-    type: 'admin-message',
-    text: text || '',
-    image: imageUrl || '',
-    from: state.myName || 'ناشناس',
-    phone: localStorage.getItem('myPhone') || '',
-    group: state.myGroups[0] || '',
-    time: new Date().toISOString()
-  };
-
-  try {
-    await fetch(C.ntfyBase + '/' + C.adminTopic, {
-      method: 'POST',
-      headers: {
-        'Title': '💬 پیام از ' + payload.from,
-        'Priority': 'high',
-        'Tags': 'envelope,speech_balloon'
-      },
-      body: JSON.stringify(payload)
-    });
-    return true;
-  } catch(e) {
-    console.error('sendToAdmin error:', e);
-    return false;
-  }
-}
-
-function openAdminMsgDialog() {
-  if (!state.myName) return setStatus('اول وارد شو', true);
-
-  const dlg = document.getElementById('adminMsgDlg');
-  if (!dlg) {
-    // اگه دیالوگ نبود، بساز
-    const newDlg = document.createElement('dialog');
-    newDlg.id = 'adminMsgDlg';
-    newDlg.innerHTML = `
-      <form method="dialog">
-        <h3>💬 پیام به مدیر</h3>
-        <p style="color:#64748b; font-size:14px; margin:0 0 12px; font-weight:600">
-          پیام شما فقط برای مدیر سامانه ارسال میشه
-        </p>
-        <textarea id="adminMsgText" placeholder="متن پیام..." rows="4"></textarea>
-        <label style="display:block; margin:12px 0 6px; font-size:14px; color:#64748b; font-weight:700">
-          🖼 عکس (اختیاری)
-        </label>
-        <input type="file" id="adminMsgImg" accept="image/*">
-        <img id="adminMsgPreview" style="max-width:200px; border-radius:12px; margin-top:10px; display:none">
-        <div id="adminMsgStatus" style="margin-top:10px; font-size:14px; font-weight:700; min-height:20px"></div>
-        <menu>
-          <button value="cancel" class="ghost">لغو</button>
-          <button id="adminMsgSendBtn" type="button">ارسال به مدیر 📨</button>
-        </menu>
-      </form>
-    `;
-    document.body.appendChild(newDlg);
-
-    // اتصال رویدادها
-    const imgInput = newDlg.querySelector('#adminMsgImg');
-    const preview = newDlg.querySelector('#adminMsgPreview');
-    imgInput.onchange = () => {
-      const f = imgInput.files[0];
-      if (!f) { preview.style.display = 'none'; return; }
-      preview.src = URL.createObjectURL(f);
-      preview.style.display = 'block';
-    };
-
-    newDlg.querySelector('#adminMsgSendBtn').onclick = async () => {
-      const text = newDlg.querySelector('#adminMsgText').value.trim();
-      const file = imgInput.files[0];
-      const statusEl = newDlg.querySelector('#adminMsgStatus');
-
-      if (!text && !file) {
-        statusEl.textContent = '❌ متن یا عکس لازمه';
-        statusEl.style.color = '#dc2626';
-        return;
-      }
-
-      statusEl.textContent = '⏳ در حال ارسال...';
-      statusEl.style.color = '#64748b';
-
-      let imageDataUrl = '';
-      if (file) {
-        // عکس رو به base64 تبدیل کن (چون توکن نداریم نمیتونیم آپلود کنیم به گیتهاب)
-        // پس عکس رو به صورت data URL توی ntfy می‌فرستیم
-        // ولی ntfy محدودیت 4KB داره — پس عکس رو نمی‌فرستیم
-        statusEl.textContent = '⚠️ عکس فعلاً پشتیبانی نمیشه (فقط متن)';
-        statusEl.style.color = '#d97706';
-        await new Promise(r => setTimeout(r, 1500));
-      }
-
-      const ok = await sendToAdmin(text, '');
-
-      if (ok) {
-        statusEl.textContent = '✅ پیام ارسال شد!';
-        statusEl.style.color = '#16a34a';
-        setTimeout(() => {
-          newDlg.close();
-          newDlg.querySelector('#adminMsgText').value = '';
-          imgInput.value = '';
-          preview.style.display = 'none';
-          statusEl.textContent = '';
-        }, 1200);
-      } else {
-        statusEl.textContent = '❌ خطا در ارسال';
-        statusEl.style.color = '#dc2626';
-      }
-    };
-
-    newDlg.addEventListener('close', () => {
-      newDlg.querySelector('#adminMsgText').value = '';
-      newDlg.querySelector('#adminMsgImg').value = '';
-      newDlg.querySelector('#adminMsgPreview').style.display = 'none';
-      newDlg.querySelector('#adminMsgStatus').textContent = '';
-    });
-  }
-
-  dlg.showModal();
-}
-
 const state = {
   messages: [], reactions: [], replies: [], seen: [],
   myName: localStorage.getItem('myName') || '',
   myGroups: [],
+  myGroup: '',
   myPersonalTopic: localStorage.getItem('myPersonalTopic') || '',
   customCategories: [],
   filter: 'all'
@@ -223,6 +77,7 @@ try {
   const g = localStorage.getItem('myGroup');
   if (g) state.myGroups = [g];
 }
+state.myGroup = state.myGroups[0] || localStorage.getItem('myGroup') || '';
 
 const INITIAL_COUNT = 3;
 const LOAD_STEP = 7;
@@ -355,7 +210,7 @@ function isUserInGroup(groupKey) {
 
 function isUserInCustomCat(catId) {
   if (isAdmin) return true;
-  return state.myGroups.includes('__cat__' + catId);
+  return state.myGroups.includes('__cat__' + catId) || state.myGroups.includes(catId);
 }
 
 function isUserInCustomSub(subId) {
@@ -363,17 +218,27 @@ function isUserInCustomSub(subId) {
   return state.myGroups.includes(subId);
 }
 
-// آیا پیام به این topic رفته؟
-function messageHasTopic(m, topic) {
-  // چک groups
-  const groups = m.groups || (m.group ? [m.group] : []);
-  if (groups.includes(topic)) return true;
+// ═══════════════════════════════════════════════════════
+// 🔎 آیا این پیام مربوط به این دسته/گروه است؟
+// ═══════════════════════════════════════════════════════
+function messageMatchesFilter(m, key) {
+  if (!key) return false;
 
-  // چک customRecipients
-  if ((m.customRecipients || []).some(c => c.topic === topic)) return true;
+  // چک گروه‌های عادی
+  const groups = m.groups || (m.group ? [m.group] : []);
+  if (groups.includes(key)) return true;
+
+  // چک customRecipients (چند ساختار ممکن)
+  const customs = m.customRecipients || [];
+  if (customs.some(c =>
+    c.topic === key || c.id === key || c.key === key || c.name === key
+  )) return true;
 
   // چک personalRecipients
-  if ((m.personalRecipients || []).some(p => p.topic === topic)) return true;
+  const personal = m.personalRecipients || [];
+  if (personal.some(p =>
+    p.topic === key || p.id === key || p.name === key
+  )) return true;
 
   return false;
 }
@@ -408,7 +273,7 @@ function renderTabs() {
       📬 پیام‌های مدیر ${adminMsgCount ? ' (' + adminMsgCount + ')' : ''}
     </button>`;
   }
-  
+
   Object.entries(cats).forEach(([catName, cat]) => {
     cat.items.forEach(g => {
       html += `<button data-filter="group:${g.key}" class="${state.filter === 'group:' + g.key ? 'active' : ''}">${g.emoji} ${g.name}</button>`;
@@ -417,8 +282,13 @@ function renderTabs() {
 
   // دسته‌های سفارشی
   state.customCategories.forEach(cat => {
-    if (!isUserInCustomCat(cat.id) && !isUserInCustomSub('__cat__' + cat.id)) return;
-    html += `<button data-filter="cat:${cat.id}" class="${state.filter === 'cat:' + cat.id ? 'active' : ''}">${cat.emoji || '📁'} ${cat.name}</button>`;
+    const inCat = isUserInCustomCat(cat.id);
+    const inAnySub = (cat.subcategories || []).some(sub => isUserInCustomSub(sub.id));
+    if (!inCat && !inAnySub) return;
+
+    if (inCat) {
+      html += `<button data-filter="cat:${cat.id}" class="${state.filter === 'cat:' + cat.id ? 'active' : ''}">${cat.emoji || '📁'} ${cat.name}</button>`;
+    }
 
     (cat.subcategories || []).forEach(sub => {
       if (!isUserInCustomSub(sub.id)) return;
@@ -463,46 +333,65 @@ function render() {
 
   let list = state.messages.slice();
 
-  // ───── فیلتر ─────
+  // ───── فیلتر اصلی ─────
   if (state.filter === 'all') {
     if (!isAdmin) {
       list = list.filter(m => {
-        // چک گروه‌های عادی
         const groups = m.groups || (m.group ? [m.group] : []);
         if (groups.some(g => state.myGroups.includes(g))) return true;
 
-        // ✅ چک personalTopic کاربر
         const myTopic = state.myPersonalTopic || localStorage.getItem('myPersonalTopic') || '';
         if (myTopic && (m.personalRecipients || []).some(p => p.topic === myTopic)) return true;
 
-        // ✅ چک customRecipients (مقایسه topic)
-        if ((m.customRecipients || []).some(c => 
+        if ((m.customRecipients || []).some(c =>
           state.myGroups.includes(c.topic) || c.topic === myTopic
         )) return true;
 
-        // ✅ چک اگه پیام برای همه بود
-        if (m.groups && m.groups.length === 0 && (!m.personalRecipients || m.personalRecipients.length === 0)) return false;
+        // اگه پیام برای همه بود (بدون هیچ مخاطب خاص) → نشون نده
+        if (m.groups && m.groups.length === 0
+            && (!m.personalRecipients || m.personalRecipients.length === 0)
+            && (!m.customRecipients || m.customRecipients.length === 0)) return false;
 
         return false;
       });
     }
   } else if (state.filter.startsWith('group:')) {
+    // ─── فیلتر گروه‌های عادی و زیرشاخه‌ها ───
     const g = state.filter.substring(6);
+    list = list.filter(m => messageMatchesFilter(m, g));
+
+  } else if (state.filter.startsWith('cat:')) {
+    // ─── فیلتر دسته‌های سفارشی ───
+    const catId = state.filter.substring(4);
+
+    // پیدا کردن اطلاعات این دسته برای دریافت id زیرشاخه‌ها
+    const cat = state.customCategories.find(c => String(c.id) === String(catId));
+    const subIds = cat ? (cat.subcategories || []).map(s => String(s.id)) : [];
+
     list = list.filter(m => {
-      // چک گروه‌های عادی
-      const groups = m.groups || (m.group ? [m.group] : []);
-      if (groups.includes(g)) return true;
+      // اگه مستقیم به این دسته رفته
+      if (messageMatchesFilter(m, catId)) return true;
 
-      // چک دسته‌های سفارشی
+      // اگه به یکی از زیرشاخه‌های این دسته رفته
+      for (const sid of subIds) {
+        if (messageMatchesFilter(m, sid)) return true;
+      }
+
+      // چک customRecipients با id/name/topic مختلف
       const customs = m.customRecipients || [];
-      if (customs.some(c => c.topic === g)) return true;
-
-      // چک افراد اختصاصی
-      const personal = m.personalRecipients || [];
-      if (personal.some(p => p.topic === g)) return true;
+      if (customs.some(c =>
+        String(c.id) === String(catId) ||
+        String(c.topic) === String(catId) ||
+        String(c.key) === String(catId) ||
+        (cat && c.name === cat.name)
+      )) return true;
 
       return false;
     });
+
+  } else if (state.filter === 'toAdmin') {
+    // ─── پیام‌های خصوصی به ادمین ───
+    list = list.filter(m => m.isAdminMessage === true);
   }
 
   list.sort((a, b) => new Date(b.time) - new Date(a.time));
@@ -583,18 +472,13 @@ function renderMessageCard(m) {
   const seenBy = state.seen.filter(s => s.messageId === m.id);
   const seenHtml = seenBy.length ? '<span class="seen-badge">👁 ' + seenBy.length + '</span>' : '';
 
-  // ───── ساخت برچسب گروه‌ها ─────
   const labels = [];
 
-  // اگه پیام خصوصی به ادمین بود
   if (m.isAdminMessage) {
     labels.push('💬 از ' + (m.from || 'ناشناس'));
-    if (m.userGroup) {
-      labels.push('📁 ' + m.userGroup);
-    }
+    if (m.userGroup) labels.push('📁 ' + m.userGroup);
   }
-  
-  // 1. گروه‌های عادی
+
   const msgGroups = m.groups || (m.group ? [m.group] : []);
   msgGroups.forEach(g => {
     if (C.groups[g]) {
@@ -602,12 +486,10 @@ function renderMessageCard(m) {
     }
   });
 
-  // 2. افراد اختصاصی
   (m.personalRecipients || []).forEach(p => {
     if (p.name) labels.push('👤 ' + p.name);
   });
 
-  // 3. دسته‌های سفارشی
   (m.customRecipients || []).forEach(c => {
     if (c.name) labels.push('📢 ' + c.name);
   });
@@ -669,71 +551,30 @@ function openReply(mid) {
 }
 
 async function submitReply() {
-  console.log('=== submitReply called ===');
-
   try {
     const t = document.getElementById('replyText');
     const dlg = document.getElementById('replyDlg');
     const sendBtn = document.getElementById('replySendBtn');
 
-    console.log('Elements:', { t: !!t, dlg: !!dlg, sendBtn: !!sendBtn });
-    console.log('replyTargetId:', replyTargetId);
-    console.log('myName:', state.myName);
-
-    if (!t) {
-      alert('❌ کادر متن پیدا نشد');
-      return;
-    }
-
+    if (!t) { alert('❌ کادر متن پیدا نشد'); return; }
     const text = t.value.trim();
-    console.log('text:', text);
+    if (!text) { alert('❌ متن پاسخ خالیه'); return; }
+    if (!replyTargetId) { alert('❌ پیام انتخاب نشده'); return; }
+    if (!state.myName) { alert('❌ نام شما ثبت نشده'); return; }
 
-    if (!text) {
-      alert('❌ متن پاسخ خالیه');
-      return;
-    }
+    if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '⏳ ارسال...'; }
 
-    if (!replyTargetId) {
-      alert('❌ پیام انتخاب نشده — دوباره روی 💬 پاسخ بزن');
-      return;
-    }
-
-    if (!state.myName) {
-      alert('❌ نام شما ثبت نشده — از ⚙️ نامت رو وارد کن');
-      return;
-    }
-
-    console.log('✓ همه چک‌ها پاس شد → در حال ارسال به ntfy');
-
-    if (sendBtn) {
-      sendBtn.disabled = true;
-      sendBtn.textContent = '⏳ ارسال...';
-    }
-
-    const url = C.ntfyBase + '/' + C.interactionsTopic;
-    console.log('URL:', url);
-
-    const body = JSON.stringify({
-      type: 'reply',
-      messageId: replyTargetId,
-      text: text,
-      from: state.myName
-    });
-    console.log('Body:', body);
-
-    const res = await fetch(url, {
+    const res = await fetch(C.ntfyBase + '/' + C.interactionsTopic, {
       method: 'POST',
-      body: body
+      body: JSON.stringify({
+        type: 'reply',
+        messageId: replyTargetId,
+        text: text,
+        from: state.myName
+      })
     });
 
-    console.log('Response status:', res.status);
-    console.log('Response ok:', res.ok);
-
-    if (!res.ok) {
-      throw new Error('HTTP ' + res.status);
-    }
-
-    console.log('✓ ntfy ارسال شد');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
 
     state.replies.push({
       id: 'local-' + uid(),
@@ -743,26 +584,19 @@ async function submitReply() {
       time: new Date().toISOString()
     });
 
-    if (dlg) {
-      dlg.close();
-      console.log('✓ پنجره بسته شد');
-    }
-
+    if (dlg) dlg.close();
     replyTargetId = null;
     render();
-    console.log('✓ render شد');
 
   } catch(e) {
-    console.error('❌ submitReply error:', e);
+    console.error('submitReply error:', e);
     alert('❌ خطا: ' + e.message);
   } finally {
     const sendBtn = document.getElementById('replySendBtn');
-    if (sendBtn) {
-      sendBtn.disabled = false;
-      sendBtn.textContent = 'ارسال';
-    }
+    if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = 'ارسال'; }
   }
 }
+
 // ═══════════════════════════════════════════════════════
 // 👁 seen
 // ═══════════════════════════════════════════════════════
@@ -802,7 +636,6 @@ function subscribeSSE() {
   try {
     const subscribed = new Set();
 
-    // Subscribe به گروه‌ها
     state.myGroups.forEach(groupKey => {
       const group = C.groups[groupKey];
       if (group && group.topic && !subscribed.has(group.topic)) {
@@ -818,7 +651,6 @@ function subscribeSSE() {
       }
     });
 
-    // Subscribe به topic اختصاصی
     const personalTopic = localStorage.getItem('myPersonalTopic');
     if (personalTopic && !subscribed.has(personalTopic)) {
       subscribed.add(personalTopic);
@@ -832,7 +664,6 @@ function subscribeSSE() {
       esP.onerror = () => {};
     }
 
-    // Subscribe به topic دسته‌های سفارشی که کاربر عضوشونه
     state.customCategories.forEach(cat => {
       if (state.myGroups.includes('__cat__' + cat.id) || isAdmin) {
         if (cat.topic && !subscribed.has(cat.topic)) {
@@ -864,7 +695,6 @@ function subscribeSSE() {
       });
     });
 
-    // کانال تعاملات
     const esIx = new EventSource(C.ntfyBase + '/' + C.interactionsTopic + '/sse');
     esIx.onmessage = ev => {
       try {
@@ -892,150 +722,7 @@ function subscribeSSE() {
 }
 
 // ═══════════════════════════════════════════════════════
-// ⚙️ تنظیمات
-// ═══════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-// 💬 دکمه «پیام به مدیر» — فقط برای کاربرای عادی
-// ═══════════════════════════════════════════════════════
-function addAdminMsgButton() {
-  if (isAdmin) return;
-
-  if (document.getElementById('adminMsgBtn')) return;
-
-  const headerActions = document.querySelector('.header-actions');
-  if (!headerActions) return;
-
-  const btn = document.createElement('button');
-  btn.id = 'adminMsgBtn';
-  btn.title = 'پیام به مدیر';
-  btn.textContent = '💬';
-  btn.style.cssText = 'background:rgba(139,92,246,.15); color:#7c3aed; font-size:18px;';
-  btn.onclick = openAdminMsgDialog;
-
-  headerActions.insertBefore(btn, headerActions.firstChild);
-}
-
-function openAdminMsgDialog() {
-  if (!state.myName) {
-    alert('اول از ⚙️ نامت رو وارد کن');
-    return;
-  }
-
-  let dlg = document.getElementById('adminMsgDlg');
-
-  if (!dlg) {
-    dlg = document.createElement('dialog');
-    dlg.id = 'adminMsgDlg';
-    dlg.innerHTML = `
-      <form method="dialog">
-        <h3>💬 پیام به مدیر</h3>
-        <p style="color:#64748b; font-size:14px; margin:0 0 14px; font-weight:600; line-height:1.7">
-          پیام شما فقط برای مدیر سامانه ارسال می‌شه
-        </p>
-        <textarea id="adminMsgText" placeholder="متن پیام..." rows="4"
-          style="width:100%; padding:12px; border:2px solid #dbeafe; border-radius:12px; font-family:inherit; font-size:15px; resize:vertical; box-sizing:border-box; background:#f8fbff; color:#0c1e3e;"></textarea>
-        <label style="display:block; margin:14px 0 6px; font-size:14px; color:#64748b; font-weight:700">
-          🖼 عکس (اختیاری)
-        </label>
-        <input type="file" id="adminMsgImg" accept="image/*"
-          style="width:100%; padding:10px; border:2px solid #dbeafe; border-radius:12px; font-family:inherit; background:#f8fbff; box-sizing:border-box;">
-        <img id="adminMsgPreview" style="max-width:200px; border-radius:12px; margin-top:10px; display:none; box-shadow:0 4px 14px rgba(30,64,175,.2);">
-        <div id="adminMsgStatus" style="margin-top:12px; font-size:14px; font-weight:700; min-height:20px; text-align:center"></div>
-        <menu style="display:flex; gap:10px; justify-content:flex-end; margin:18px 0 0; padding:0;">
-          <button value="cancel" class="ghost" style="background:transparent; color:#64748b; border:2px solid #93c5fd; padding:10px 20px; border-radius:12px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer;">لغو</button>
-          <button id="adminMsgSendBtn" type="button" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:#fff; border:none; padding:10px 24px; border-radius:12px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(124,58,237,.35);">ارسال به مدیر 📨</button>
-        </menu>
-      </form>
-    `;
-    document.body.appendChild(dlg);
-
-    const imgInput = dlg.querySelector('#adminMsgImg');
-    const preview = dlg.querySelector('#adminMsgPreview');
-
-    imgInput.onchange = () => {
-      const f = imgInput.files[0];
-      if (!f) { preview.style.display = 'none'; return; }
-      preview.src = URL.createObjectURL(f);
-      preview.style.display = 'block';
-    };
-
-    dlg.querySelector('#adminMsgSendBtn').onclick = async () => {
-      const text = dlg.querySelector('#adminMsgText').value.trim();
-      const file = imgInput.files[0];
-      const statusEl = dlg.querySelector('#adminMsgStatus');
-      const sendBtn = dlg.querySelector('#adminMsgSendBtn');
-
-      if (!text && !file) {
-        statusEl.textContent = '❌ متن یا عکس لازمه';
-        statusEl.style.color = '#dc2626';
-        return;
-      }
-
-      statusEl.textContent = '⏳ در حال ارسال...';
-      statusEl.style.color = '#64748b';
-      sendBtn.disabled = true;
-
-      try {
-        const payload = {
-          type: 'admin-message',
-          text: text || '',
-          image: '',
-          from: state.myName || 'ناشناس',
-          phone: localStorage.getItem('myPhone') || '',
-          group: state.myGroups[0] || '',
-          time: new Date().toISOString()
-        };
-
-        console.log('ارسال به مدیر:', payload);
-
-        const res = await fetch(C.ntfyBase + '/' + C.adminTopic, {
-          method: 'POST',
-          headers: {
-            'Title': '💬 پیام از ' + payload.from,
-            'Priority': 'high',
-            'Tags': 'envelope,speech_balloon'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        console.log('وضعیت:', res.status);
-
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-
-        statusEl.textContent = '✅ پیام ارسال شد!';
-        statusEl.style.color = '#16a34a';
-
-        setTimeout(() => {
-          dlg.close();
-          dlg.querySelector('#adminMsgText').value = '';
-          imgInput.value = '';
-          preview.style.display = 'none';
-          statusEl.textContent = '';
-          sendBtn.disabled = false;
-        }, 1500);
-
-      } catch(e) {
-        console.error('خطا:', e);
-        statusEl.textContent = '❌ خطا: ' + e.message;
-        statusEl.style.color = '#dc2626';
-        sendBtn.disabled = false;
-      }
-    };
-
-    dlg.addEventListener('close', () => {
-      dlg.querySelector('#adminMsgText').value = '';
-      imgInput.value = '';
-      preview.style.display = 'none';
-      dlg.querySelector('#adminMsgStatus').textContent = '';
-      dlg.querySelector('#adminMsgSendBtn').disabled = false;
-    });
-  }
-
-  dlg.showModal();
-}
-
-  // ═══════════════════════════════════════════════════════
-// 💬 دکمه «پیام به مدیر» — برای کاربرای عادی
+// 💬 دکمه «پیام به مدیر»
 // ═══════════════════════════════════════════════════════
 function addAdminMsgButton() {
   if (isAdmin) return;
@@ -1138,7 +825,10 @@ function openAdminMsgDialog() {
   dlg.showModal();
 }
 
-  function setupSettings() {
+// ═══════════════════════════════════════════════════════
+// ⚙️ تنظیمات
+// ═══════════════════════════════════════════════════════
+function setupSettings() {
   const dlg = document.getElementById('settingsDlg');
   const sel = document.getElementById('myGroup');
   const nameInput = document.getElementById('myName');
@@ -1202,7 +892,7 @@ async function init() {
     updateOnlineBadge();
     setupSettings();
     addAdminMsgButton();
-  
+
     await loadCustomCategories();
     await loadLocal();
     await loadMessages(true);
