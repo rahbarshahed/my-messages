@@ -199,6 +199,21 @@
       ],
       "customRecipients": [],
       "time": "2026-09-27T12:26:59.028Z"
+    },
+    {
+      "id": "admin-uwocaU5AXrV6",
+      "ntfyId": "uwocaU5AXrV6",
+      "isAdminMessage": true,
+      "text": "علیک السلام",
+      "image": "",
+      "from": "امیر علی",
+      "phone": "09911453955",
+      "userGroup": "amirali",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-09-27T11:14:57.167Z"
     }
   ],
   "reactions": [
