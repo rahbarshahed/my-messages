@@ -4,22 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>سامانه پیام‌رسان سما — مدیریت اعضا</title>
-<meta name="description" content="مدیریت اعضای سامانه سما — نسخه ۶/۱۱">
 <link rel="manifest" href="admin-manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="مدیریت اعضا سما">
 <meta name="theme-color" content="#1e40af">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
 <style>
   :root{
     --primary:#1e40af; --primary-2:#3b82f6; --primary-deep:#1e3a8a;
     --text:#0c1e3e; --muted:#64748b; --border:#bfdbfe; --border-strong:#93c5fd;
-    --ok:#16a34a; --err:#dc2626; --card:#fff; --card-soft:#f0f7ff;
-    --purple:#7c3aed;
+    --ok:#16a34a; --err:#dc2626; --purple:#7c3aed;
   }
   *{box-sizing:border-box}
   html,body{margin:0;min-height:100%}
@@ -47,9 +42,9 @@
   }
   .header .subtitle{color:var(--muted); font-size:15px; font-weight:600}
   .card{
-    background:var(--card); border:1px solid var(--border);
+    background:#fff; border:1px solid var(--border);
     border-radius:24px; padding:28px 24px;
-    box-shadow:0 12px 40px rgba(30,64,175,.15), 0 4px 14px rgba(12,30,62,.06);
+    box-shadow:0 12px 40px rgba(30,64,175,.15);
     position:relative; overflow:hidden;
   }
   .card::before{
@@ -66,8 +61,7 @@
     transition:all .25s ease; text-align:center;
   }
   .nav-btn.primary{background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff; box-shadow:0 6px 18px rgba(30,64,175,.35)}
-  .nav-btn.ghost{background:var(--card-soft); color:var(--primary-deep); border:2px solid var(--border)}
-  .nav-btn.ghost:hover{background:#fff; border-color:var(--primary)}
+  .nav-btn.ghost{background:#f0f7ff; color:var(--primary-deep); border:2px solid var(--border)}
   .token-card{
     background:linear-gradient(135deg,#ecfdf5,#d1fae5);
     border:2px solid #6ee7b7; border-radius:16px; padding:16px 20px;
@@ -84,14 +78,21 @@
   .token-form[hidden]{display:none}
   .token-form label{display:block; margin:0 0 10px; font-size:16px; font-weight:800}
   .token-input{
-    width:100%; padding:16px 20px; background:var(--card-soft);
+    width:100%; padding:16px 20px; background:#f0f7ff;
     border:2.5px solid var(--border); color:var(--text); border-radius:14px;
     font-family:inherit; font-size:17px;
+  }
+  .btn-save{
+    padding:14px 24px; border-radius:14px;
+    background:linear-gradient(135deg,#16a34a,#15803d);
+    color:#fff; border:none; font-family:inherit; font-size:16px; font-weight:800;
+    cursor:pointer; white-space:nowrap;
+    box-shadow:0 6px 18px rgba(22,163,74,.35); transition:all .2s;
   }
   .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:20px}
   .search-input{
     flex:1; min-width:200px; padding:14px 18px;
-    background:var(--card-soft); border:2px solid var(--border);
+    background:#f0f7ff; border:2px solid var(--border);
     border-radius:14px; font-family:inherit; font-size:16px; font-weight:600;
   }
   .btn-add{
@@ -101,10 +102,9 @@
     cursor:pointer; white-space:nowrap;
     box-shadow:0 6px 18px rgba(22,163,74,.35); transition:all .2s;
   }
-  .btn-add:hover{transform:translateY(-2px)}
   .stats-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px}
   .stat-pill{
-    background:var(--card-soft); border:1.5px solid var(--border);
+    background:#f0f7ff; border:1.5px solid var(--border);
     padding:10px 18px; border-radius:12px;
     font-size:14px; font-weight:800; color:var(--primary-deep);
   }
@@ -177,9 +177,7 @@
     color:#fff; border:none; padding:5px 12px;
     border-radius:8px; cursor:pointer;
     font-size:12px; font-weight:800; font-family:inherit;
-    transition:all .2s;
   }
-  .copy-btn:hover{transform:translateY(-1px)}
   .empty{
     text-align:center; padding:60px 20px;
     color:var(--muted); font-size:17px; font-weight:600;
@@ -200,7 +198,7 @@
   .modal .field{margin-bottom:18px}
   .modal label{display:block; margin-bottom:8px; font-size:15px; font-weight:800}
   .modal input{
-    width:100%; padding:14px 18px; background:var(--card-soft);
+    width:100%; padding:14px 18px; background:#f0f7ff;
     border:2.5px solid var(--border); color:var(--text); border-radius:12px;
     font-family:inherit; font-size:16px; font-weight:600;
   }
@@ -215,71 +213,30 @@
   }
   .group-selector{
     border:2px solid var(--border); border-radius:14px;
-    padding:12px; max-height:400px; overflow-y:auto; background:var(--card-soft);
+    padding:12px; background:#f8fbff;
   }
-  .group-cat{margin-bottom:14px}
-  .group-cat-title{
-    font-size:14px; font-weight:900; color:var(--primary-deep);
-    padding:8px 12px; background:#fff; border-radius:8px; margin-bottom:8px;
-  }
-  .group-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:6px}
-  .group-item{
+  .checkboxes-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:6px}
+  .checkbox-item{
     display:flex; align-items:center; gap:8px; padding:8px 10px;
     background:#fff; border:1.5px solid transparent; border-radius:10px;
     cursor:pointer; font-size:13px; font-weight:600; user-select:none;
   }
-  .group-item input{display:none}
-  .group-item .check{
+  .checkbox-item input{display:none}
+  .checkbox-item .check{
     width:20px; height:20px; border:2px solid var(--border-strong);
     border-radius:6px; display:flex; align-items:center; justify-content:center;
     background:#fff; flex-shrink:0;
   }
-  .group-item .check::after{content:'✓'; color:#fff; font-weight:900; font-size:13px; opacity:0}
-  .group-item input:checked + .check{background:linear-gradient(135deg,#1e40af,#3b82f6); border-color:transparent}
-  .group-item input:checked + .check::after{opacity:1}
-  .group-item:has(input:checked){background:linear-gradient(135deg,#dbeafe,#bfdbfe); border-color:var(--primary)}
+  .checkbox-item .check::after{content:'✓'; color:#fff; font-weight:900; font-size:13px; opacity:0}
+  .checkbox-item input:checked + .check{background:linear-gradient(135deg,#1e40af,#3b82f6); border-color:transparent}
+  .checkbox-item input:checked + .check::after{opacity:1}
+  .checkbox-item:has(input:checked){background:linear-gradient(135deg,#dbeafe,#bfdbfe); border-color:var(--primary)}
   .modal .actions{display:flex; gap:10px; margin-top:20px; justify-content:flex-end}
   .modal .actions button{padding:14px 24px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer; border:none}
   .modal .cancel{background:transparent; color:var(--muted); border:2px solid var(--border-strong)}
   .modal .save{background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff; box-shadow:0 6px 18px rgba(30,64,175,.35)}
   .modal .save:disabled{opacity:.5; cursor:not-allowed}
   .modal .err-msg{color:#dc2626; font-size:14px; font-weight:700; margin-top:10px; text-align:center; min-height:20px}
-  #inviteModal .modal{max-width:600px}
-  .invite-topics-preview{
-    background:var(--card-soft); border:2px solid var(--border);
-    border-radius:14px; padding:14px; margin-bottom:18px;
-  }
-  .invite-topics-preview .title{
-    font-size:14px; font-weight:900; color:var(--primary-deep); margin-bottom:10px;
-  }
-  .invite-topic-row{
-    display:flex; align-items:center; gap:8px; padding:10px 12px;
-    background:#fff; border-radius:8px; margin-bottom:6px;
-    border:1px solid transparent; flex-wrap:wrap;
-  }
-  .invite-topic-row.personal{background:#f3e8ff; border-color:#d8b4fe}
-  .invite-topic-name{font-weight:800; font-size:13px}
-  .invite-topic-code{
-    background:#fff; padding:4px 10px; border-radius:6px;
-    font-family:monospace; font-size:12px; font-weight:700;
-    color:#0f172a; margin-right:auto;
-  }
-  #inviteText{
-    width:100%; min-height:280px; padding:16px 18px;
-    background:var(--card-soft); border:2.5px solid var(--border);
-    color:var(--text); border-radius:14px;
-    font-family:'Courier New',monospace; font-size:13px; font-weight:600;
-    line-height:1.8; resize:vertical; direction:rtl;
-  }
-  .invite-actions{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:16px}
-  .invite-actions button{
-    padding:14px 18px; border-radius:12px; font-family:inherit;
-    font-size:15px; font-weight:800; cursor:pointer; border:none;
-    display:flex; align-items:center; justify-content:center; gap:8px;
-  }
-  .invite-actions .copy-btn{background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff}
-  .invite-actions .eitaa-btn{background:linear-gradient(135deg,#f97316,#ea580c); color:#fff}
-  .invite-actions .sms-btn{background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff}
   .toast{
     position:fixed; bottom:30px; left:50%;
     transform:translateX(-50%) translateY(120%);
@@ -295,7 +252,6 @@
     .header h1{font-size:22px}
     .card{padding:22px 18px}
     .nav-row{grid-template-columns:1fr}
-    .member-card{padding:14px 16px}
   }
 </style>
 </head>
@@ -325,7 +281,7 @@
       <label>🔑 توکن گیت‌هاب</label>
       <input type="password" id="token" class="token-input" placeholder="github_pat_...">
       <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap">
-        <button class="btn-add" onclick="saveToken()">💾 ذخیره</button>
+        <button class="btn-save" id="saveTokenBtn">💾 ذخیره توکن</button>
         <a href="https://github.com/settings/tokens?type=beta" target="_blank"
            style="color:#2563eb; font-size:14px; font-weight:700">ساخت توکن ↗</a>
       </div>
@@ -367,7 +323,7 @@
       <label>📱 کد اختصاصی ntfy (برای پیام خصوصی) *</label>
       <div class="topic-row">
         <input type="text" id="memberTopic" placeholder="خودکار ساخته میشه..." readonly>
-        <button class="topic-gen-btn" onclick="generateTopic()" title="تولید خودکار">🎲</button>
+        <button class="topic-gen-btn" onclick="generateTopic()">🎲</button>
       </div>
     </div>
 
@@ -385,125 +341,100 @@
   </div>
 </div>
 
-<!-- مودال دعوت‌نامه -->
-<div class="modal-backdrop" id="inviteModal">
-  <div class="modal">
-    <h3 id="inviteMemberName">📱 دعوت‌نامه</h3>
-
-    <div class="invite-topics-preview">
-      <div class="title">🎯 کدهای ntfy که کاربر باید Subscribe کنه:</div>
-      <div id="inviteTopics"></div>
-    </div>
-
-    <label style="display:block;font-size:14px;font-weight:900;color:var(--primary-deep);margin-bottom:8px">
-      📝 متن آماده:
-    </label>
-    <textarea id="inviteText" readonly></textarea>
-
-    <div class="invite-actions">
-      <button class="copy-btn" onclick="copyInvite()">📋 کپی متن</button>
-      <button class="eitaa-btn" onclick="shareEitaa()">🟢 اشتراک در ایتا</button>
-      <button class="sms-btn" onclick="shareSMS()">💬 پیامک</button>
-    </div>
-
-    <div class="actions" style="margin-top:16px">
-      <button class="cancel" onclick="closeInviteModal()">بستن</button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
 <script>
-const C = window.CONFIG;
-const TOKEN_KEY = 'gh_token';
-const ALLOWED_PATH = 'allowed.json';
-const RAW_ALLOWED = `https://raw.githubusercontent.com/${C.owner}/${C.repo}/${C.branch}/allowed.json`;
-const RAW_CATS = `https://raw.githubusercontent.com/${C.owner}/${C.repo}/${C.branch}/categories.json`;
-const API = `https://api.github.com/repos/${C.owner}/${C.repo}/contents`;
+(function() {
+'use strict';
 
-let members = [];
-let customCategories = [];
-let editingIndex = -1;
+var C = window.CONFIG;
+var TOKEN_KEY = 'gh_token';
+var ALLOWED_PATH = 'allowed.json';
+var RAW_ALLOWED = 'https://raw.githubusercontent.com/' + C.owner + '/' + C.repo + '/' + C.branch + '/allowed.json';
+var RAW_CATS = 'https://raw.githubusercontent.com/' + C.owner + '/' + C.repo + '/' + C.branch + '/categories.json';
+var API = 'https://api.github.com/repos/' + C.owner + '/' + C.repo + '/contents';
+
+var members = [];
+var customCategories = [];
+var editingIndex = -1;
 
 function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
 
-const b64decode = b64 => {
-  const bin = atob(b64.replace(/\n/g,''));
-  return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
-};
-const b64encodeStr = s => {
-  const bytes = new TextEncoder().encode(s);
-  let bin = ''; for (const b of bytes) bin += String.fromCharCode(b);
+function b64decode(b64) {
+  var bin = atob(b64.replace(/\n/g, ''));
+  return new TextDecoder().decode(Uint8Array.from(bin, function(c) { return c.charCodeAt(0); }));
+}
+function b64encodeStr(s) {
+  var bytes = new TextEncoder().encode(s);
+  var bin = '';
+  for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
   return btoa(bin);
-};
-const esc = s => String(s ?? '').replace(/[&<>"']/g,
-  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
 
-// ═══════════════════════════════════════════════════════
-// 📋 کپی متن
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+// 📋 کپی
+// ═══════════════════════════════════════════════════
 function copyText(text) {
   if (!text) return;
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      const display = text.length > 40 ? text.substring(0, 40) + '...' : text;
-      showToast('✅ کپی شد: ' + display);
-    }).catch(() => fallbackCopy(text));
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('✅ کپی شد');
+    }).catch(function() { fallbackCopy(text); });
   } else {
     fallbackCopy(text);
   }
 }
-
 function fallbackCopy(text) {
-  const ta = document.createElement('textarea');
+  var ta = document.createElement('textarea');
   ta.value = text;
   ta.style.position = 'fixed';
   ta.style.opacity = '0';
   document.body.appendChild(ta);
   ta.select();
-  try {
-    document.execCommand('copy');
-    showToast('✅ کپی شد');
-  } catch(e) {
-    showToast('❌ خطا در کپی', true);
-  }
+  try { document.execCommand('copy'); showToast('✅ کپی شد'); }
+  catch(e) { showToast('❌ خطا', true); }
   document.body.removeChild(ta);
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // 🎲 تولید کد اختصاصی
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function generatePersonalTopic(name) {
-  const faToEn = {
+  var faToEn = {
     'ا':'a','ب':'b','پ':'p','ت':'t','ث':'s','ج':'j','چ':'ch','ح':'h','خ':'kh',
     'د':'d','ذ':'z','ر':'r','ز':'z','ژ':'zh','س':'s','ش':'sh','ص':'s','ض':'z',
     'ط':'t','ظ':'z','ع':'a','غ':'gh','ف':'f','ق':'gh','ک':'k','گ':'g','ل':'l',
     'م':'m','ن':'n','و':'v','ه':'h','ی':'y','ء':'','آ':'a','أ':'a','إ':'e',
     'ئ':'y','ؤ':'o','ة':'h','ي':'y','ك':'k'
   };
-  const cleanName = (name || 'user').trim().toLowerCase()
+  var cleanName = (name || 'user').trim().toLowerCase()
     .replace(/[^\u0600-\u06FF\sa-zA-Z0-9]/g, '')
     .replace(/\s+/g, '-').trim();
 
-  let enName = '';
-  for (const ch of cleanName) {
+  var enName = '';
+  for (var i = 0; i < cleanName.length; i++) {
+    var ch = cleanName[i];
     if (/[a-z0-9\-]/.test(ch)) enName += ch;
     else if (faToEn[ch]) enName += faToEn[ch];
   }
   enName = enName.replace(/-+/g, '-').replace(/^-|-$/g, '') || 'user';
   if (enName.length > 20) enName = enName.substring(0, 20);
 
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let suffix = '';
-  for (let i = 0; i < 4; i++) suffix += chars[Math.floor(Math.random() * chars.length)];
+  var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  var suffix = '';
+  for (var j = 0; j < 4; j++) suffix += chars[Math.floor(Math.random() * chars.length)];
 
-  return `chal-v11-${enName}-${suffix}`;
+  return 'chal-v11-' + enName + '-' + suffix;
 }
 
 function generateTopic() {
-  const name = document.getElementById('memberName').value.trim();
+  var name = document.getElementById('memberName').value.trim();
   if (!name) {
     document.getElementById('modalErr').textContent = '❌ اول نام رو وارد کن';
     return;
@@ -512,257 +443,204 @@ function generateTopic() {
   updateSaveBtn();
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // 💾 بارگیری
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 async function loadCustomCategories() {
   try {
-    const res = await fetch(RAW_CATS + '?t=' + Date.now(), { cache: 'no-store' });
+    var res = await fetch(RAW_CATS + '?t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return;
-    const data = await res.json();
+    var data = await res.json();
     customCategories = data.categories || [];
   } catch(e) { console.warn(e); }
 }
 
 async function loadMembers() {
-  const list = document.getElementById('membersList');
+  var list = document.getElementById('membersList');
   list.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b">⏳ در حال بارگذاری...</div>';
-
   try {
     await loadCustomCategories();
-    const r = await fetch(RAW_ALLOWED + '?t=' + Date.now(), { cache: 'no-store' });
+    var r = await fetch(RAW_ALLOWED + '?t=' + Date.now(), { cache: 'no-store' });
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    const data = await r.json();
+    var data = await r.json();
     members = data.allowed || [];
     renderMembers();
   } catch(e) {
-    list.innerHTML = `<div style="text-align:center;padding:40px;color:#dc2626;font-weight:700">❌ خطا: ${esc(e.message)}</div>`;
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626;font-weight:700">❌ خطا: ' + esc(e.message) + '</div>';
   }
 }
 
-// ═══════════════════════════════════════════════════════
-// 🎨 نمایش
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+// 🎨 نمایش اعضا
+// ═══════════════════════════════════════════════════
 function renderMembers() {
-  const list = document.getElementById('membersList');
-  const search = (document.getElementById('searchInput')?.value || '').trim();
+  var list = document.getElementById('membersList');
+  var search = (document.getElementById('searchInput').value || '').trim();
 
-  let filtered = members;
+  var filtered = members;
   if (search) {
-    filtered = members.filter(m =>
-      (m.name || '').includes(search) || (m.phone || '').includes(search)
-    );
+    filtered = members.filter(function(m) {
+      return (m.name || '').indexOf(search) !== -1 || (m.phone || '').indexOf(search) !== -1;
+    });
   }
 
-  document.getElementById('statsBar').innerHTML = `
-    <div class="stat-pill">👥 کل: ${members.length} نفر</div>
-    <div class="stat-pill">🔍 نمایش: ${filtered.length} نفر</div>
-    <div class="stat-pill">📞 ${members.filter(m=>m.phone).length} شماره</div>
-  `;
+  document.getElementById('statsBar').innerHTML =
+    '<div class="stat-pill">👥 کل: ' + members.length + ' نفر</div>' +
+    '<div class="stat-pill">🔍 نمایش: ' + filtered.length + ' نفر</div>';
 
   if (!filtered.length) {
-    list.innerHTML = search
-      ? '<div class="empty">نتیجه‌ای یافت نشد</div>'
-      : '<div class="empty">هنوز عضوی اضافه نشده</div>';
+    list.innerHTML = search ? '<div class="empty">نتیجه‌ای یافت نشد</div>' : '<div class="empty">هنوز عضوی اضافه نشده</div>';
     return;
   }
 
-  list.innerHTML = filtered.map(m => {
-    const realIndex = members.indexOf(m);
-    const initial = (m.name || '?')[0];
-
-    // نمایش گروه‌ها (عادی + سفارشی)
-    const groups = (m.groups || []).map(g => {
-      // چک کن گروه عادیه
+  list.innerHTML = filtered.map(function(m) {
+    var realIndex = members.indexOf(m);
+    var initial = (m.name || '?')[0];
+    var groupsHtml = (m.groups || []).map(function(g) {
       if (C.groups[g]) {
-        const gr = C.groups[g];
-        return `<span class="group-tag">${gr.emoji} ${gr.name}</span>`;
+        return '<span class="group-tag">' + C.groups[g].emoji + ' ' + C.groups[g].name + '</span>';
       }
-      // چک کن دسته سفارشی (کل دسته) - با فرمت __cat__id
-      if (g.startsWith && g.startsWith('__cat__')) {
-        const catId = g.substring(7);
-        const cat = customCategories.find(c => c.id === catId);
-        if (cat) return `<span class="group-tag custom">📢 کل ${cat.name}</span>`;
+      if (g.indexOf('__cat__') === 0) {
+        var catId = g.substring(7);
+        var cat = customCategories.find(function(c) { return c.id === catId; });
+        if (cat) return '<span class="group-tag custom">📢 کل ' + cat.name + '</span>';
       }
-      // چک کن زیرمجموعه دسته سفارشی
-      for (const cat of customCategories) {
-        const sub = (cat.subcategories || []).find(s => s.id === g);
-        if (sub) return `<span class="group-tag custom">${sub.emoji || '👤'} ${sub.name}</span>`;
+      for (var ci = 0; ci < customCategories.length; ci++) {
+        var sub = (customCategories[ci].subcategories || []).find(function(s) { return s.id === g; });
+        if (sub) return '<span class="group-tag custom">' + (sub.emoji || '👤') + ' ' + sub.name + '</span>';
       }
-      return `<span class="group-tag">${g}</span>`;
+      return '<span class="group-tag">' + esc(g) + '</span>';
     }).join('');
 
-    return `
-      <div class="member-card">
-        <div class="member-header">
-          <div class="member-name">
-            <div class="avatar">${esc(initial)}</div>
-            <span>${esc(m.name || 'بدون نام')}</span>
-          </div>
-          <div class="member-actions">
-            <button class="icon-btn invite" onclick="openInviteModal(${realIndex})" title="دعوت‌نامه">📱</button>
-            <button class="icon-btn edit" onclick="editMember(${realIndex})" title="ویرایش">✏</button>
-            <button class="icon-btn delete" onclick="deleteMember(${realIndex})" title="حذف">🗑</button>
-          </div>
-        </div>
-        <div class="member-info">
-          ${m.phone ? `<div class="item">📞 <span class="phone">${esc(m.phone)}</span></div>` : ''}
-          ${m.province ? `<div class="item">📍 ${esc(m.province)}</div>` : ''}
-        </div>
-        ${m.personalTopic ? `
-          <div class="topic-box">
-            <span class="topic-label">📱 کد اختصاصی:</span>
-            <code class="topic-code">${esc(m.personalTopic)}</code>
-            <button class="copy-btn" onclick="copyText('${esc(m.personalTopic)}')" title="کپی">📋 کپی</button>
-          </div>
-        ` : ''}
-        <div class="member-groups">${groups || '<span style="color:#94a3b8;font-size:13px">بدون گروه</span>'}</div>
-      </div>
-    `;
+    return '<div class="member-card">' +
+      '<div class="member-header">' +
+        '<div class="member-name">' +
+          '<div class="avatar">' + esc(initial) + '</div>' +
+          '<span>' + esc(m.name || 'بدون نام') + '</span>' +
+        '</div>' +
+        '<div class="member-actions">' +
+          '<button class="icon-btn invite" onclick="openInviteModal(' + realIndex + ')" title="دعوت‌نامه">📱</button>' +
+          '<button class="icon-btn edit" onclick="editMember(' + realIndex + ')" title="ویرایش">✏</button>' +
+          '<button class="icon-btn delete" onclick="deleteMember(' + realIndex + ')" title="حذف">🗑</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="member-info">' +
+        (m.phone ? '<div>📞 <span class="phone">' + esc(m.phone) + '</span></div>' : '') +
+        (m.province ? '<div>📍 ' + esc(m.province) + '</div>' : '') +
+      '</div>' +
+      (m.personalTopic ? '<div class="topic-box">' +
+        '<span class="topic-label">📱 کد اختصاصی:</span>' +
+        '<code class="topic-code">' + esc(m.personalTopic) + '</code>' +
+        '<button class="copy-btn" onclick="copyText(\'' + esc(m.personalTopic) + '\')">📋 کپی</button>' +
+      '</div>' : '') +
+      '<div class="member-groups">' + (groupsHtml || '<span style="color:#94a3b8">بدون گروه</span>') + '</div>' +
+    '</div>';
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════════
-// 🎯 انتخابگر گروه (شامل دسته‌های سفارشی)
-// ═══════════════════════════════════════════════════════
-function renderGroupSelector(selected = []) {
-  const sel = document.getElementById('groupSelector');
+// ═══════════════════════════════════════════════════
+// 🎯 انتخابگر گروه (کشویی + جستجو)
+// ═══════════════════════════════════════════════════
+function renderGroupSelector(selected) {
+  selected = selected || [];
+  var sel = document.getElementById('groupSelector');
 
-  const cats = {
-    'ویژه':    { emoji: '🕌', items: [], open: false },
-    'استان':   { emoji: '🗺', items: [], open: false },
-    'سایر':    { emoji: '👥', items: [], open: true }
+  var cats = {
+    'ویژه':  { emoji: '🕌', items: [], open: false },
+    'استان': { emoji: '🗺', items: [], open: false },
+    'سایر':  { emoji: '👥', items: [], open: true }
   };
 
-  Object.entries(C.groups).forEach(([k, g]) => {
-    const cat = g.category || 'سایر';
-    if (cats[cat]) cats[cat].items.push({ key: k, ...g });
+  Object.keys(C.groups).forEach(function(k) {
+    var g = C.groups[k];
+    var cat = g.category || 'سایر';
+    if (cats[cat]) cats[cat].items.push(Object.assign({ key: k }, g));
   });
 
-  let html = '';
+  var html = '';
 
-  // ═══════ جستجو ═══════
-  html += `
-    <div style="margin-bottom:12px">
-      <input type="text" id="groupSearch" placeholder="🔍 جستجوی گروه..."
-        style="width:100%; padding:12px 16px; background:#fff; border:2px solid #bfdbfe;
-               color:#0c1e3e; border-radius:12px; font-family:inherit; font-size:15px;
-               box-sizing:border-box; font-weight:600;"
-        oninput="filterGroups(this.value)">
-    </div>
-  `;
+  // جستجو
+  html += '<div style="margin-bottom:12px">' +
+    '<input type="text" id="groupSearch" placeholder="🔍 جستجوی گروه..." ' +
+    'style="width:100%; padding:12px 16px; background:#fff; border:2px solid #bfdbfe; color:#0c1e3e; border-radius:12px; font-family:inherit; font-size:15px; box-sizing:border-box; font-weight:600;" ' +
+    'oninput="filterGroups(this.value)">' +
+  '</div>';
 
-  // ═══════ کادر انتخاب شده‌ها ═══════
-  html += `
-    <div id="selectedGroupsBox" style="
-      background:linear-gradient(135deg,#dbeafe,#bfdbfe);
-      border:2px solid #1e40af; border-radius:12px;
-      padding:10px 14px; margin-bottom:12px;
-      font-size:13px; font-weight:700; color:#1e3a8a;
-      min-height:44px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;
-    ">
-      <span style="color:#64748b">هنوز گروهی انتخاب نشده</span>
-    </div>
-  `;
+  // کادر انتخاب شده‌ها
+  html += '<div id="selectedGroupsBox" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe); border:2px solid #1e40af; border-radius:12px; padding:10px 14px; margin-bottom:12px; font-size:13px; font-weight:700; color:#1e3a8a; min-height:44px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">' +
+    '<span style="color:#64748b">هنوز گروهی انتخاب نشده</span>' +
+  '</div>';
 
-  // ═══════ دسته‌بندی‌ها (کشویی) ═══════
-  Object.entries(cats).forEach(([catName, cat]) => {
+  // دسته‌های عادی
+  Object.keys(cats).forEach(function(catName) {
+    var cat = cats[catName];
     if (!cat.items.length) return;
+    var catId = 'cat-' + catName;
 
-    const catId = 'cat-' + catName.replace(/[^\w]/g, '-');
+    html += '<div class="group-cat" style="border:1.5px solid #bfdbfe; border-radius:12px; margin-bottom:8px; overflow:hidden; background:#fff;">';
+    html += '<div onclick="toggleGroupCat(\'' + catId + '\')" style="padding:12px 16px; cursor:pointer; background:linear-gradient(135deg,#f0f7ff,#dbeafe); display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:800; color:#1e3a8a;">' +
+      '<span>' + cat.emoji + ' ' + catName + ' <span style="background:rgba(30,64,175,.15); color:#1e3a8a; padding:2px 10px; border-radius:999px; font-size:11px; margin-right:6px;">' + cat.items.length + '</span></span>' +
+      '<span class="cat-arrow-' + catId + '" style="font-size:12px; transition:transform .3s;">▼</span>' +
+    '</div>';
+    html += '<div id="' + catId + '" style="display:' + (cat.open ? 'block' : 'none') + '; padding:12px; background:#f8fbff;">';
+    html += '<div class="checkboxes-grid">';
 
-    html += `
-      <div class="group-cat" style="border:1.5px solid #bfdbfe; border-radius:12px; margin-bottom:8px; overflow:hidden; background:#fff;">
-        <div onclick="toggleGroupCat('${catId}')" style="
-          padding:12px 16px; cursor:pointer;
-          background:linear-gradient(135deg,#f0f7ff,#dbeafe);
-          display:flex; justify-content:space-between; align-items:center;
-          font-size:14px; font-weight:800; color:#1e3a8a;
-        ">
-          <span>${cat.emoji} ${catName} <span style="background:rgba(30,64,175,.15); color:#1e3a8a; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:800; margin-right:6px;">${cat.items.length}</span></span>
-          <span class="cat-arrow-${catId}" style="font-size:12px; transition:transform .3s;">▼</span>
-        </div>
-        <div id="${catId}" style="display:${cat.open ? 'block' : 'none'}; padding:12px; background:#f8fbff;">
-          <div class="checkboxes-grid">
-            ${cat.items.map(g => {
-              const checked = selected.includes(g.key) ? 'checked' : '';
-              return `
-                <label class="checkbox-item" data-name="${g.name}" data-key="${g.key}">
-                  <input type="checkbox" class="group-check" value="${g.key}" ${checked}
-                    onchange="updateSelectedBox()">
-                  <span class="check"></span>
-                  <span class="label">${g.emoji} ${g.name}</span>
-                </label>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      </div>
-    `;
+    cat.items.forEach(function(g) {
+      var checked = selected.indexOf(g.key) !== -1 ? 'checked' : '';
+      html += '<label class="checkbox-item" data-name="' + esc(g.name) + '" data-key="' + esc(g.key) + '">' +
+        '<input type="checkbox" class="group-check" value="' + g.key + '" ' + checked + ' onchange="updateSelectedBox()">' +
+        '<span class="check"></span>' +
+        '<span class="label">' + g.emoji + ' ' + g.name + '</span>' +
+      '</label>';
+    });
+
+    html += '</div></div></div>';
   });
 
-  // ═══════ دسته‌های سفارشی (کشویی) ═══════
+  // دسته‌های سفارشی
   if (customCategories.length) {
-    customCategories.forEach((cat, idx) => {
-      const catId = 'custom-' + cat.id;
-      const catKey = '__cat__' + cat.id;
+    customCategories.forEach(function(cat) {
+      var catId = 'custom-' + cat.id;
+      var catKey = '__cat__' + cat.id;
 
-      html += `
-        <div class="group-cat" style="border:1.5px dashed #7c3aed; border-radius:12px; margin-bottom:8px; overflow:hidden; background:#fff;">
-          <div onclick="toggleGroupCat('${catId}')" style="
-            padding:12px 16px; cursor:pointer;
-            background:linear-gradient(135deg,#faf5ff,#f3e8ff);
-            display:flex; justify-content:space-between; align-items:center;
-            font-size:14px; font-weight:800; color:#7c3aed;
-          ">
-            <span>${cat.emoji || '📁'} ${cat.name} <span style="background:rgba(124,58,237,.15); color:#7c3aed; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:800; margin-right:6px;">${(cat.subcategories || []).length}</span></span>
-            <span class="cat-arrow-${catId}" style="font-size:12px; transition:transform .3s;">▼</span>
-          </div>
-          <div id="${catId}" style="display:none; padding:12px; background:#faf5ff;">
-            <div class="checkboxes-grid">
+      html += '<div class="group-cat" style="border:1.5px dashed #7c3aed; border-radius:12px; margin-bottom:8px; overflow:hidden; background:#fff;">';
+      html += '<div onclick="toggleGroupCat(\'' + catId + '\')" style="padding:12px 16px; cursor:pointer; background:linear-gradient(135deg,#faf5ff,#f3e8ff); display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:800; color:#7c3aed;">' +
+        '<span>' + (cat.emoji || '📁') + ' ' + cat.name + ' <span style="background:rgba(124,58,237,.15); color:#7c3aed; padding:2px 10px; border-radius:999px; font-size:11px; margin-right:6px;">' + ((cat.subcategories || []).length) + '</span></span>' +
+        '<span class="cat-arrow-' + catId + '" style="font-size:12px; transition:transform .3s;">▼</span>' +
+      '</div>';
+      html += '<div id="' + catId + '" style="display:none; padding:12px; background:#faf5ff;">';
+      html += '<div class="checkboxes-grid">';
 
-              <!-- کل دسته -->
-              <label class="checkbox-item" data-name="کل ${cat.name}" data-key="${catKey}" style="background:rgba(124,58,237,.08)">
-                <input type="checkbox" class="group-check" value="${catKey}" ${selected.includes(catKey) ? 'checked' : ''}
-                  onchange="toggleCustomCat('${cat.id}', this.checked)">
-                <span class="check"></span>
-                <span class="label">📢 کل ${cat.name}</span>
-              </label>
+      // کل دسته
+      var catChecked = selected.indexOf(catKey) !== -1 ? 'checked' : '';
+      html += '<label class="checkbox-item" data-name="کل ' + esc(cat.name) + '" data-key="' + esc(catKey) + '" style="background:rgba(124,58,237,.08)">' +
+        '<input type="checkbox" class="group-check" value="' + catKey + '" ' + catChecked + ' onchange="toggleCustomCat(\'' + cat.id + '\', this.checked)">' +
+        '<span class="check"></span>' +
+        '<span class="label">📢 کل ' + cat.name + '</span>' +
+      '</label>';
 
-              <!-- زیرمجموعه‌ها -->
-              ${(cat.subcategories || []).map(sub => {
-                const checked = selected.includes(sub.id) ? 'checked' : '';
-                return `
-                  <label class="checkbox-item" data-name="${sub.name}" data-key="${sub.id}" data-custom-cat="${cat.id}">
-                    <input type="checkbox" class="group-check custom-sub-check" data-custom-cat="${cat.id}" value="${sub.id}" ${checked}
-                      onchange="updateCustomCatFromSubs('${cat.id}'); updateSelectedBox()">
-                    <span class="check"></span>
-                    <span class="label">${sub.emoji || '👤'} ${sub.name}</span>
-                  </label>
-                `;
-              }).join('')}
+      // زیرمجموعه‌ها
+      (cat.subcategories || []).forEach(function(sub) {
+        var checked = selected.indexOf(sub.id) !== -1 ? 'checked' : '';
+        html += '<label class="checkbox-item" data-name="' + esc(sub.name) + '" data-key="' + esc(sub.id) + '">' +
+          '<input type="checkbox" class="group-check custom-sub-check" data-custom-cat="' + cat.id + '" value="' + sub.id + '" ' + checked + ' onchange="updateCustomCatFromSubs(\'' + cat.id + '\'); updateSelectedBox()">' +
+          '<span class="check"></span>' +
+          '<span class="label">' + (sub.emoji || '👤') + ' ' + sub.name + '</span>' +
+        '</label>';
+      });
 
-            </div>
-          </div>
-        </div>
-      `;
+      html += '</div></div></div>';
     });
   }
 
   sel.innerHTML = html;
-
-  // اگه گروهی از قبل انتخاب شده، آپدیت کن
   updateSelectedBox();
 }
 
-// ═══════════════════════════════════════════════════
-// 🔽 کشویی
-// ═══════════════════════════════════════════════════
 function toggleGroupCat(catId) {
-  const el = document.getElementById(catId);
-  const arrow = document.querySelector('.cat-arrow-' + catId);
+  var el = document.getElementById(catId);
+  var arrow = document.querySelector('.cat-arrow-' + catId);
   if (!el) return;
-
   if (el.style.display === 'none' || !el.style.display) {
     el.style.display = 'block';
     if (arrow) arrow.style.transform = 'rotate(180deg)';
@@ -772,181 +650,87 @@ function toggleGroupCat(catId) {
   }
 }
 
-// ═══════════════════════════════════════════════════
-// ✅ دسته سفارشی — انتخاب همه
-// ═══════════════════════════════════════════════════
 function toggleCustomCat(catId, isChecked) {
-  document.querySelectorAll(`.custom-sub-check[data-custom-cat="${catId}"]`).forEach(sub => {
-    sub.checked = isChecked;
+  document.querySelectorAll('.custom-sub-check[data-custom-cat="' + catId + '"]').forEach(function(s) {
+    s.checked = isChecked;
   });
   updateSelectedBox();
 }
 
 function updateCustomCatFromSubs(catId) {
-  const allSubs = document.querySelectorAll(`.custom-sub-check[data-custom-cat="${catId}"]`);
-  const allChecked = Array.from(allSubs).every(s => s.checked);
-  const catCheckbox = document.querySelector(`.group-check[value="__cat__${catId}"]`);
+  var allSubs = document.querySelectorAll('.custom-sub-check[data-custom-cat="' + catId + '"]');
+  var allChecked = Array.from(allSubs).every(function(s) { return s.checked; });
+  var catCheckbox = document.querySelector('.group-check[value="__cat__' + catId + '"]');
   if (catCheckbox) catCheckbox.checked = allChecked;
 }
 
-// ═══════════════════════════════════════════════════
-// 🔍 جستجو
-// ═══════════════════════════════════════════════════
 function filterGroups(query) {
-  const q = (query || '').trim().toLowerCase();
-
-  document.querySelectorAll('.checkbox-item').forEach(item => {
-    const name = (item.dataset.name || '').toLowerCase();
-    const key = (item.dataset.key || '').toLowerCase();
-    if (!q || name.includes(q) || key.includes(q)) {
+  var q = (query || '').trim().toLowerCase();
+  document.querySelectorAll('.checkbox-item').forEach(function(item) {
+    var name = (item.dataset.name || '').toLowerCase();
+    var key = (item.dataset.key || '').toLowerCase();
+    if (!q || name.indexOf(q) !== -1 || key.indexOf(q) !== -1) {
       item.style.display = '';
     } else {
       item.style.display = 'none';
     }
   });
-
-  // اگه جستجو هست، همه کشویی‌ها رو باز کن
   if (q) {
-    document.querySelectorAll('.group-cat > div:last-child').forEach(div => {
+    document.querySelectorAll('.group-cat > div:last-child').forEach(function(div) {
       if (div.id) div.style.display = 'block';
     });
   }
 }
 
-// ═══════════════════════════════════════════════════
-// 📋 نمایش انتخاب شده‌ها
-// ═══════════════════════════════════════════════════
 function updateSelectedBox() {
-  const box = document.getElementById('selectedGroupsBox');
+  var box = document.getElementById('selectedGroupsBox');
   if (!box) return;
 
-  const selected = getSelectedGroups();
+  var selected = getSelectedGroups();
   if (!selected.length) {
     box.innerHTML = '<span style="color:#64748b">هنوز گروهی انتخاب نشده</span>';
+    updateSaveBtn();
     return;
   }
 
-  const names = selected.map(key => {
-    // گروه عادی
+  var names = selected.map(function(key) {
     if (C.groups[key]) return C.groups[key].emoji + ' ' + C.groups[key].name;
-
-    // دسته سفارشی
-    if (key.startsWith('__cat__')) {
-      const catId = key.substring(7);
-      const cat = customCategories.find(c => c.id === catId);
+    if (key.indexOf('__cat__') === 0) {
+      var catId = key.substring(7);
+      var cat = customCategories.find(function(c) { return c.id === catId; });
       if (cat) return '📢 کل ' + cat.name;
     }
-
-    // زیرمجموعه سفارشی
-    for (const cat of customCategories) {
-      const sub = (cat.subcategories || []).find(s => s.id === key);
+    for (var i = 0; i < customCategories.length; i++) {
+      var sub = (customCategories[i].subcategories || []).find(function(s) { return s.id === key; });
       if (sub) return (sub.emoji || '👤') + ' ' + sub.name;
     }
-
     return key;
   });
 
-  box.innerHTML = names.map(n =>
-    `<span style="background:#fff; padding:3px 10px; border-radius:999px; border:1px solid #93c5fd;">${n}</span>`
-  ).join('');
+  box.innerHTML = names.map(function(n) {
+    return '<span style="background:#fff; padding:3px 10px; border-radius:999px; border:1px solid #93c5fd;">' + n + '</span>';
+  }).join('');
 
   updateSaveBtn();
-}  const sel = document.getElementById('groupSelector');
-
-  const cats = {
-    'خانواده': { emoji: '🏡', items: [] },
-    'ویژه': { emoji: '🕌', items: [] },
-    'استان': { emoji: '🗺', items: [] },
-    'سایر': { emoji: '👥', items: [] }
-  };
-
-  Object.entries(C.groups).forEach(([k, g]) => {
-    const cat = g.category || 'سایر';
-    if (cats[cat]) cats[cat].items.push({ key: k, ...g });
-  });
-
-  let html = '';
-
-  // گروه‌های عادی
-  Object.entries(cats).forEach(([catName, cat]) => {
-    if (!cat.items.length) return;
-    html += `<div class="group-cat">`;
-    html += `<div class="group-cat-title">${cat.emoji} ${catName} (${cat.items.length})</div>`;
-    html += `<div class="group-grid">`;
-    cat.items.forEach(g => {
-      const checked = selected.includes(g.key) ? 'checked' : '';
-      html += `
-        <label class="group-item">
-          <input type="checkbox" class="group-check" value="${g.key}" ${checked}>
-          <span class="check"></span>
-          <span>${g.emoji} ${g.name}</span>
-        </label>
-      `;
-    });
-    html += `</div></div>`;
-  });
-
-  // ═══════════ دسته‌های سفارشی ═══════════
-  if (customCategories.length) {
-    html += `<div style="margin:16px 0 8px; padding-top:12px; border-top:2px dashed #7c3aed">
-      <h4 style="color:#7c3aed; font-weight:900; font-size:14px; margin:0 0 10px">🏢 دسته‌های سفارشی</h4>
-    </div>`;
-
-    customCategories.forEach(cat => {
-      html += `<div class="group-cat">`;
-      html += `<div class="group-cat-title" style="color:#7c3aed; background:#faf5ff">
-        ${cat.emoji || '📁'} ${cat.name} (${(cat.subcategories || []).length})
-      </div>`;
-      html += `<div class="group-grid">`;
-
-      // خود دسته (کل اداره)
-      const catKey = '__cat__' + cat.id;
-      const catChecked = selected.includes(catKey) ? 'checked' : '';
-      html += `
-        <label class="group-item" style="background:rgba(124,58,237,.08)">
-          <input type="checkbox" class="group-check" value="${catKey}" ${catChecked}>
-          <span class="check"></span>
-          <span>📢 کل ${cat.name}</span>
-        </label>
-      `;
-
-      // زیرمجموعه‌ها
-      (cat.subcategories || []).forEach(sub => {
-        const checked = selected.includes(sub.id) ? 'checked' : '';
-        html += `
-          <label class="group-item">
-            <input type="checkbox" class="group-check" value="${sub.id}" ${checked}>
-            <span class="check"></span>
-            <span>${sub.emoji || '👤'} ${sub.name}</span>
-          </label>
-        `;
-      });
-
-      html += `</div></div>`;
-    });
-  }
-
-  sel.innerHTML = html;
-  sel.querySelectorAll('input').forEach(cb => cb.addEventListener('change', updateSaveBtn));
 }
 
 function getSelectedGroups() {
-  return Array.from(document.querySelectorAll('.group-check:checked')).map(x => x.value);
+  return Array.from(document.querySelectorAll('.group-check:checked')).map(function(x) { return x.value; });
 }
 
 function updateSaveBtn() {
-  const name = document.getElementById('memberName').value.trim();
-  const phone = document.getElementById('memberPhone').value.trim();
-  const topic = document.getElementById('memberTopic').value.trim();
-  const groups = getSelectedGroups();
-  const btn = document.getElementById('modalSaveBtn');
-  const ok = name.length >= 2 && /^09\d{9}$/.test(phone) && groups.length > 0 && topic.length > 5;
+  var name = document.getElementById('memberName').value.trim();
+  var phone = document.getElementById('memberPhone').value.trim();
+  var topic = document.getElementById('memberTopic').value.trim();
+  var groups = getSelectedGroups();
+  var btn = document.getElementById('modalSaveBtn');
+  var ok = name.length >= 2 && /^09\d{9}$/.test(phone) && groups.length > 0 && topic.length > 5;
   btn.disabled = !ok;
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // ➕ افزودن/ویرایش
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function openAddModal() {
   if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
   editingIndex = -1;
@@ -959,13 +743,13 @@ function openAddModal() {
   renderGroupSelector([]);
   updateSaveBtn();
   document.getElementById('memberModal').classList.add('show');
-  setTimeout(() => document.getElementById('memberName').focus(), 100);
+  setTimeout(function() { document.getElementById('memberName').focus(); }, 100);
 }
 
 function editMember(index) {
   if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
   editingIndex = index;
-  const m = members[index];
+  var m = members[index];
   document.getElementById('modalTitle').textContent = '✏ ویرایش: ' + m.name;
   document.getElementById('memberName').value = m.name || '';
   document.getElementById('memberPhone').value = m.phone || '';
@@ -983,28 +767,29 @@ function closeModal() {
 }
 
 async function saveMember() {
-  const name = document.getElementById('memberName').value.trim();
-  const phone = document.getElementById('memberPhone').value.trim();
-  const province = document.getElementById('memberProvince').value.trim();
-  const personalTopic = document.getElementById('memberTopic').value.trim();
-  const groups = getSelectedGroups();
+  var name = document.getElementById('memberName').value.trim();
+  var phone = document.getElementById('memberPhone').value.trim();
+  var province = document.getElementById('memberProvince').value.trim();
+  var personalTopic = document.getElementById('memberTopic').value.trim();
+  var groups = getSelectedGroups();
 
   if (name.length < 2) return document.getElementById('modalErr').textContent = '❌ نام باید حداقل ۲ حرف باشد';
   if (!/^09\d{9}$/.test(phone)) return document.getElementById('modalErr').textContent = '❌ شماره باید ۱۱ رقم و با ۰۹ شروع شود';
   if (!groups.length) return document.getElementById('modalErr').textContent = '❌ حداقل یک گروه انتخاب کن';
   if (!personalTopic || personalTopic.length < 5) return document.getElementById('modalErr').textContent = '❌ کد اختصاصی رو با 🎲 بساز';
 
-  const dup = members.findIndex((m, i) => m.phone === phone && i !== editingIndex);
+  var dup = members.findIndex(function(m, i) { return m.phone === phone && i !== editingIndex; });
   if (dup >= 0) return document.getElementById('modalErr').textContent = '❌ این شماره قبلاً ثبت شده';
 
   document.getElementById('modalErr').textContent = '';
-  const btn = document.getElementById('modalSaveBtn');
+  var btn = document.getElementById('modalSaveBtn');
   btn.disabled = true;
   btn.textContent = '⏳ ذخیره...';
 
-  const newMember = { phone, name, groups, personalTopic, province: province || undefined };
+  var newMember = { phone: phone, name: name, groups: groups, personalTopic: personalTopic };
+  if (province) newMember.province = province;
 
-  const oldMembers = [...members];
+  var oldMembers = members.slice();
   if (editingIndex >= 0) members[editingIndex] = newMember;
   else members.push(newMember);
 
@@ -1022,11 +807,11 @@ async function saveMember() {
 }
 
 async function deleteMember(index) {
-  const m = members[index];
-  if (!confirm(`حذف «${m.name}»؟`)) return;
+  var m = members[index];
+  if (!confirm('حذف «' + m.name + '»؟')) return;
   if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
 
-  const oldMembers = [...members];
+  var oldMembers = members.slice();
   members.splice(index, 1);
 
   try {
@@ -1039,141 +824,21 @@ async function deleteMember(index) {
   }
 }
 
-// ═══════════════════════════════════════════════════════
-// 📱 دعوت‌نامه
-// ═══════════════════════════════════════════════════════
-function openInviteModal(index) {
-  const m = members[index];
-  if (!m) return;
-
-  const topics = [];
-  if (m.personalTopic) {
-    topics.push({ name: 'شخصی', emoji: '👤', topic: m.personalTopic, personal: true });
-  }
-
-  (m.groups || []).forEach(g => {
-    // گروه عادی
-    if (C.groups[g]) {
-      const gr = C.groups[g];
-      topics.push({ name: gr.name, emoji: gr.emoji, topic: gr.topic, personal: false });
-    }
-    // دسته سفارشی (کل)
-    else if (g.startsWith && g.startsWith('__cat__')) {
-      const catId = g.substring(7);
-      const cat = customCategories.find(c => c.id === catId);
-      if (cat && cat.topic) {
-        topics.push({ name: 'کل ' + cat.name, emoji: cat.emoji || '📁', topic: cat.topic, personal: false });
-      }
-    }
-    // زیرمجموعه سفارشی
-    else {
-      for (const cat of customCategories) {
-        const sub = (cat.subcategories || []).find(s => s.id === g);
-        if (sub && sub.topic) {
-          topics.push({ name: sub.name, emoji: sub.emoji || '👤', topic: sub.topic, personal: false });
-          break;
-        }
-      }
-    }
-  });
-
-  const pwaUrl = 'https://solimaniashteyani-crypto.github.io/my-messages/';
-  const topicsText = topics.map(t => `   ${t.emoji} ${t.name}: ${t.topic}`).join('\n');
-
-  const inviteText = `سلام ${m.name} جان 👋
-
-به سامانه پیام‌رسان سما دعوت شدی!
-
-📱 مراحل نصب:
-
-۱. اپ ntfy رو نصب کن:
-   - اندروید: https://play.google.com/store/apps/details?id=io.heckel.ntfy
-   - آیفون: https://apps.apple.com/app/ntfy/id1625396347
-
-۲. توی اپ ntfy، روی + (Plus) بزن و این کدها رو Subscribe کن:
-${topicsText}
-
-۳. این لینک PWA رو توی Chrome باز کن:
-   ${pwaUrl}
-
-۴. از منوی Chrome، «Add to Home Screen» بزن
-
-۵. شماره موبایلت رو بزن: ${m.phone || ''}
-
-📲 هر وقت پیام جدید بیاد، اعلان می‌گیری.
-
----
-سامانه پیام‌رسان سما — نسخه ۶/۱۱ 🕊️`;
-
-  window._currentInviteText = inviteText;
-  window._currentInvitePhone = m.phone || '';
-
-  document.getElementById('inviteMemberName').textContent = '📱 دعوت‌نامه — ' + m.name;
-  document.getElementById('inviteText').value = inviteText;
-
-  document.getElementById('inviteTopics').innerHTML = topics.map(t => `
-    <div class="invite-topic-row ${t.personal ? 'personal' : ''}">
-      <span style="font-size:18px">${t.emoji}</span>
-      <span class="invite-topic-name" style="color:${t.personal ? '#6d28d9' : '#1e3a8a'}">${t.name}</span>
-      <code class="invite-topic-code">${t.topic}</code>
-      <button class="copy-btn" onclick="copyText('${t.topic}')" title="کپی">📋</button>
-    </div>
-  `).join('');
-
-  document.getElementById('inviteModal').classList.add('show');
-}
-
-function closeInviteModal() {
-  document.getElementById('inviteModal').classList.remove('show');
-}
-
-function copyInvite() {
-  const text = window._currentInviteText || '';
-  navigator.clipboard.writeText(text).then(() => showToast('✅ متن دعوت‌نامه کپی شد!'))
-    .catch(() => {
-      const ta = document.getElementById('inviteText');
-      ta.select();
-      document.execCommand('copy');
-      showToast('✅ متن کپی شد!');
-    });
-}
-
-function shareEitaa() {
-  const text = window._currentInviteText || '';
-  const go = () => { window.open('https://eitaa.com/', '_blank'); };
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('✅ متن کپی شد! ایتا رو باز کن و پیست کن');
-    setTimeout(go, 600);
-  }).catch(() => {
-    const ta = document.getElementById('inviteText');
-    ta.select();
-    document.execCommand('copy');
-    showToast('✅ متن کپی شد!');
-    setTimeout(go, 600);
-  });
-}
-
-function shareSMS() {
-  const text = window._currentInviteText || '';
-  const phone = window._currentInvitePhone || '';
-  window.location.href = 'sms:' + phone + '?body=' + encodeURIComponent(text);
-}
-
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // 💾 ذخیره در گیت‌هاب
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 async function saveToGitHub(commitMsg) {
   if (!getToken()) throw new Error('توکن موجود نیست');
 
-  const r = await fetch(`${API}/${ALLOWED_PATH}?t=${Date.now()}`, {
-    headers: { Authorization: `token ${getToken()}` }
+  var r = await fetch(API + '/' + ALLOWED_PATH + '?t=' + Date.now(), {
+    headers: { Authorization: 'token ' + getToken() }
   });
   if (!r.ok) throw new Error('خطا در خواندن فایل');
-  const j = await r.json();
+  var j = await r.json();
 
-  const putR = await fetch(`${API}/${ALLOWED_PATH}`, {
+  var putR = await fetch(API + '/' + ALLOWED_PATH, {
     method: 'PUT',
-    headers: { Authorization: `token ${getToken()}`, 'Content-Type': 'application/json' },
+    headers: { Authorization: 'token ' + getToken(), 'Content-Type': 'application/json' },
     body: JSON.stringify({
       message: commitMsg,
       content: b64encodeStr(JSON.stringify({ allowed: members }, null, 2)),
@@ -1184,14 +849,14 @@ async function saveToGitHub(commitMsg) {
   if (!putR.ok) throw new Error('ذخیره نشد (' + putR.status + ')');
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // 🔑 توکن
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function saveToken() {
-  const t = document.getElementById('token').value.trim();
-  const msgEl = document.getElementById('tokenMsg');
+  var t = document.getElementById('token').value.trim();
+  var msgEl = document.getElementById('tokenMsg');
   if (!t) { msgEl.innerHTML = '<span style="color:#dc2626">❌ توکن رو وارد کن</span>'; return; }
-  if (!t.startsWith('github_pat_') && !t.startsWith('ghp_')) {
+  if (t.indexOf('github_pat_') !== 0 && t.indexOf('ghp_') !== 0) {
     msgEl.innerHTML = '<span style="color:#dc2626">❌ فرمت اشتباه</span>'; return;
   }
   localStorage.setItem(TOKEN_KEY, t);
@@ -1208,7 +873,7 @@ function logout() {
 }
 
 function updateTokenUI() {
-  const t = getToken();
+  var t = getToken();
   document.getElementById('tokenSaved').hidden = !t;
   document.getElementById('tokenForm').hidden = !!t;
   document.getElementById('toolbar').hidden = !t;
@@ -1217,40 +882,170 @@ function updateTokenUI() {
 }
 
 function showToast(msg, isError) {
-  const toast = document.getElementById('toast');
+  var toast = document.getElementById('toast');
   toast.textContent = msg;
   toast.className = 'toast show' + (isError ? ' err' : '');
-  setTimeout(() => toast.classList.remove('show'), 3500);
+  setTimeout(function() { toast.classList.remove('show'); }, 3500);
 }
 
+// ═══════════════════════════════════════════════════
+// 📱 دعوت‌نامه
+// ═══════════════════════════════════════════════════
+function openInviteModal(index) {
+  var m = members[index];
+  if (!m) return;
+
+  var topics = [];
+  if (m.personalTopic) topics.push({ name: 'شخصی', emoji: '👤', topic: m.personalTopic, personal: true });
+
+  (m.groups || []).forEach(function(g) {
+    if (C.groups[g]) {
+      topics.push({ name: C.groups[g].name, emoji: C.groups[g].emoji, topic: C.groups[g].topic, personal: false });
+    } else if (g.indexOf('__cat__') === 0) {
+      var catId = g.substring(7);
+      var cat = customCategories.find(function(c) { return c.id === catId; });
+      if (cat && cat.topic) topics.push({ name: 'کل ' + cat.name, emoji: cat.emoji || '📁', topic: cat.topic, personal: false });
+    } else {
+      for (var i = 0; i < customCategories.length; i++) {
+        var sub = (customCategories[i].subcategories || []).find(function(s) { return s.id === g; });
+        if (sub && sub.topic) { topics.push({ name: sub.name, emoji: sub.emoji || '👤', topic: sub.topic, personal: false }); break; }
+      }
+    }
+  });
+
+  var pwaUrl = 'https://solimaniashteyani-crypto.github.io/my-messages/';
+  var topicsText = topics.map(function(t) { return '   ' + t.emoji + ' ' + t.name + ': ' + t.topic; }).join('\n');
+
+  var inviteText = 'سلام ' + m.name + ' جان 👋\n\n' +
+    'به سامانه پیام‌رسان سما دعوت شدی!\n\n' +
+    '📱 مراحل نصب:\n\n' +
+    '۱. اپ ntfy رو نصب کن:\n' +
+    '   - اندروید: https://play.google.com/store/apps/details?id=io.heckel.ntfy\n' +
+    '   - آیفون: https://apps.apple.com/app/ntfy/id1625396347\n\n' +
+    '۲. توی اپ ntfy، روی + بزن و این کدها رو Subscribe کن:\n' + topicsText + '\n\n' +
+    '۳. این لینک PWA رو توی Chrome باز کن:\n   ' + pwaUrl + '\n\n' +
+    '۴. از منوی Chrome، «Add to Home Screen» بزن\n\n' +
+    '۵. شماره موبایلت رو بزن: ' + (m.phone || '') + '\n\n' +
+    '📲 هر وقت پیام جدید بیاد، اعلان می‌گیری.\n\n---\nسامانه پیام‌رسان سما — نسخه ۶/۱۱ 🕊️';
+
+  window._currentInviteText = inviteText;
+  window._currentInvitePhone = m.phone || '';
+
+  var dlg = document.getElementById('inviteModal');
+  if (!dlg) {
+    // ساخت مودال دعوت‌نامه
+    var newDlg = document.createElement('dialog');
+    newDlg.id = 'inviteModal';
+    newDlg.style.cssText = 'max-width:600px; padding:28px 26px; border-radius:24px; border:none; box-shadow:0 24px 80px rgba(12,30,62,.4);';
+    newDlg.innerHTML =
+      '<form method="dialog">' +
+      '<h3 id="inviteMemberName" style="margin:0 0 16px; color:#1e3a8a; font-size:20px;">📱 دعوت‌نامه</h3>' +
+      '<div id="inviteTopics" style="background:#f0f7ff; border:2px solid #dbeafe; border-radius:14px; padding:14px; margin-bottom:18px;"></div>' +
+      '<label style="display:block; font-size:14px; font-weight:800; color:#1e3a8a; margin-bottom:8px;">📝 متن آماده:</label>' +
+      '<textarea id="inviteText" readonly style="width:100%; min-height:280px; padding:16px; background:#f0f7ff; border:2.5px solid #dbeafe; color:#0c1e3e; border-radius:14px; font-family:monospace; font-size:13px; line-height:1.8; resize:vertical; direction:rtl; box-sizing:border-box;"></textarea>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:16px;">' +
+        '<button type="button" onclick="copyInvite()" style="background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff; border:none; padding:14px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer;">📋 کپی متن</button>' +
+        '<button type="button" onclick="shareEitaa()" style="background:linear-gradient(135deg,#f97316,#ea580c); color:#fff; border:none; padding:14px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer;">🟢 اشتراک در ایتا</button>' +
+        '<button type="button" onclick="shareSMS()" style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:none; padding:14px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer;">💬 پیامک</button>' +
+      '</div>' +
+      '<div style="display:flex; justify-content:flex-end; margin-top:16px;">' +
+        '<button value="cancel" style="background:transparent; color:#64748b; border:2px solid #93c5fd; padding:10px 24px; border-radius:12px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer;">بستن</button>' +
+      '</div>' +
+      '</form>';
+    document.body.appendChild(newDlg);
+    dlg = newDlg;
+  }
+
+  document.getElementById('inviteMemberName').textContent = '📱 دعوت‌نامه — ' + m.name;
+  document.getElementById('inviteText').value = inviteText;
+
+  document.getElementById('inviteTopics').innerHTML = topics.map(function(t) {
+    return '<div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:' + (t.personal ? '#f3e8ff' : '#fff') + '; border-radius:8px; margin-bottom:6px; border:1px solid ' + (t.personal ? '#d8b4fe' : 'transparent') + '; flex-wrap:wrap;">' +
+      '<span style="font-size:18px;">' + t.emoji + '</span>' +
+      '<span style="font-weight:800; font-size:13px; color:' + (t.personal ? '#6d28d9' : '#1e3a8a') + ';">' + t.name + '</span>' +
+      '<code style="background:#fff; padding:4px 10px; border-radius:6px; font-family:monospace; font-size:12px; font-weight:700; color:#0f172a; margin-right:auto;">' + t.topic + '</code>' +
+      '<button type="button" onclick="copyText(\'' + t.topic + '\')" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed); color:#fff; border:none; padding:5px 12px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:800; font-family:inherit;">📋</button>' +
+    '</div>';
+  }).join('');
+
+  dlg.showModal();
+}
+
+function closeInviteModal() {
+  var dlg = document.getElementById('inviteModal');
+  if (dlg) dlg.close();
+}
+
+function copyInvite() {
+  var text = window._currentInviteText || '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() { showToast('✅ متن دعوت‌نامه کپی شد!'); })
+      .catch(function() {
+        var ta = document.getElementById('inviteText');
+        ta.select();
+        document.execCommand('copy');
+        showToast('✅ متن کپی شد!');
+      });
+  }
+}
+
+function shareEitaa() {
+  var text = window._currentInviteText || '';
+  var go = function() { window.open('https://eitaa.com/', '_blank'); };
+  navigator.clipboard.writeText(text).then(function() {
+    showToast('✅ متن کپی شد! ایتا رو باز کن و پیست کن');
+    setTimeout(go, 600);
+  }).catch(function() {
+    var ta = document.getElementById('inviteText');
+    ta.select();
+    document.execCommand('copy');
+    showToast('✅ متن کپی شد!');
+    setTimeout(go, 600);
+  });
+}
+
+function shareSMS() {
+  var text = window._currentInviteText || '';
+  var phone = window._currentInvitePhone || '';
+  window.location.href = 'sms:' + phone + '?body=' + encodeURIComponent(text);
+}
+
+// ═══════════════════════════════════════════════════
+// 🚀 شروع
+// ═══════════════════════════════════════════════════
+document.getElementById('saveTokenBtn').addEventListener('click', saveToken);
 document.getElementById('searchInput').addEventListener('input', renderMembers);
 
-['memberName', 'memberPhone', 'memberProvince', 'memberTopic'].forEach(id => {
-  const el = document.getElementById(id);
+['memberName', 'memberPhone', 'memberProvince', 'memberTopic'].forEach(function(id) {
+  var el = document.getElementById(id);
   if (el) el.addEventListener('input', updateSaveBtn);
 });
 
-document.getElementById('memberName').addEventListener('blur', () => {
-  const name = document.getElementById('memberName').value.trim();
-  const topic = document.getElementById('memberTopic').value.trim();
+document.getElementById('memberName').addEventListener('blur', function() {
+  var name = document.getElementById('memberName').value.trim();
+  var topic = document.getElementById('memberTopic').value.trim();
   if (name && !topic) {
     document.getElementById('memberTopic').value = generatePersonalTopic(name);
     updateSaveBtn();
   }
 });
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeInviteModal(); }
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal();
+    var inv = document.getElementById('inviteModal');
+    if (inv) inv.close();
+  }
 });
-document.getElementById('memberModal').addEventListener('click', e => {
+
+document.getElementById('memberModal').addEventListener('click', function(e) {
   if (e.target.id === 'memberModal') closeModal();
-});
-document.getElementById('inviteModal').addEventListener('click', e => {
-  if (e.target.id === 'inviteModal') closeInviteModal();
 });
 
 updateTokenUI();
 loadMembers();
+
+})();
 </script>
 </body>
 </html>
