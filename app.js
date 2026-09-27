@@ -471,34 +471,39 @@ function render() {
         const groups = m.groups || (m.group ? [m.group] : []);
         if (groups.some(g => state.myGroups.includes(g))) return true;
 
-        // چک customRecipients (مقایسه topic)
-        if ((m.customRecipients || []).some(c => state.myGroups.includes(c.topic))) return true;
+        // ✅ چک personalTopic کاربر
+        const myTopic = state.myPersonalTopic || localStorage.getItem('myPersonalTopic') || '';
+        if (myTopic && (m.personalRecipients || []).some(p => p.topic === myTopic)) return true;
 
-        // چک personalRecipients (مقایسه topic)
-        if ((m.personalRecipients || []).some(p => state.myGroups.includes(p.topic))) return true;
+        // ✅ چک customRecipients (مقایسه topic)
+        if ((m.customRecipients || []).some(c => 
+          state.myGroups.includes(c.topic) || c.topic === myTopic
+        )) return true;
+
+        // ✅ چک اگه پیام برای همه بود
+        if (m.groups && m.groups.length === 0 && (!m.personalRecipients || m.personalRecipients.length === 0)) return false;
 
         return false;
       });
     }
+  }
   } else if (state.filter.startsWith('group:')) {
     const g = state.filter.substring(6);
-    list = list.filter(m => messageHasTopic(m, g));
-      } else if (state.filter === 'toAdmin') {
-    // فقط پیام‌های کاربرا به ادمین
-    list = list.filter(m => m.isAdminMessage);
-  } else if (state.filter.startsWith('cat:')) {
-    const catId = state.filter.substring(4);
-  } else if (state.filter.startsWith('cat:')) {
-    const catId = state.filter.substring(4);
-    const cat = state.customCategories.find(c => c.id === catId);
-    if (cat) {
-      const topic = cat.topic;
-      list = list.filter(m => {
-        if (topic && messageHasTopic(m, topic)) return true;
-        // یا هر زیرمجموعه‌ای از این دسته
-        return (cat.subcategories || []).some(sub => messageHasTopic(m, sub.id));
-      });
-    }
+    list = list.filter(m => {
+      // چک گروه‌های عادی
+      const groups = m.groups || (m.group ? [m.group] : []);
+      if (groups.includes(g)) return true;
+
+      // چک دسته‌های سفارشی
+      const customs = m.customRecipients || [];
+      if (customs.some(c => c.topic === g)) return true;
+
+      // چک افراد اختصاصی
+      const personal = m.personalRecipients || [];
+      if (personal.some(p => p.topic === g)) return true;
+
+      return false;
+    });
   }
 
   list.sort((a, b) => new Date(b.time) - new Date(a.time));
