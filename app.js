@@ -219,26 +219,49 @@ function isUserInCustomSub(subId) {
 }
 
 // ═══════════════════════════════════════════════════════
-// 🔎 آیا این پیام مربوط به این دسته/گروه است؟
+// 🔎 آیا این پیام مربوط به این کلید (key) است؟
+//    تطابق هوشمند با name، topic، id و key
 // ═══════════════════════════════════════════════════════
+function normalizeStr(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[👤🏢🏡🕌🗺👥📁📢🔑💬\s_\-]/g, '') // حذف ایموجی، فاصله، _ و -
+    .trim();
+}
+
 function messageMatchesFilter(m, key) {
   if (!key) return false;
 
+  const keyNorm = normalizeStr(key);
+  if (!keyNorm) return false;
+
   // چک گروه‌های عادی
   const groups = m.groups || (m.group ? [m.group] : []);
-  if (groups.includes(key)) return true;
+  if (groups.some(g => normalizeStr(g) === keyNorm)) return true;
 
-  // چک customRecipients (چند ساختار ممکن)
+  // چک customRecipients — با هر فیلد ممکن
   const customs = m.customRecipients || [];
-  if (customs.some(c =>
-    c.topic === key || c.id === key || c.key === key || c.name === key
-  )) return true;
+  if (customs.some(c => {
+    if (!c) return false;
+    return [c.topic, c.id, c.key, c.name]
+      .filter(Boolean)
+      .some(f => {
+        const fNorm = normalizeStr(f);
+        return fNorm === keyNorm || fNorm.includes(keyNorm) || keyNorm.includes(fNorm);
+      });
+  })) return true;
 
   // چک personalRecipients
   const personal = m.personalRecipients || [];
-  if (personal.some(p =>
-    p.topic === key || p.id === key || p.name === key
-  )) return true;
+  if (personal.some(p => {
+    if (!p) return false;
+    return [p.topic, p.id, p.key, p.name]
+      .filter(Boolean)
+      .some(f => {
+        const fNorm = normalizeStr(f);
+        return fNorm === keyNorm || fNorm.includes(keyNorm) || keyNorm.includes(fNorm);
+      });
+  })) return true;
 
   return false;
 }
@@ -266,7 +289,6 @@ function renderTabs() {
   let html = '';
   html += `<button data-filter="all" class="${state.filter === 'all' ? 'active' : ''}">🌐 همه</button>`;
 
-  // 👑 تب پیام‌های مدیر (فقط برای ادمین)
   if (isAdmin) {
     const adminMsgCount = state.messages.filter(m => m.isAdminMessage).length;
     html += `<button data-filter="toAdmin" class="${state.filter === 'toAdmin' ? 'active' : ''}" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:#fff; border-color:transparent;">
@@ -280,7 +302,6 @@ function renderTabs() {
     });
   });
 
-  // دسته‌های سفارشی
   state.customCategories.forEach(cat => {
     const inCat = isUserInCustomCat(cat.id);
     const inAnySub = (cat.subcategories || []).some(sub => isUserInCustomSub(sub.id));
@@ -333,7 +354,7 @@ function render() {
 
   let list = state.messages.slice();
 
-  // ───── فیلتر اصلی ─────
+  // ───── فیلتر ─────
   if (state.filter === 'all') {
     if (!isAdmin) {
       list = list.filter(m => {
@@ -347,7 +368,6 @@ function render() {
           state.myGroups.includes(c.topic) || c.topic === myTopic
         )) return true;
 
-        // اگه پیام برای همه بود (بدون هیچ مخاطب خاص) → نشون نده
         if (m.groups && m.groups.length === 0
             && (!m.personalRecipients || m.personalRecipients.length === 0)
             && (!m.customRecipients || m.customRecipients.length === 0)) return false;
@@ -355,43 +375,45 @@ function render() {
         return false;
       });
     }
-  } else if (state.filter.startsWith('group:')) {
-    // ─── فیلتر گروه‌های عادی و زیرشاخه‌ها ───
-    const g = state.filter.substring(6);
-    list = list.filter(m => messageMatchesFilter(m, g));
+  } else if (state.filter === 'toAdmin') {
+    list = list.filter(m => m.isAdminMessage === true);
 
   } else if (state.filter.startsWith('cat:')) {
-    // ─── فیلتر دسته‌های سفارشی ───
+    // ─── فیلتر دسته سفارشی (اداره، دوستانی، ...) ───
     const catId = state.filter.substring(4);
-
-    // پیدا کردن اطلاعات این دسته برای دریافت id زیرشاخه‌ها
     const cat = state.customCategories.find(c => String(c.id) === String(catId));
-    const subIds = cat ? (cat.subcategories || []).map(s => String(s.id)) : [];
+    const catName = cat ? cat.name : '';
+    const subs = cat ? (cat.subcategories || []) : [];
 
     list = list.filter(m => {
-      // اگه مستقیم به این دسته رفته
+      // با خود دسته چک کن (id و name)
       if (messageMatchesFilter(m, catId)) return true;
-
-      // اگه به یکی از زیرشاخه‌های این دسته رفته
-      for (const sid of subIds) {
-        if (messageMatchesFilter(m, sid)) return true;
+      if (catName && messageMatchesFilter(m, catName)) return true;
+      // با همه زیرشاخه‌ها چک کن (id و name)
+      for (const sub of subs) {
+        if (messageMatchesFilter(m, sub.id)) return true;
+        if (sub.name && messageMatchesFilter(m, sub.name)) return true;
       }
-
-      // چک customRecipients با id/name/topic مختلف
-      const customs = m.customRecipients || [];
-      if (customs.some(c =>
-        String(c.id) === String(catId) ||
-        String(c.topic) === String(catId) ||
-        String(c.key) === String(catId) ||
-        (cat && c.name === cat.name)
-      )) return true;
-
       return false;
     });
 
-  } else if (state.filter === 'toAdmin') {
-    // ─── پیام‌های خصوصی به ادمین ───
-    list = list.filter(m => m.isAdminMessage === true);
+  } else if (state.filter.startsWith('group:')) {
+    // ─── فیلتر گروه عادی یا زیرشاخه ───
+    const g = state.filter.substring(6);
+
+    // ببین آیا این g مربوط به یک زیرشاخه سفارشی است
+    let subName = '';
+    state.customCategories.forEach(cat => {
+      (cat.subcategories || []).forEach(sub => {
+        if (String(sub.id) === String(g)) subName = sub.name || '';
+      });
+    });
+
+    list = list.filter(m => {
+      if (messageMatchesFilter(m, g)) return true;
+      if (subName && messageMatchesFilter(m, subName)) return true;
+      return false;
+    });
   }
 
   list.sort((a, b) => new Date(b.time) - new Date(a.time));
