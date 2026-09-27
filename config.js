@@ -11,21 +11,7 @@ window.CONFIG = {
   // ═══════════════════════════════════════════════════════
 
   groups: {
-
-    // ═══════════ 🏡 خانواده ═══════════
-    hamsar: {
-      name: 'همسر', emoji: '💑', category: 'خانواده',
-      topic: 'chal-v11-hamsar-M3nQ7pL2'
-    },
-    amirmohammad: {
-      name: 'امیرمحمد', emoji: '👦', category: 'خانواده',
-      topic: 'chal-v11-amirmohammad-T8kR5wJ9'
-    },
-    amirali: {
-      name: 'امیرعلی', emoji: '👦', category: 'خانواده',
-      topic: 'chal-v11-amirali-V2yN6bF4'
-    },
-
+ 
     // ═══════════ 🕌 رابطین ویژه ═══════════
     rabet_kashan: {
       name: 'رابط کاشان', emoji: '🕌', category: 'ویژه',
