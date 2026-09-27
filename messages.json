@@ -59,6 +59,20 @@
       ],
       "group": "__toAdmin__",
       "time": "2026-09-25T17:28:16.520Z"
+    },
+    {
+      "id": "ad4dedda-70cc-4a42-ab59-a7b44ea798d5",
+      "text": "سلام\nتست",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-27T09:54:43.661Z"
     }
   ],
   "reactions": [
