@@ -486,7 +486,6 @@ function render() {
         return false;
       });
     }
-  }
   } else if (state.filter.startsWith('group:')) {
     const g = state.filter.substring(6);
     list = list.filter(m => {
