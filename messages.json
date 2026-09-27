@@ -115,6 +115,48 @@
         }
       ],
       "time": "2026-09-27T11:32:50.025Z"
+    },
+    {
+      "id": "dbfd093d-b737-491e-abaa-f4e4717fadb5",
+      "text": "سلام\nاگر آمد پاسخ بدهید تا تست شود",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "📢 کل اداره",
+          "topic": "chal-v11-edare-h1i2j3"
+        },
+        {
+          "name": "حسین عرفانی",
+          "topic": "chal-v11-hossein-erfani-a1b2"
+        },
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        },
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        },
+        {
+          "name": "سید عباس",
+          "topic": "chal-v11-seyyed-abbas-g7h8"
+        },
+        {
+          "name": "علی کلاته",
+          "topic": "chal-v11-ali-kalate-i9j0"
+        },
+        {
+          "name": "مهدی مختارپور",
+          "topic": "chal-v11-mahdi-mokhtarpour-k1l2"
+        },
+        {
+          "name": "جواد اسماعیلی",
+          "topic": "chal-v11-javad-esmaili-m3n4"
+        }
+      ],
+      "time": "2026-09-27T11:33:46.006Z"
     }
   ],
   "reactions": [
