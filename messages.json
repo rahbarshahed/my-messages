@@ -323,6 +323,17 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-09-27T18:25:57.631Z"
+    },
+    {
+      "id": "a3ef2c52-0e14-4a69-bb35-09b8b4535e57",
+      "text": "سلام علیکم",
+      "groups": [
+        "admin"
+      ],
+      "group": "admin",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-09-27T20:13:02.446Z"
     }
   ],
   "reactions": [
