@@ -87,6 +87,20 @@
         }
       ],
       "time": "2026-09-27T09:57:12.907Z"
+    },
+    {
+      "id": "3b975927-2a57-4201-8df3-fc4e80d51b37",
+      "text": "تست دوم",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-27T10:47:31.196Z"
     }
   ],
   "reactions": [
