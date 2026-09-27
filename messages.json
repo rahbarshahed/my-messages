@@ -101,6 +101,20 @@
         }
       ],
       "time": "2026-09-27T10:47:31.196Z"
+    },
+    {
+      "id": "920f111e-c4c2-407c-80cd-6d835cc3840f",
+      "text": "سلام تست",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-27T11:32:50.025Z"
     }
   ],
   "reactions": [
