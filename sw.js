@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// Service Worker — غیرفعال کامل (نسخه ۹)
+// Service Worker — غیرفعال کامل
 // ═══════════════════════════════════════════════════════
 
 self.addEventListener('install', function() {
@@ -13,11 +13,9 @@ self.addEventListener('activate', function(event) {
         return Promise.all(keys.map(function(k) { return caches.delete(k); }));
       })
       .then(function() {
-        // خودش رو حذف کن
         return self.registration.unregister();
       })
       .then(function() {
-        // همه تب‌ها رو رفرش کن
         return self.clients.matchAll({ type: 'window' });
       })
       .then(function(clients) {
@@ -29,6 +27,5 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  // هیچ کش نکن — همیشه از شبکه
   event.respondWith(fetch(event.request));
 });
