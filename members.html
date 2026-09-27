@@ -629,6 +629,231 @@ function renderGroupSelector(selected = []) {
   const sel = document.getElementById('groupSelector');
 
   const cats = {
+    'ویژه':    { emoji: '🕌', items: [], open: false },
+    'استان':   { emoji: '🗺', items: [], open: false },
+    'سایر':    { emoji: '👥', items: [], open: true }
+  };
+
+  Object.entries(C.groups).forEach(([k, g]) => {
+    const cat = g.category || 'سایر';
+    if (cats[cat]) cats[cat].items.push({ key: k, ...g });
+  });
+
+  let html = '';
+
+  // ═══════ جستجو ═══════
+  html += `
+    <div style="margin-bottom:12px">
+      <input type="text" id="groupSearch" placeholder="🔍 جستجوی گروه..."
+        style="width:100%; padding:12px 16px; background:#fff; border:2px solid #bfdbfe;
+               color:#0c1e3e; border-radius:12px; font-family:inherit; font-size:15px;
+               box-sizing:border-box; font-weight:600;"
+        oninput="filterGroups(this.value)">
+    </div>
+  `;
+
+  // ═══════ کادر انتخاب شده‌ها ═══════
+  html += `
+    <div id="selectedGroupsBox" style="
+      background:linear-gradient(135deg,#dbeafe,#bfdbfe);
+      border:2px solid #1e40af; border-radius:12px;
+      padding:10px 14px; margin-bottom:12px;
+      font-size:13px; font-weight:700; color:#1e3a8a;
+      min-height:44px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;
+    ">
+      <span style="color:#64748b">هنوز گروهی انتخاب نشده</span>
+    </div>
+  `;
+
+  // ═══════ دسته‌بندی‌ها (کشویی) ═══════
+  Object.entries(cats).forEach(([catName, cat]) => {
+    if (!cat.items.length) return;
+
+    const catId = 'cat-' + catName.replace(/[^\w]/g, '-');
+
+    html += `
+      <div class="group-cat" style="border:1.5px solid #bfdbfe; border-radius:12px; margin-bottom:8px; overflow:hidden; background:#fff;">
+        <div onclick="toggleGroupCat('${catId}')" style="
+          padding:12px 16px; cursor:pointer;
+          background:linear-gradient(135deg,#f0f7ff,#dbeafe);
+          display:flex; justify-content:space-between; align-items:center;
+          font-size:14px; font-weight:800; color:#1e3a8a;
+        ">
+          <span>${cat.emoji} ${catName} <span style="background:rgba(30,64,175,.15); color:#1e3a8a; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:800; margin-right:6px;">${cat.items.length}</span></span>
+          <span class="cat-arrow-${catId}" style="font-size:12px; transition:transform .3s;">▼</span>
+        </div>
+        <div id="${catId}" style="display:${cat.open ? 'block' : 'none'}; padding:12px; background:#f8fbff;">
+          <div class="checkboxes-grid">
+            ${cat.items.map(g => {
+              const checked = selected.includes(g.key) ? 'checked' : '';
+              return `
+                <label class="checkbox-item" data-name="${g.name}" data-key="${g.key}">
+                  <input type="checkbox" class="group-check" value="${g.key}" ${checked}
+                    onchange="updateSelectedBox()">
+                  <span class="check"></span>
+                  <span class="label">${g.emoji} ${g.name}</span>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // ═══════ دسته‌های سفارشی (کشویی) ═══════
+  if (customCategories.length) {
+    customCategories.forEach((cat, idx) => {
+      const catId = 'custom-' + cat.id;
+      const catKey = '__cat__' + cat.id;
+
+      html += `
+        <div class="group-cat" style="border:1.5px dashed #7c3aed; border-radius:12px; margin-bottom:8px; overflow:hidden; background:#fff;">
+          <div onclick="toggleGroupCat('${catId}')" style="
+            padding:12px 16px; cursor:pointer;
+            background:linear-gradient(135deg,#faf5ff,#f3e8ff);
+            display:flex; justify-content:space-between; align-items:center;
+            font-size:14px; font-weight:800; color:#7c3aed;
+          ">
+            <span>${cat.emoji || '📁'} ${cat.name} <span style="background:rgba(124,58,237,.15); color:#7c3aed; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:800; margin-right:6px;">${(cat.subcategories || []).length}</span></span>
+            <span class="cat-arrow-${catId}" style="font-size:12px; transition:transform .3s;">▼</span>
+          </div>
+          <div id="${catId}" style="display:none; padding:12px; background:#faf5ff;">
+            <div class="checkboxes-grid">
+
+              <!-- کل دسته -->
+              <label class="checkbox-item" data-name="کل ${cat.name}" data-key="${catKey}" style="background:rgba(124,58,237,.08)">
+                <input type="checkbox" class="group-check" value="${catKey}" ${selected.includes(catKey) ? 'checked' : ''}
+                  onchange="toggleCustomCat('${cat.id}', this.checked)">
+                <span class="check"></span>
+                <span class="label">📢 کل ${cat.name}</span>
+              </label>
+
+              <!-- زیرمجموعه‌ها -->
+              ${(cat.subcategories || []).map(sub => {
+                const checked = selected.includes(sub.id) ? 'checked' : '';
+                return `
+                  <label class="checkbox-item" data-name="${sub.name}" data-key="${sub.id}" data-custom-cat="${cat.id}">
+                    <input type="checkbox" class="group-check custom-sub-check" data-custom-cat="${cat.id}" value="${sub.id}" ${checked}
+                      onchange="updateCustomCatFromSubs('${cat.id}'); updateSelectedBox()">
+                    <span class="check"></span>
+                    <span class="label">${sub.emoji || '👤'} ${sub.name}</span>
+                  </label>
+                `;
+              }).join('')}
+
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  sel.innerHTML = html;
+
+  // اگه گروهی از قبل انتخاب شده، آپدیت کن
+  updateSelectedBox();
+}
+
+// ═══════════════════════════════════════════════════
+// 🔽 کشویی
+// ═══════════════════════════════════════════════════
+function toggleGroupCat(catId) {
+  const el = document.getElementById(catId);
+  const arrow = document.querySelector('.cat-arrow-' + catId);
+  if (!el) return;
+
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+    if (arrow) arrow.style.transform = 'rotate(180deg)';
+  } else {
+    el.style.display = 'none';
+    if (arrow) arrow.style.transform = 'rotate(0)';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// ✅ دسته سفارشی — انتخاب همه
+// ═══════════════════════════════════════════════════
+function toggleCustomCat(catId, isChecked) {
+  document.querySelectorAll(`.custom-sub-check[data-custom-cat="${catId}"]`).forEach(sub => {
+    sub.checked = isChecked;
+  });
+  updateSelectedBox();
+}
+
+function updateCustomCatFromSubs(catId) {
+  const allSubs = document.querySelectorAll(`.custom-sub-check[data-custom-cat="${catId}"]`);
+  const allChecked = Array.from(allSubs).every(s => s.checked);
+  const catCheckbox = document.querySelector(`.group-check[value="__cat__${catId}"]`);
+  if (catCheckbox) catCheckbox.checked = allChecked;
+}
+
+// ═══════════════════════════════════════════════════
+// 🔍 جستجو
+// ═══════════════════════════════════════════════════
+function filterGroups(query) {
+  const q = (query || '').trim().toLowerCase();
+
+  document.querySelectorAll('.checkbox-item').forEach(item => {
+    const name = (item.dataset.name || '').toLowerCase();
+    const key = (item.dataset.key || '').toLowerCase();
+    if (!q || name.includes(q) || key.includes(q)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  // اگه جستجو هست، همه کشویی‌ها رو باز کن
+  if (q) {
+    document.querySelectorAll('.group-cat > div:last-child').forEach(div => {
+      if (div.id) div.style.display = 'block';
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 📋 نمایش انتخاب شده‌ها
+// ═══════════════════════════════════════════════════
+function updateSelectedBox() {
+  const box = document.getElementById('selectedGroupsBox');
+  if (!box) return;
+
+  const selected = getSelectedGroups();
+  if (!selected.length) {
+    box.innerHTML = '<span style="color:#64748b">هنوز گروهی انتخاب نشده</span>';
+    return;
+  }
+
+  const names = selected.map(key => {
+    // گروه عادی
+    if (C.groups[key]) return C.groups[key].emoji + ' ' + C.groups[key].name;
+
+    // دسته سفارشی
+    if (key.startsWith('__cat__')) {
+      const catId = key.substring(7);
+      const cat = customCategories.find(c => c.id === catId);
+      if (cat) return '📢 کل ' + cat.name;
+    }
+
+    // زیرمجموعه سفارشی
+    for (const cat of customCategories) {
+      const sub = (cat.subcategories || []).find(s => s.id === key);
+      if (sub) return (sub.emoji || '👤') + ' ' + sub.name;
+    }
+
+    return key;
+  });
+
+  box.innerHTML = names.map(n =>
+    `<span style="background:#fff; padding:3px 10px; border-radius:999px; border:1px solid #93c5fd;">${n}</span>`
+  ).join('');
+
+  updateSaveBtn();
+}  const sel = document.getElementById('groupSelector');
+
+  const cats = {
     'خانواده': { emoji: '🏡', items: [] },
     'ویژه': { emoji: '🕌', items: [] },
     'استان': { emoji: '🗺', items: [] },
