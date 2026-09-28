@@ -462,6 +462,22 @@
         }
       ],
       "time": "2026-09-28T17:00:57.020Z"
+    },
+    {
+      "id": "5f158b1e-5a1f-41b7-9bc7-bbbac2c623bb",
+      "text": "سشیتسی ینتتسنی سیتسنیاعتی",
+      "groups": [
+        "admin"
+      ],
+      "group": "admin",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-28T17:01:06.685Z"
     }
   ],
   "reactions": [
