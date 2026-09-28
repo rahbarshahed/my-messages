@@ -742,6 +742,127 @@ async function send() {
     });
 
     await putFile(MSG_PATH, b64encodeStr(JSON.stringify(db, null, 2)), sha, 'new message');
+    bar.style.width = '85%';
+
+    // ═══════════════════════════════════════════════════════════
+    // 📤 ارسال اعلان به ntfy
+    // ═══════════════════════════════════════════════════════════
+    setStatus('در حال ارسال اعلان...');
+    var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
+    var notifBody = text || '🖼 عکس جدید';
+    var notifTitle = '📨 پیام جدید در سما';
+    var notifTags = 'bell,envelope';
+    if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
+
+    // جمع‌آوری همه topic های یکتا
+    var allTopics = [];
+
+    // ۱. topic گروه‌ها
+    selected.forEach(function(g) {
+      var grp = window.CONFIG && window.CONFIG.groups && window.CONFIG.groups[g];
+      if (grp && grp.topic) allTopics.push(grp.topic);
+    });
+
+    // ۲. topic افراد اختصاصی
+    personal.forEach(function(p) {
+      if (p && p.topic) allTopics.push(p.topic);
+    });
+
+    // ۳. topic دسته‌های سفارشی
+    custom.forEach(function(c) {
+      if (c && c.topic) allTopics.push(c.topic);
+    });
+
+    // فقط یکتاهاشون
+    allTopics = Array.from(new Set(allTopics));
+
+    console.log('📤 در حال ارسال به topic ها:', allTopics);
+
+    // ارسال موازی به همه topic ها
+    var notifResults = await Promise.all(allTopics.map(function(topic) {
+      return fetch(ntfyBase + '/' + topic, {
+        method: 'POST',
+        headers: {
+          'Title': notifTitle,
+          'Tags': notifTags,
+          'Priority': 'default'
+        },
+        body: notifBody
+      }).then(function(r) {
+        console.log('✅ ' + topic + ' → ' + r.status);
+        return { topic: topic, ok: r.ok, status: r.status };
+      }).catch(function(e) {
+        console.error('❌ ' + topic + ' → ' + e.message);
+        return { topic: topic, ok: false, error: e.message };
+      });
+    }));
+
+    console.log('📊 نتیجه اعلان‌ها:', notifResults);
+
+    bar.style.width = '100%';
+
+    document.getElementById('msg').value = '';
+    imgFile.value = ''; preview.style.display = 'none';
+    var total = selected.length + personal.length + custom.length;
+    var notifOk = notifResults.filter(function(r) { return r.ok; }).length;
+    var notifFail = notifResults.length - notifOk;
+
+    if (notifFail > 0) {
+      setStatus('✅ پیام ثبت شد به ' + total + ' مخاطب | ⚠️ اعلان: ' + notifOk + ' موفق، ' + notifFail + ' ناموفق', 'ok');
+    } else {
+      setStatus('✅ ارسال شد به ' + total + ' مخاطب + ' + notifOk + ' اعلان 📲', 'ok');
+    }
+
+  } catch (e) {
+    setStatus('❌ ' + e.message, 'err');
+  } finally {
+    setTimeout(function() { prog.style.display = 'none'; bar.style.width = '0'; }, 1000);
+  }
+}  if (!getToken()) return setStatus('اول توکن رو وارد کن', 'err');
+
+  var selected = getSelectedGroups();
+  var personal = getSelectedPersonalMembers();
+  var custom = getSelectedCustomTopics();
+  if (!selected.length && !personal.length && !custom.length) {
+    return setStatus('حداقل یه مخاطب انتخاب کن', 'err');
+  }
+
+  var text = document.getElementById('msg').value.trim();
+  var file = imgFile.files[0];
+  if (!text && !file) return setStatus('متن یا عکس لازمه', 'err');
+
+  var prog = document.getElementById('prog');
+  var bar = document.getElementById('progBar');
+  prog.style.display = 'block';
+  bar.style.width = '10%';
+
+  try {
+    var imageUrl = null;
+    if (file) {
+      setStatus('در حال آپلود عکس...');
+      bar.style.width = '40%';
+      imageUrl = await uploadImage(file);
+      bar.style.width = '70%';
+    }
+
+    setStatus('در حال ثبت پیام...');
+    var res = await getFile(MSG_PATH);
+    var sha = res.sha;
+    var db = res.data || { messages: [], reactions: [], replies: [], seen: [] };
+    db.messages = db.messages || []; db.reactions = db.reactions || []; db.replies = db.replies || []; db.seen = db.seen || [];
+
+    db.messages.push({
+      id: crypto.randomUUID(),
+      text: text,
+      groups: selected,
+      group: selected[0] || '__personal__',
+      personalRecipients: personal,
+      customRecipients: custom,
+      time: new Date().toISOString(),
+      image: imageUrl || undefined
+    });
+
+    await putFile(MSG_PATH, b64encodeStr(JSON.stringify(db, null, 2)), sha, 'new message');
     bar.style.width = '100%';
 
     document.getElementById('msg').value = '';
