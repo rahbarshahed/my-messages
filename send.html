@@ -754,31 +754,24 @@ async function send() {
     var notifTags = 'bell,envelope';
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
-    // جمع‌آوری همه topic های یکتا
     var allTopics = [];
 
-    // ۱. topic گروه‌ها
     selected.forEach(function(g) {
       var grp = window.CONFIG && window.CONFIG.groups && window.CONFIG.groups[g];
       if (grp && grp.topic) allTopics.push(grp.topic);
     });
 
-    // ۲. topic افراد اختصاصی
     personal.forEach(function(p) {
       if (p && p.topic) allTopics.push(p.topic);
     });
 
-    // ۳. topic دسته‌های سفارشی
     custom.forEach(function(c) {
       if (c && c.topic) allTopics.push(c.topic);
     });
 
-    // فقط یکتاهاشون
     allTopics = Array.from(new Set(allTopics));
+    console.log('📤 ارسال به topic ها:', allTopics);
 
-    console.log('📤 در حال ارسال به topic ها:', allTopics);
-
-    // ارسال موازی به همه topic ها
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
@@ -797,8 +790,7 @@ async function send() {
       });
     }));
 
-    console.log('📊 نتیجه اعلان‌ها:', notifResults);
-
+    console.log('📊 نتیجه:', notifResults);
     bar.style.width = '100%';
 
     document.getElementById('msg').value = '';
@@ -818,19 +810,7 @@ async function send() {
   } finally {
     setTimeout(function() { prog.style.display = 'none'; bar.style.width = '0'; }, 1000);
   }
-}  if (!getToken()) return setStatus('اول توکن رو وارد کن', 'err');
 }
-
-async function reload() {
-  if (!getToken()) return;
-  try {
-    var res = await getFile(MSG_PATH);
-    var db = res.data;
-    if (!db) return setStatus('messages.json پیدا نشد', 'err');
-    setStatus('📨 ' + (db.messages ? db.messages.length : 0) + ' پیام', 'ok');
-  } catch (e) { setStatus('❌ ' + e.message, 'err'); }
-}
-
 // ───── Reset ─────
 function openResetModal() {
   if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
