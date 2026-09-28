@@ -404,6 +404,20 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-09-28T08:55:45.994Z"
+    },
+    {
+      "id": "e6ff57e1-6a13-4821-907f-20d661a4abee",
+      "text": "سلام سلام تست",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-28T16:39:43.115Z"
     }
   ],
   "reactions": [
