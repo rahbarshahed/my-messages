@@ -819,61 +819,6 @@ async function send() {
     setTimeout(function() { prog.style.display = 'none'; bar.style.width = '0'; }, 1000);
   }
 }  if (!getToken()) return setStatus('اول توکن رو وارد کن', 'err');
-
-  var selected = getSelectedGroups();
-  var personal = getSelectedPersonalMembers();
-  var custom = getSelectedCustomTopics();
-  if (!selected.length && !personal.length && !custom.length) {
-    return setStatus('حداقل یه مخاطب انتخاب کن', 'err');
-  }
-
-  var text = document.getElementById('msg').value.trim();
-  var file = imgFile.files[0];
-  if (!text && !file) return setStatus('متن یا عکس لازمه', 'err');
-
-  var prog = document.getElementById('prog');
-  var bar = document.getElementById('progBar');
-  prog.style.display = 'block';
-  bar.style.width = '10%';
-
-  try {
-    var imageUrl = null;
-    if (file) {
-      setStatus('در حال آپلود عکس...');
-      bar.style.width = '40%';
-      imageUrl = await uploadImage(file);
-      bar.style.width = '70%';
-    }
-
-    setStatus('در حال ثبت پیام...');
-    var res = await getFile(MSG_PATH);
-    var sha = res.sha;
-    var db = res.data || { messages: [], reactions: [], replies: [], seen: [] };
-    db.messages = db.messages || []; db.reactions = db.reactions || []; db.replies = db.replies || []; db.seen = db.seen || [];
-
-    db.messages.push({
-      id: crypto.randomUUID(),
-      text: text,
-      groups: selected,
-      group: selected[0] || '__personal__',
-      personalRecipients: personal,
-      customRecipients: custom,
-      time: new Date().toISOString(),
-      image: imageUrl || undefined
-    });
-
-    await putFile(MSG_PATH, b64encodeStr(JSON.stringify(db, null, 2)), sha, 'new message');
-    bar.style.width = '100%';
-
-    document.getElementById('msg').value = '';
-    imgFile.value = ''; preview.style.display = 'none';
-    var total = selected.length + personal.length + custom.length;
-    setStatus('✅ ارسال شد به ' + total + ' مخاطب! اعلان تا چند لحظه دیگه میاد 📲', 'ok');
-  } catch (e) {
-    setStatus('❌ ' + e.message, 'err');
-  } finally {
-    setTimeout(function() { prog.style.display = 'none'; bar.style.width = '0'; }, 600);
-  }
 }
 
 async function reload() {
