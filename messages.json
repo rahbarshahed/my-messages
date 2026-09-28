@@ -432,6 +432,22 @@
         }
       ],
       "time": "2026-09-28T16:53:24.984Z"
+    },
+    {
+      "id": "00b20912-c1a5-475b-a4b4-5707d19e0242",
+      "text": "سلام تست سوم",
+      "groups": [
+        "admin"
+      ],
+      "group": "admin",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-28T16:53:42.049Z"
     }
   ],
   "reactions": [
