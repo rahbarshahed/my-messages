@@ -189,6 +189,84 @@
         }
       ],
       "time": "2026-09-29T17:28:54.833Z"
+    },
+    {
+      "id": "9be983d2-ef03-4c3e-9a0e-b17e4d245787",
+      "text": "مسئولین محترم امور فرهنگی و اجتماعی \nسلام علیکم\nامیدوارم حال شما خوب باشد \nاین پیام تستی است \nدر صورتی که این پیام را دریافت کردید لطفا پاسخ بدهید تا بازخورد تست شود\n\nنرم افزار در حال تست است \n\nوفقکم الله",
+      "groups": [
+        "rabet_kashan",
+        "rabet_bonab",
+        "rabet_babel",
+        "rabet_kahnoj",
+        "rabet_az_sharghi",
+        "rabet_az_gharbi",
+        "rabet_ardebil",
+        "rabet_esfahan",
+        "rabet_alborz",
+        "rabet_ilam",
+        "rabet_bushehr",
+        "rabet_tehran",
+        "rabet_chaharmahal",
+        "rabet_kh_jonoobi",
+        "rabet_kh_razavi",
+        "rabet_kh_shomali",
+        "rabet_khozestan",
+        "rabet_zanjan",
+        "rabet_semnan",
+        "rabet_sistan",
+        "rabet_fars",
+        "rabet_qazvin",
+        "rabet_qom",
+        "rabet_kordestan",
+        "rabet_kerman",
+        "rabet_kermanshah",
+        "rabet_kohgiluye",
+        "rabet_golestan",
+        "rabet_gilan",
+        "rabet_lorestan",
+        "rabet_mazandaran",
+        "rabet_markazi",
+        "rabet_hormozgan",
+        "rabet_hamedan",
+        "rabet_yazd"
+      ],
+      "group": "rabet_kashan",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "📢 کل اداره",
+          "topic": "chal-v11-edare-h1i2j3"
+        },
+        {
+          "name": "حسین عرفانی",
+          "topic": "chal-v11-hossein-erfani-a1b2"
+        },
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        },
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        },
+        {
+          "name": "سید عباس",
+          "topic": "chal-v11-seyyed-abbas-g7h8"
+        },
+        {
+          "name": "علی کلاته",
+          "topic": "chal-v11-ali-kalate-i9j0"
+        },
+        {
+          "name": "مهدی مختارپور",
+          "topic": "chal-v11-mahdi-mokhtarpour-k1l2"
+        },
+        {
+          "name": "جواد اسماعیلی",
+          "topic": "chal-v11-javad-esmaili-m3n4"
+        }
+      ],
+      "time": "2026-09-29T17:32:19.239Z"
     }
   ],
   "reactions": [
