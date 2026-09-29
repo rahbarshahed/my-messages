@@ -751,10 +751,9 @@ async function send() {
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
     // متن اعلان شامل نام فرستنده و لینک پاسخ
+      // متن اعلان شامل لینک پاسخ
     var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.html';
-var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.html';
-var notifBody = (text || '🖼 عکس جدید') + '\n\n💬 برای پاسخ دادن، لینک زیر را باز کنید:\n' + replyLink;      + '\n\n💬 برای پاسخ دادن لینک زیر را باز کنید:\n'
-      + replyLink;
+    var notifBody = (text || '🖼 عکس جدید') + '\n\n💬 برای پاسخ دادن، لینک زیر را باز کنید:\n' + replyLink;
 
     // جمع‌آوری همه topic ها
     var allTopics = [];
