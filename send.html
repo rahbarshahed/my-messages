@@ -377,6 +377,19 @@ async function loadCustomCategories() {
     customCategories = data.categories || [];
   } catch(e) { console.warn(e); }
 }
+  async function reload() {
+  try {
+    setStatus('در حال بارگیری مجدد...');
+    await loadAllowedMembers();
+    await loadCustomCategories();
+    await loadAll();
+    setStatus('✅ بارگیری شد', 'ok');
+    setTimeout(function() { setStatus(''); }, 2000);
+  } catch(e) {
+    setStatus('❌ ' + e.message, 'err');
+  }
+}
+
 async function loadAll() {
   await loadAllowedMembers();
   await loadCustomCategories();
