@@ -793,18 +793,54 @@ async function send() {
     console.log('📊 نتیجه:', notifResults);
     bar.style.width = '100%';
 
+       // 📤 ارسال اعلان به ntfy
+    setStatus('در حال ارسال اعلان...');
+    bar.style.width = '85%';
+
+    var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
+    var notifBody = text || '🖼 عکس جدید';
+    var notifTitle = '📨 پیام جدید در سما';
+    var notifTags = 'bell,envelope';
+
+    var allTopics = [];
+    selected.forEach(function(g) {
+      var grp = window.CONFIG && window.CONFIG.groups && window.CONFIG.groups[g];
+      if (grp && grp.topic) allTopics.push(grp.topic);
+    });
+    personal.forEach(function(p) {
+      if (p && p.topic) allTopics.push(p.topic);
+    });
+    custom.forEach(function(c) {
+      if (c && c.topic) allTopics.push(c.topic);
+    });
+    allTopics = Array.from(new Set(allTopics));
+    console.log('📤 ارسال به topic ها:', allTopics);
+
+    var notifResults = await Promise.all(allTopics.map(function(topic) {
+      return fetch(ntfyBase + '/' + topic, {
+        method: 'POST',
+        headers: {
+          'Title': notifTitle,
+          'Tags': notifTags,
+          'Priority': 'default'
+        },
+        body: notifBody
+      }).then(function(r) {
+        console.log('✅ ' + topic + ' → ' + r.status);
+        return { ok: r.ok };
+      }).catch(function(e) {
+        console.error('❌ ' + topic + ' → ' + e.message);
+        return { ok: false };
+      });
+    }));
+
+    bar.style.width = '100%';
     document.getElementById('msg').value = '';
     imgFile.value = ''; preview.style.display = 'none';
     var total = selected.length + personal.length + custom.length;
     var notifOk = notifResults.filter(function(r) { return r.ok; }).length;
-    var notifFail = notifResults.length - notifOk;
 
-    if (notifFail > 0) {
-      setStatus('✅ پیام ثبت شد به ' + total + ' مخاطب | ⚠️ اعلان: ' + notifOk + ' موفق، ' + notifFail + ' ناموفق', 'ok');
-    } else {
-      setStatus('✅ ارسال شد به ' + total + ' مخاطب + ' + notifOk + ' اعلان 📲', 'ok');
-    }
-
+    setStatus('✅ ارسال شد به ' + total + ' مخاطب + ' + notifOk + ' اعلان 📲', 'ok');
   } catch (e) {
     setStatus('❌ ' + e.message, 'err');
   } finally {
