@@ -1044,8 +1044,31 @@ document.getElementById('memberModal').addEventListener('click', function(e) {
 
 updateTokenUI();
 loadMembers();
-
+    // 🔓 افشای توابع برای onclick در HTML
+  window.openAddModal = openAddModal;
+  window.saveMember = saveMember;
+  window.generateTopic = generateTopic;
+  window.closeModal = closeModal;
+  window.loadMembers = loadMembers;
+  window.openInviteModal = openInviteModal;
+  window.closeInviteModal = closeInviteModal;
+  window.copyInvite = copyInvite;
+  window.shareEitaa = shareEitaa;
+  window.shareSMS = shareSMS;
+  window.saveToken = saveToken;
+  window.logout = logout;
+  window.selectAll = selectAll;
+  window.selectOstanAndSpecial = selectOstanAndSpecial;
+  window.selectOstanOnly = selectOstanOnly;
+  window.selectSpecialOnly = selectSpecialOnly;
+  window.selectFamilyOnly = selectFamilyOnly;
+  window.selectPersonalOnly = selectPersonalOnly;
+  window.selectCustomOnly = selectCustomOnly;
+  window.clearAll = clearAll;
+  window.openResetModal = openResetModal;
+  window.confirmReset = confirmReset;
 })();
 </script>
+  
 </body>
 </html>
