@@ -267,6 +267,21 @@
         }
       ],
       "time": "2026-09-29T17:32:19.239Z"
+    },
+    {
+      "id": "admin-gVWUqvtTdrQr",
+      "ntfyId": "gVWUqvtTdrQr",
+      "isAdminMessage": true,
+      "text": "سلام دیدم",
+      "image": "",
+      "from": "امیر علی",
+      "phone": "09911453955",
+      "userGroup": "amirali",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-09-29T16:33:39.222Z"
     }
   ],
   "reactions": [
