@@ -297,6 +297,20 @@
       ],
       "group": "__toAdmin__",
       "time": "2026-09-29T16:48:27.065Z"
+    },
+    {
+      "id": "1dbe36d7-23ba-448d-8876-0668d917234b",
+      "text": "ح",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-09-29T18:20:48.805Z"
     }
   ],
   "reactions": [
