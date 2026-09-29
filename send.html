@@ -785,16 +785,17 @@ async function send() {
     allTopics = Array.from(new Set(allTopics));
     console.log('📤 ارسال به topic ها:', allTopics);
 
-    var notifResults = await Promise.all(allTopics.map(function(topic) {
-      return fetch(ntfyBase + '/' + topic, {
-        method: 'POST',
-        headers: {
-          'Tags': notifTags,
-          'Priority': 'default'
-        },
-        body: notifBody
-      }).then(function(r) {
-        console.log('✅ ' + topic + ' → ' + r.status);
+   var notifResults = await Promise.all(allTopics.map(function(topic) {
+  return fetch(ntfyBase + '/' + topic, {
+    method: 'POST',
+    headers: {
+      'Tags': notifTags,
+      'Priority': 'default',
+      'Click': 'https://solimaniashteyani-crypto.github.io/my-messages/index.html',
+      'Actions': 'view, 💬 پاسخ دادن, https://solimaniashteyani-crypto.github.io/my-messages/index.html, clear=true'
+    },
+    body: notifBody
+  })...        console.log('✅ ' + topic + ' → ' + r.status);
         return { topic: topic, ok: r.ok, status: r.status };
       }).catch(function(e) {
         console.error('❌ ' + topic + ' → ' + e.message);
