@@ -522,6 +522,17 @@
         }
       ],
       "time": "2026-09-28T17:02:34.066Z"
+    },
+    {
+      "id": "2d9e3bd9-a117-43a8-81e0-13e2378c30bc",
+      "text": "سلام",
+      "groups": [
+        "admin"
+      ],
+      "group": "admin",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-09-29T02:02:57.336Z"
     }
   ],
   "reactions": [
