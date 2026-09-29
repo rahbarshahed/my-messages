@@ -422,8 +422,18 @@ if (state.filter === 'all') {
       return false;
     });
 
-  } else if (state.filter.startsWith('group:')) {
-    // ─── فیلتر گروه عادی یا زیرشاخه ───
+} else if (state.filter.startsWith('group:')) {
+  const g = state.filter.substring(6);
+  const myName = state.myName || localStorage.getItem('myName') || '';
+
+  list = list.filter(m => {
+    // چک با key مستقیم
+    if (messageMatchesFilter(m, g)) return true;
+    // چک با نام کاربر فعلی
+    if (myName && messageMatchesFilter(m, myName)) return true;
+    return false;
+  });
+}    // ─── فیلتر گروه عادی یا زیرشاخه ───
     const g = state.filter.substring(6);
 
     // ببین آیا این g مربوط به یک زیرشاخه سفارشی است
