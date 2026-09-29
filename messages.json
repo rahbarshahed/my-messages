@@ -799,6 +799,24 @@
         }
       ],
       "time": "2026-09-29T08:13:40.767Z"
+    },
+    {
+      "id": "eb82b2a4-654d-4af6-a4e0-4002987cd574",
+      "text": "12",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        },
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        }
+      ],
+      "time": "2026-09-29T08:22:33.408Z"
     }
   ],
   "reactions": [
