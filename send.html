@@ -832,7 +832,6 @@ var notifTitle = 'New message in Sama';
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
         headers: {
-          'Title': notifTitle,
           'Tags': notifTags,
           'Priority': 'default'
         },
