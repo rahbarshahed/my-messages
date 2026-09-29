@@ -219,13 +219,12 @@ function isUserInCustomSub(subId) {
 }
 
 // ═══════════════════════════════════════════════════════
-// 🔎 آیا این پیام مربوط به این کلید (key) است؟
-//    تطابق هوشمند با name، topic، id و key
+// 🔎 نرمال‌سازی رشته برای مقایسه هوشمند
 // ═══════════════════════════════════════════════════════
 function normalizeStr(s) {
   return String(s || '')
     .toLowerCase()
-    .replace(/[👤🏢🏡🕌🗺👥📁📢🔑💬\s_\-]/g, '') // حذف ایموجی، فاصله، _ و -
+    .replace(/[👤🏢🏡🕌🗺👥📁📢🔑💬\s_\-]/g, '')
     .trim();
 }
 
@@ -235,11 +234,9 @@ function messageMatchesFilter(m, key) {
   const keyNorm = normalizeStr(key);
   if (!keyNorm) return false;
 
-  // چک گروه‌های عادی
   const groups = m.groups || (m.group ? [m.group] : []);
   if (groups.some(g => normalizeStr(g) === keyNorm)) return true;
 
-  // چک customRecipients — با هر فیلد ممکن
   const customs = m.customRecipients || [];
   if (customs.some(c => {
     if (!c) return false;
@@ -251,7 +248,6 @@ function messageMatchesFilter(m, key) {
       });
   })) return true;
 
-  // چک personalRecipients
   const personal = m.personalRecipients || [];
   if (personal.some(p => {
     if (!p) return false;
@@ -355,52 +351,51 @@ function render() {
   let list = state.messages.slice();
 
   // ───── فیلتر ─────
-if (state.filter === 'all') {
-  if (!isAdmin) {
-    const myTopic = state.myPersonalTopic || localStorage.getItem('myPersonalTopic') || '';
-    const myName = state.myName || localStorage.getItem('myName') || '';
+  if (state.filter === 'all') {
+    if (!isAdmin) {
+      const myTopic = state.myPersonalTopic || localStorage.getItem('myPersonalTopic') || '';
+      const myName = state.myName || localStorage.getItem('myName') || '';
 
-    list = list.filter(m => {
-      // ۱. چک گروه‌های عادی
-      const groups = m.groups || (m.group ? [m.group] : []);
-      if (groups.some(g => state.myGroups.includes(g))) return true;
+      list = list.filter(m => {
+        // ۱. چک گروه‌های عادی
+        const groups = m.groups || (m.group ? [m.group] : []);
+        if (groups.some(g => state.myGroups.includes(g))) return true;
 
-      // ۲. چک افراد اختصاصی — با topic یا با نام
-      const personal = m.personalRecipients || [];
-      if (personal.some(p => {
-        if (myTopic && p.topic === myTopic) return true;
-        if (myName && p.name && p.name.trim() === myName.trim()) return true;
-        // چک تطابق جزئی نام (مثلاً «مهدی آشتیانی» با «مهدی سلیمانی آشتیانی»)
-        if (myName && p.name) {
-          const n1 = String(p.name).replace(/[👤🏢\s]/g, '').trim();
-          const n2 = String(myName).replace(/[👤🏢\s]/g, '').trim();
-          if (n1 && n2 && (n1.includes(n2) || n2.includes(n1))) return true;
-        }
+        // ۲. چک افراد اختصاصی — با topic یا با نام
+        const personal = m.personalRecipients || [];
+        if (personal.some(p => {
+          if (myTopic && p.topic === myTopic) return true;
+          if (myName && p.name && p.name.trim() === myName.trim()) return true;
+          if (myName && p.name) {
+            const n1 = String(p.name).replace(/[👤🏢\s]/g, '').trim();
+            const n2 = String(myName).replace(/[👤🏢\s]/g, '').trim();
+            if (n1 && n2 && (n1.includes(n2) || n2.includes(n1))) return true;
+          }
+          return false;
+        })) return true;
+
+        // ۳. چک دسته‌های سفارشی — با topic یا با نام
+        const customs = m.customRecipients || [];
+        if (customs.some(c => {
+          if (myTopic && c.topic === myTopic) return true;
+          if (state.myGroups.includes(c.topic)) return true;
+          if (myName && c.name) {
+            const n1 = String(c.name).replace(/[👤🏢\s]/g, '').trim();
+            const n2 = String(myName).replace(/[👤🏢\s]/g, '').trim();
+            if (n1 && n2 && (n1.includes(n2) || n2.includes(n1))) return true;
+          }
+          return false;
+        })) return true;
+
+        // ۴. اگه پیام برای همه بود، نشون نده
+        if (m.groups && m.groups.length === 0
+            && (!m.personalRecipients || m.personalRecipients.length === 0)
+            && (!m.customRecipients || m.customRecipients.length === 0)) return false;
+
         return false;
-      })) return true;
-
-      // ۳. چک دسته‌های سفارشی — با topic یا با نام
-      const customs = m.customRecipients || [];
-      if (customs.some(c => {
-        if (myTopic && c.topic === myTopic) return true;
-        if (state.myGroups.includes(c.topic)) return true;
-        if (myName && c.name) {
-          const n1 = String(c.name).replace(/[👤🏢\s]/g, '').trim();
-          const n2 = String(myName).replace(/[👤🏢\s]/g, '').trim();
-          if (n1 && n2 && (n1.includes(n2) || n2.includes(n1))) return true;
-        }
-        return false;
-      })) return true;
-
-      // ۴. اگه پیام برای همه بود، نشون نده
-      if (m.groups && m.groups.length === 0
-          && (!m.personalRecipients || m.personalRecipients.length === 0)
-          && (!m.customRecipients || m.customRecipients.length === 0)) return false;
-
-      return false;
-    });
-  }
-} else if (state.filter === 'toAdmin') {
+      });
+    }
+  } else if (state.filter === 'toAdmin') {
     list = list.filter(m => m.isAdminMessage === true);
 
   } else if (state.filter.startsWith('cat:')) {
@@ -411,10 +406,8 @@ if (state.filter === 'all') {
     const subs = cat ? (cat.subcategories || []) : [];
 
     list = list.filter(m => {
-      // با خود دسته چک کن (id و name)
       if (messageMatchesFilter(m, catId)) return true;
       if (catName && messageMatchesFilter(m, catName)) return true;
-      // با همه زیرشاخه‌ها چک کن (id و name)
       for (const sub of subs) {
         if (messageMatchesFilter(m, sub.id)) return true;
         if (sub.name && messageMatchesFilter(m, sub.name)) return true;
@@ -422,18 +415,8 @@ if (state.filter === 'all') {
       return false;
     });
 
-} else if (state.filter.startsWith('group:')) {
-  const g = state.filter.substring(6);
-  const myName = state.myName || localStorage.getItem('myName') || '';
-
-  list = list.filter(m => {
-    // چک با key مستقیم
-    if (messageMatchesFilter(m, g)) return true;
-    // چک با نام کاربر فعلی
-    if (myName && messageMatchesFilter(m, myName)) return true;
-    return false;
-  });
-}    // ─── فیلتر گروه عادی یا زیرشاخه ───
+  } else if (state.filter.startsWith('group:')) {
+    // ─── فیلتر گروه عادی یا زیرشاخه سفارشی ───
     const g = state.filter.substring(6);
 
     // ببین آیا این g مربوط به یک زیرشاخه سفارشی است
