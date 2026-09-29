@@ -763,7 +763,7 @@ async function send() {
     setStatus('در حال ارسال اعلان...');
     var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
     var notifBody = text || '🖼 عکس جدید';
-    var notifTitle = '📨 پیام جدید در سما';
+    var notifTitle = 'New message in Sama';
     var notifTags = 'bell,envelope';
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
@@ -789,7 +789,6 @@ async function send() {
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
         headers: {
-          'Title': notifTitle,
           'Tags': notifTags,
           'Priority': 'default'
         },
@@ -811,7 +810,7 @@ async function send() {
     bar.style.width = '85%';
 
     var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
-    var notifBody = text || '🖼 عکس جدید';
+    var notifBody = (text || '🖼 عکس جدید') + '\n\n📨 پیام جدید در سما';
     var notifTitle = '📨 پیام جدید در سما';
     var notifTags = 'bell,envelope';
 
