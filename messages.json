@@ -577,6 +577,20 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-09-29T02:23:03.974Z"
+    },
+    {
+      "id": "67c3183a-572e-4530-a438-936f52d134e2",
+      "text": "سییسیسیسشیشسیسشیسشی",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-09-29T02:25:53.457Z"
     }
   ],
   "reactions": [
