@@ -345,13 +345,14 @@ function saveToken() {
   reload();
 }
 function logout() {
-  if (!confirm('توکن پاک بشه؟')) return;
+  // بدون confirm — مستقیم پاک کن
   localStorage.removeItem(TOKEN_KEY);
   tokenEl.value = '';
   updateTokenUI();
-  setStatus('');
+  setStatus('✅ توکن پاک شد. لطفاً توکن جدید وارد کن.', 'ok');
+  setTimeout(function() { setStatus(''); }, 3000);
 }
-function updateTokenUI() {
+  function updateTokenUI() {
   var t = getToken();
   document.getElementById('tokenSaved').hidden = !t;
   document.getElementById('tokenForm').hidden = !!t;
