@@ -377,7 +377,7 @@ async function loadCustomCategories() {
     customCategories = data.categories || [];
   } catch(e) { console.warn(e); }
 }
-  async function reload() {
+async function reload() {
   try {
     setStatus('در حال بارگیری مجدد...');
     await loadAllowedMembers();
@@ -396,39 +396,24 @@ async function loadAll() {
   renderGroups();
 }
 
-// ───── تابع کمکی ─────
-function toggleCategory(catKey) {
-  var box = document.querySelector('.category-box[data-cat="' + catKey + '"]');
-  if (box) box.classList.toggle('open');
-}
-
 // ═══════════════════════════════════════════════════════
 // 👑 مدیریت دسته سفارشی
 // ═══════════════════════════════════════════════════════
 function handleCustomCatClick(catCheckbox) {
   var catId = catCheckbox.dataset.customCat;
   var isChecked = catCheckbox.checked;
-
-  // همه زیرمجموعه‌های این دسته
   var subChecks = document.querySelectorAll(
     '.custom-sub-check[data-custom-cat="' + catId + '"]'
   );
-
-  // اگه کل اداره تیک خورد → همه زیرمجموعه‌ها تیک بخورن
-  // اگه کل اداره برداشته شد → همه زیرمجموعه‌ها برداشته بشن
   subChecks.forEach(function(sub) { sub.checked = isChecked; });
 }
 
 function handleCustomSubClick(subCheckbox) {
   var catId = subCheckbox.dataset.customCat;
-
-  // چک کن همه زیرمجموعه‌ها تیک خوردن؟
   var allSubs = document.querySelectorAll(
     '.custom-sub-check[data-custom-cat="' + catId + '"]'
   );
   var allChecked = Array.from(allSubs).every(function(s) { return s.checked; });
-
-  // آپدیت چک‌باکس «کل اداره»
   var catCheckbox = document.querySelector(
     '.custom-cat-check[data-custom-cat="' + catId + '"]'
   );
@@ -468,7 +453,6 @@ function renderGroups() {
 
   var html = '';
 
-  // ═══════ دسته‌های ثابت ═══════
   Object.keys(categories).forEach(function(catKey) {
     var cat = categories[catKey];
     if (!cat.items.length) return;
@@ -504,7 +488,6 @@ function renderGroups() {
     html += '</div></div></div>';
   });
 
-  // ═══════ دسته‌های سفارشی ═══════
   if (customCategories.length) {
     html += '<div style="margin:20px 0 8px; padding-top:16px; border-top:2px dashed var(--purple)"><h4 style="color:var(--purple); font-weight:900; font-size:16px; margin:0 0 12px">🏢 دسته‌های سفارشی</h4></div>';
 
@@ -517,7 +500,6 @@ function renderGroups() {
       html += '</div><span class="category-arrow">◀</span></div>';
       html += '<div class="category-body">';
 
-      // خود دسته
       html += '<label class="checkbox-item custom" style="margin-bottom:10px; background:rgba(124,58,237,.08)">';
       html += '<input type="checkbox" class="group-check custom-cat-check" data-cat="custom-' + cat.id + '" data-custom-cat="' + cat.id + '" data-custom-topic="' + (cat.topic || '') + '" data-custom-name="📢 کل ' + cat.name + '" value="__cat__' + cat.id + '">';
       html += '<span class="check"></span>';
@@ -537,7 +519,6 @@ function renderGroups() {
 
   container.innerHTML = html;
 
-  // ───── رویدادها ─────
   container.querySelectorAll('[data-toggle]').forEach(function(el) {
     el.addEventListener('click', function() {
       var box = el.closest('.category-box');
@@ -708,7 +689,9 @@ async function uploadImage(file) {
   return 'https://raw.githubusercontent.com/' + C.owner + '/' + C.repo + '/' + C.branch + '/' + path;
 }
 
-// ───── ارسال ─────
+// ═══════════════════════════════════════════════════════
+// ارسال
+// ═══════════════════════════════════════════════════════
 async function send() {
   if (!getToken()) return setStatus('اول توکن رو وارد کن', 'err');
 
@@ -758,64 +741,21 @@ async function send() {
     bar.style.width = '85%';
 
     // ═══════════════════════════════════════════════════════════
-    // 📤 ارسال اعلان به ntfy
+    // 📤 ارسال اعلان به ntfy (نسخه نهایی و یکتا)
     // ═══════════════════════════════════════════════════════════
     setStatus('در حال ارسال اعلان...');
     var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
-    var notifBody = text || '🖼 عکس جدید';
-    var notifTitle = 'New message in Sama';
+    var notifTitle = 'پیام جدید در سما';
     var notifTags = 'bell,envelope';
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
-    var allTopics = [];
+    // متن اعلان شامل نام فرستنده و لینک پاسخ
+    var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.html';
+    var notifBody = (text || '🖼 عکس جدید')
+      + '\n\n💬 برای پاسخ دادن لینک زیر را باز کنید:\n'
+      + replyLink;
 
-    selected.forEach(function(g) {
-      var grp = window.CONFIG && window.CONFIG.groups && window.CONFIG.groups[g];
-      if (grp && grp.topic) allTopics.push(grp.topic);
-    });
-
-    personal.forEach(function(p) {
-      if (p && p.topic) allTopics.push(p.topic);
-    });
-
-    custom.forEach(function(c) {
-      if (c && c.topic) allTopics.push(c.topic);
-    });
-
-    allTopics = Array.from(new Set(allTopics));
-    console.log('📤 ارسال به topic ها:', allTopics);
-
-var notifResults = await Promise.all(allTopics.map(function(topic) {
-  return fetch(ntfyBase + '/' + topic, {
-    method: 'POST',
-    headers: {
-      'Tags': notifTags,
-      'Priority': 'default',
-      'Click': 'https://solimaniashteyani-crypto.github.io/my-messages/index.html',
-      'Actions': 'view, 💬 پاسخ دادن, https://solimaniashteyani-crypto.github.io/my-messages/index.html, clear=true'
-    },
-    body: notifBody
-  }).then(function(r) {
-    console.log('✅ ' + topic + ' → ' + r.status);
-    return { topic: topic, ok: r.ok, status: r.status };
-  }).catch(function(e) {
-    console.error('❌ ' + topic + ' → ' + e.message);
-    return { topic: topic, ok: false, error: e.message };
-  });
-}));
-
-    console.log('📊 نتیجه:', notifResults);
-    bar.style.width = '100%';
-
-       // 📤 ارسال اعلان به ntfy
-    setStatus('در حال ارسال اعلان...');
-    bar.style.width = '85%';
-
-    var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
- var notifBody = (text || '🖼 عکس جدید') + '\n\nNew message in Sama';
-var notifTitle = 'New message in Sama';
-    var notifTags = 'bell,envelope';
-
+    // جمع‌آوری همه topic ها
     var allTopics = [];
     selected.forEach(function(g) {
       var grp = window.CONFIG && window.CONFIG.groups && window.CONFIG.groups[g];
@@ -834,20 +774,25 @@ var notifTitle = 'New message in Sama';
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
         headers: {
+          'Title': notifTitle,
           'Tags': notifTags,
-          'Priority': 'default'
+          'Priority': 'default',
+          'Click': replyLink,
+          'Actions': 'view, 💬 پاسخ دادن, ' + replyLink + ', clear=true'
         },
         body: notifBody
       }).then(function(r) {
         console.log('✅ ' + topic + ' → ' + r.status);
-        return { ok: r.ok };
+        return { topic: topic, ok: r.ok, status: r.status };
       }).catch(function(e) {
         console.error('❌ ' + topic + ' → ' + e.message);
-        return { ok: false };
+        return { topic: topic, ok: false, error: e.message };
       });
     }));
 
+    console.log('📊 نتیجه:', notifResults);
     bar.style.width = '100%';
+
     document.getElementById('msg').value = '';
     imgFile.value = ''; preview.style.display = 'none';
     var total = selected.length + personal.length + custom.length;
@@ -860,6 +805,7 @@ var notifTitle = 'New message in Sama';
     setTimeout(function() { prog.style.display = 'none'; bar.style.width = '0'; }, 1000);
   }
 }
+
 // ───── Reset ─────
 function openResetModal() {
   if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
