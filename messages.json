@@ -97,6 +97,17 @@
         }
       ],
       "time": "2026-09-29T11:58:19.622Z"
+    },
+    {
+      "id": "86235e0b-9e81-4a53-bc18-d65cfb2f19c9",
+      "text": "س",
+      "groups": [
+        "friends"
+      ],
+      "group": "friends",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-09-29T17:11:45.834Z"
     }
   ],
   "reactions": [
