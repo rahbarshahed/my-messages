@@ -282,6 +282,21 @@
       ],
       "group": "__toAdmin__",
       "time": "2026-09-29T16:33:39.222Z"
+    },
+    {
+      "id": "admin-CBwLcG0c5xn8",
+      "ntfyId": "CBwLcG0c5xn8",
+      "isAdminMessage": true,
+      "text": "لننن",
+      "image": "",
+      "from": "امیر علی",
+      "phone": "09911453955",
+      "userGroup": "amirali",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-09-29T16:48:27.065Z"
     }
   ],
   "reactions": [
