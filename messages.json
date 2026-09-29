@@ -739,6 +739,20 @@
         }
       ],
       "time": "2026-09-29T05:49:45.522Z"
+    },
+    {
+      "id": "45c44efe-63eb-4d7d-adbd-e6b424c6870f",
+      "text": "یا علی",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-09-29T06:35:36.394Z"
     }
   ],
   "reactions": [
