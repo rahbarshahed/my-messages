@@ -355,27 +355,52 @@ function render() {
   let list = state.messages.slice();
 
   // ───── فیلتر ─────
-  if (state.filter === 'all') {
-    if (!isAdmin) {
-      list = list.filter(m => {
-        const groups = m.groups || (m.group ? [m.group] : []);
-        if (groups.some(g => state.myGroups.includes(g))) return true;
+if (state.filter === 'all') {
+  if (!isAdmin) {
+    const myTopic = state.myPersonalTopic || localStorage.getItem('myPersonalTopic') || '';
+    const myName = state.myName || localStorage.getItem('myName') || '';
 
-        const myTopic = state.myPersonalTopic || localStorage.getItem('myPersonalTopic') || '';
-        if (myTopic && (m.personalRecipients || []).some(p => p.topic === myTopic)) return true;
+    list = list.filter(m => {
+      // ۱. چک گروه‌های عادی
+      const groups = m.groups || (m.group ? [m.group] : []);
+      if (groups.some(g => state.myGroups.includes(g))) return true;
 
-        if ((m.customRecipients || []).some(c =>
-          state.myGroups.includes(c.topic) || c.topic === myTopic
-        )) return true;
-
-        if (m.groups && m.groups.length === 0
-            && (!m.personalRecipients || m.personalRecipients.length === 0)
-            && (!m.customRecipients || m.customRecipients.length === 0)) return false;
-
+      // ۲. چک افراد اختصاصی — با topic یا با نام
+      const personal = m.personalRecipients || [];
+      if (personal.some(p => {
+        if (myTopic && p.topic === myTopic) return true;
+        if (myName && p.name && p.name.trim() === myName.trim()) return true;
+        // چک تطابق جزئی نام (مثلاً «مهدی آشتیانی» با «مهدی سلیمانی آشتیانی»)
+        if (myName && p.name) {
+          const n1 = String(p.name).replace(/[👤🏢\s]/g, '').trim();
+          const n2 = String(myName).replace(/[👤🏢\s]/g, '').trim();
+          if (n1 && n2 && (n1.includes(n2) || n2.includes(n1))) return true;
+        }
         return false;
-      });
-    }
-  } else if (state.filter === 'toAdmin') {
+      })) return true;
+
+      // ۳. چک دسته‌های سفارشی — با topic یا با نام
+      const customs = m.customRecipients || [];
+      if (customs.some(c => {
+        if (myTopic && c.topic === myTopic) return true;
+        if (state.myGroups.includes(c.topic)) return true;
+        if (myName && c.name) {
+          const n1 = String(c.name).replace(/[👤🏢\s]/g, '').trim();
+          const n2 = String(myName).replace(/[👤🏢\s]/g, '').trim();
+          if (n1 && n2 && (n1.includes(n2) || n2.includes(n1))) return true;
+        }
+        return false;
+      })) return true;
+
+      // ۴. اگه پیام برای همه بود، نشون نده
+      if (m.groups && m.groups.length === 0
+          && (!m.personalRecipients || m.personalRecipients.length === 0)
+          && (!m.customRecipients || m.customRecipients.length === 0)) return false;
+
+      return false;
+    });
+  }
+} else if (state.filter === 'toAdmin') {
     list = list.filter(m => m.isAdminMessage === true);
 
   } else if (state.filter.startsWith('cat:')) {
