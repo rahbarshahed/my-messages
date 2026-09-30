@@ -587,6 +587,21 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-09-30T04:02:56.136Z"
+    },
+    {
+      "id": "admin-5NRezpqIADTP",
+      "ntfyId": "5NRezpqIADTP",
+      "isAdminMessage": true,
+      "text": "پاسخ است",
+      "image": "",
+      "from": "امیر علی",
+      "phone": "09911453955",
+      "userGroup": "amirali",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-09-30T03:04:53.603Z"
     }
   ],
   "reactions": [
