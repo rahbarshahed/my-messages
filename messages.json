@@ -576,6 +576,17 @@
         }
       ],
       "time": "2026-09-30T03:30:06.557Z"
+    },
+    {
+      "id": "2e4dd40e-a945-40a0-916b-275a3b38f8db",
+      "text": "سلام تست",
+      "groups": [
+        "khayerin"
+      ],
+      "group": "khayerin",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-09-30T04:02:56.136Z"
     }
   ],
   "reactions": [
