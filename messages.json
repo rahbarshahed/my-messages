@@ -602,6 +602,20 @@
       ],
       "group": "__toAdmin__",
       "time": "2026-09-30T03:04:53.603Z"
+    },
+    {
+      "id": "b71f7c5d-7675-4b9a-810b-5b1c3d5e29e8",
+      "text": "سلام تست",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "جواد اسماعیلی",
+          "topic": "chal-v11-javad-esmaili-m3n4"
+        }
+      ],
+      "time": "2026-09-30T04:29:54.695Z"
     }
   ],
   "reactions": [
