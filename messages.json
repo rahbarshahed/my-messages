@@ -562,6 +562,20 @@
         }
       ],
       "time": "2026-09-30T03:27:05.656Z"
+    },
+    {
+      "id": "0d38afbf-d742-42a2-98de-3b91616ad6c8",
+      "text": "یسیش یسیس",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-09-30T03:30:06.557Z"
     }
   ],
   "reactions": [
