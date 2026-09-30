@@ -357,11 +357,9 @@ function render() {
       const myName = state.myName || localStorage.getItem('myName') || '';
 
       list = list.filter(m => {
-        // ۱. چک گروه‌های عادی
         const groups = m.groups || (m.group ? [m.group] : []);
         if (groups.some(g => state.myGroups.includes(g))) return true;
 
-        // ۲. چک افراد اختصاصی — با topic یا با نام
         const personal = m.personalRecipients || [];
         if (personal.some(p => {
           if (myTopic && p.topic === myTopic) return true;
@@ -374,7 +372,6 @@ function render() {
           return false;
         })) return true;
 
-        // ۳. چک دسته‌های سفارشی — با topic یا با نام
         const customs = m.customRecipients || [];
         if (customs.some(c => {
           if (myTopic && c.topic === myTopic) return true;
@@ -387,7 +384,6 @@ function render() {
           return false;
         })) return true;
 
-        // ۴. اگه پیام برای همه بود، نشون نده
         if (m.groups && m.groups.length === 0
             && (!m.personalRecipients || m.personalRecipients.length === 0)
             && (!m.customRecipients || m.customRecipients.length === 0)) return false;
@@ -399,7 +395,6 @@ function render() {
     list = list.filter(m => m.isAdminMessage === true);
 
   } else if (state.filter.startsWith('cat:')) {
-    // ─── فیلتر دسته سفارشی (اداره، دوستانی، ...) ───
     const catId = state.filter.substring(4);
     const cat = state.customCategories.find(c => String(c.id) === String(catId));
     const catName = cat ? cat.name : '';
@@ -416,10 +411,8 @@ function render() {
     });
 
   } else if (state.filter.startsWith('group:')) {
-    // ─── فیلتر گروه عادی یا زیرشاخه سفارشی ───
     const g = state.filter.substring(6);
 
-    // ببین آیا این g مربوط به یک زیرشاخه سفارشی است
     let subName = '';
     state.customCategories.forEach(cat => {
       (cat.subcategories || []).forEach(sub => {
@@ -938,16 +931,22 @@ async function init() {
     await loadMessages(true);
     subscribeSSE();
     setInterval(() => loadMessages(true), 5 * 60 * 1000);
+
+    // ─── اگر از ntfy آمده با ?reply=1، خودکار پنجره پاسخ را باز کن ───
+    if (new URLSearchParams(location.search).get('reply') === '1') {
+      setTimeout(() => {
+        const firstReply = document.querySelector('.reply-btn');
+        if (firstReply) {
+          firstReply.click();
+          // پاک کردن پارامتر از URL
+          try { history.replaceState(null, '', location.pathname); } catch(e) {}
+        }
+      }, 2500);
+    }
   } catch(e) {
     console.error('init error:', e);
   }
 }
 
 init();
-  if (new URLSearchParams(location.search).get('reply') === '1') {
-  setTimeout(() => {
-    const firstReply = document.querySelector('.reply-btn');
-    if (firstReply) firstReply.click();
-  }, 2000);
-}
 })();
