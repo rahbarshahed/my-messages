@@ -644,6 +644,20 @@
         }
       ],
       "time": "2026-09-30T04:46:16.642Z"
+    },
+    {
+      "id": "bc874f56-d53e-4a94-8391-d1bb4593e9a2",
+      "text": "سلام تست",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "حسین عرفانی",
+          "topic": "chal-v11-hossein-erfani-a1b2"
+        }
+      ],
+      "time": "2026-09-30T10:45:00.335Z"
     }
   ],
   "reactions": [
