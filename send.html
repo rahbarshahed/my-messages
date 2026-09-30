@@ -753,8 +753,7 @@ async function send() {
     // متن اعلان شامل نام فرستنده و لینک پاسخ
       // متن اعلان شامل لینک پاسخ
     var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.html';
-    var notifBody = (text || '🖼 عکس جدید') + '\n\n💬 برای پاسخ دادن، لینک زیر را باز کنید:\n' + replyLink;
-
+var notifBody = (text || 'New image') + '\n\nReply here:\n' + replyLink;
     // جمع‌آوری همه topic ها
     var allTopics = [];
     selected.forEach(function(g) {
