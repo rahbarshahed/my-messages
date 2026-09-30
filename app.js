@@ -944,4 +944,10 @@ async function init() {
 }
 
 init();
+  if (new URLSearchParams(location.search).get('reply') === '1') {
+  setTimeout(() => {
+    const firstReply = document.querySelector('.reply-btn');
+    if (firstReply) firstReply.click();
+  }, 2000);
+}
 })();
