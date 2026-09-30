@@ -322,6 +322,22 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-09-29T18:21:21.424Z"
+    },
+    {
+      "id": "06ce9d9b-5663-48e7-900c-8c2416fd9352",
+      "text": "تست 1000",
+      "groups": [
+        "admin"
+      ],
+      "group": "admin",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-09-30T02:44:50.253Z"
     }
   ],
   "reactions": [
