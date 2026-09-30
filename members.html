@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="fa"> 
+<html dir="rtl" lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -163,21 +163,6 @@
     color:var(--purple);
     border-color:#d8b4fe;
   }
-  .topic-box{
-    margin-bottom:10px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  }
-  .topic-label{color:#7c3aed; font-weight:800; font-size:12px}
-  .topic-code{
-    background:#f3e8ff; padding:5px 12px; border-radius:6px;
-    font-family:monospace; font-size:12px;
-    color:#6d28d9; font-weight:800;
-  }
-  .copy-btn{
-    background:linear-gradient(135deg,#8b5cf6,#7c3aed);
-    color:#fff; border:none; padding:5px 12px;
-    border-radius:8px; cursor:pointer;
-    font-size:12px; font-weight:800; font-family:inherit;
-  }
   .empty{
     text-align:center; padding:60px 20px;
     color:var(--muted); font-size:17px; font-weight:600;
@@ -186,33 +171,23 @@
   .modal-backdrop{
     display:none; position:fixed; inset:0; z-index:100;
     background:rgba(12,30,62,.6); backdrop-filter:blur(6px);
-    justify-content:center; align-items:center; padding:20px; overflow-y:auto;
+    justify-content:center; align-items:center; padding:16px; overflow-y:auto;
   }
-  .modal-backdrop.show{display:flex}
-  
   .modal-backdrop.show{display:flex}
   .modal{
-    background:#fff; border-radius:24px; padding:28px 26px;
-    max-width:600px; width:100%; max-height:90vh; overflow-y:auto;
+    background:#fff; border-radius:20px; padding:24px 22px;
+    max-width:560px; width:100%; max-height:92vh; overflow-y:auto;
     box-shadow:0 24px 80px rgba(12,30,62,.4);
   }
-  .modal h3{font-size:22px; margin:0 0 20px; color:var(--primary-deep); font-weight:900}
-  .modal .field{margin-bottom:18px}
-  .modal label{display:block; margin-bottom:8px; font-size:15px; font-weight:800}
+  .modal h3{font-size:20px; margin:0 0 18px; color:var(--primary-deep); font-weight:900}
+  .modal .field{margin-bottom:14px}
+  .modal label{display:block; margin-bottom:6px; font-size:14px; font-weight:800}
   .modal input{
-    width:100%; padding:14px 18px; background:#f0f7ff;
+    width:100%; padding:13px 16px; background:#f0f7ff;
     border:2.5px solid var(--border); color:var(--text); border-radius:12px;
     font-family:inherit; font-size:16px; font-weight:600;
   }
   .phone-input{font-family:'Courier New',monospace; letter-spacing:3px; text-align:center; font-weight:800; font-size:18px}
-  .topic-row{display:flex; gap:8px}
-  .topic-row input{flex:1; font-family:'Courier New',monospace; font-size:13px; direction:ltr; text-align:left}
-  .topic-gen-btn{
-    padding:14px 18px; border-radius:12px;
-    background:linear-gradient(135deg,#8b5cf6,#7c3aed);
-    color:#fff; border:none; font-family:inherit; font-size:16px; font-weight:800;
-    cursor:pointer; box-shadow:0 6px 18px rgba(139,92,246,.35); white-space:nowrap;
-  }
   .group-selector{
     border:2px solid var(--border); border-radius:14px;
     padding:12px; background:#f8fbff;
@@ -233,8 +208,8 @@
   .checkbox-item input:checked + .check{background:linear-gradient(135deg,#1e40af,#3b82f6); border-color:transparent}
   .checkbox-item input:checked + .check::after{opacity:1}
   .checkbox-item:has(input:checked){background:linear-gradient(135deg,#dbeafe,#bfdbfe); border-color:var(--primary)}
-  .modal .actions{display:flex; gap:10px; margin-top:20px; justify-content:flex-end}
-  .modal .actions button{padding:14px 24px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer; border:none}
+  .modal .actions{display:flex; gap:10px; margin-top:18px; justify-content:flex-end}
+  .modal .actions button{padding:13px 22px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer; border:none}
   .modal .cancel{background:transparent; color:var(--muted); border:2px solid var(--border-strong)}
   .modal .save{background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff; box-shadow:0 6px 18px rgba(30,64,175,.35)}
   .modal .save:disabled{opacity:.5; cursor:not-allowed}
@@ -249,6 +224,29 @@
   }
   .toast.show{transform:translateX(-50%) translateY(0)}
   .toast.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+  @media(max-width:480px){
+    body{padding:16px 12px 40px; font-size:15px}
+    .header .icon{width:64px; height:64px; font-size:30px; border-radius:20px}
+    .header h1{font-size:22px}
+    .card{padding:18px 14px; border-radius:18px}
+    .nav-row{grid-template-columns:1fr; gap:8px}
+    .nav-btn{padding:12px 14px; font-size:14px}
+    .toolbar{gap:8px}
+    .search-input{padding:12px 14px; font-size:14px; min-width:auto; width:100%}
+    .btn-add{padding:12px 18px; font-size:14px; width:100%}
+    .modal-backdrop{padding:8px}
+    .modal{padding:18px 14px; border-radius:16px}
+    .modal h3{font-size:18px; margin-bottom:14px}
+    .modal label{font-size:13px}
+    .modal input{padding:11px 13px; font-size:15px}
+    .checkboxes-grid{grid-template-columns:1fr; gap:5px}
+    .modal .actions{flex-direction:column-reverse; gap:8px}
+    .modal .actions button{width:100%; padding:13px}
+    .icon-btn{width:34px; height:34px; font-size:14px}
+    .member-card{padding:14px 14px}
+    .member-name{font-size:16px}
+    .member-name .avatar{width:38px; height:38px; font-size:17px}
+  }
 </style>
 </head>
 <body>
@@ -295,7 +293,6 @@
   </div>
 </div>
 
-<!-- مودال افزودن/ویرایش -->
 <div class="modal-backdrop" id="memberModal">
   <div class="modal">
     <h3 id="modalTitle">➕ افزودن عضو جدید</h3>
@@ -315,7 +312,7 @@
       <input type="text" id="memberProvince" placeholder="مثلاً: تهران">
     </div>
 
-        <input type="hidden" id="memberTopic" value="__auto__"> </div>
+    <input type="hidden" id="memberTopic" value="__auto__">
 
     <div class="field">
       <label>📁 گروه‌ها * (حداقل یکی)</label>
@@ -367,9 +364,6 @@ function esc(s) {
   });
 }
 
-// ═══════════════════════════════════════════════════
-// 📋 کپی
-// ═══════════════════════════════════════════════════
 function copyText(text) {
   if (!text) return;
   if (navigator.clipboard) {
@@ -392,50 +386,6 @@ function fallbackCopy(text) {
   document.body.removeChild(ta);
 }
 
-// ═══════════════════════════════════════════════════
-// 🎲 تولید کد اختصاصی
-// ═══════════════════════════════════════════════════
-function generatePersonalTopic(name) {
-  var faToEn = {
-    'ا':'a','ب':'b','پ':'p','ت':'t','ث':'s','ج':'j','چ':'ch','ح':'h','خ':'kh',
-    'د':'d','ذ':'z','ر':'r','ز':'z','ژ':'zh','س':'s','ش':'sh','ص':'s','ض':'z',
-    'ط':'t','ظ':'z','ع':'a','غ':'gh','ف':'f','ق':'gh','ک':'k','گ':'g','ل':'l',
-    'م':'m','ن':'n','و':'v','ه':'h','ی':'y','ء':'','آ':'a','أ':'a','إ':'e',
-    'ئ':'y','ؤ':'o','ة':'h','ي':'y','ك':'k'
-  };
-  var cleanName = (name || 'user').trim().toLowerCase()
-    .replace(/[^\u0600-\u06FF\sa-zA-Z0-9]/g, '')
-    .replace(/\s+/g, '-').trim();
-
-  var enName = '';
-  for (var i = 0; i < cleanName.length; i++) {
-    var ch = cleanName[i];
-    if (/[a-z0-9\-]/.test(ch)) enName += ch;
-    else if (faToEn[ch]) enName += faToEn[ch];
-  }
-  enName = enName.replace(/-+/g, '-').replace(/^-|-$/g, '') || 'user';
-  if (enName.length > 20) enName = enName.substring(0, 20);
-
-  var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  var suffix = '';
-  for (var j = 0; j < 4; j++) suffix += chars[Math.floor(Math.random() * chars.length)];
-
-  return 'chal-v11-' + enName + '-' + suffix;
-}
-
-function generateTopic() {
-  var name = document.getElementById('memberName').value.trim();
-  if (!name) {
-    document.getElementById('modalErr').textContent = '❌ اول نام رو وارد کن';
-    return;
-  }
-  document.getElementById('memberTopic').value = generatePersonalTopic(name);
-  updateSaveBtn();
-}
-
-// ═══════════════════════════════════════════════════
-// 💾 بارگیری
-// ═══════════════════════════════════════════════════
 async function loadCustomCategories() {
   try {
     var res = await fetch(RAW_CATS + '?t=' + Date.now(), { cache: 'no-store' });
@@ -460,9 +410,6 @@ async function loadMembers() {
   }
 }
 
-// ═══════════════════════════════════════════════════
-// 🎨 نمایش اعضا
-// ═══════════════════════════════════════════════════
 function renderMembers() {
   var list = document.getElementById('membersList');
   var search = (document.getElementById('searchInput').value || '').trim();
@@ -518,19 +465,11 @@ function renderMembers() {
         (m.phone ? '<div>📞 <span class="phone">' + esc(m.phone) + '</span></div>' : '') +
         (m.province ? '<div>📍 ' + esc(m.province) + '</div>' : '') +
       '</div>' +
-      (m.personalTopic ? '<div class="topic-box">' +
-        '<span class="topic-label">📱 کد اختصاصی:</span>' +
-        '<code class="topic-code">' + esc(m.personalTopic) + '</code>' +
-        '<button class="copy-btn" onclick="copyText(\'' + esc(m.personalTopic) + '\')">📋 کپی</button>' +
-      '</div>' : '') +
       '<div class="member-groups">' + (groupsHtml || '<span style="color:#94a3b8">بدون گروه</span>') + '</div>' +
     '</div>';
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════
-// 🎯 انتخابگر گروه (کشویی + جستجو)
-// ═══════════════════════════════════════════════════
 function renderGroupSelector(selected) {
   selected = selected || [];
   var sel = document.getElementById('groupSelector');
@@ -549,19 +488,16 @@ function renderGroupSelector(selected) {
 
   var html = '';
 
-  // جستجو
   html += '<div style="margin-bottom:12px">' +
     '<input type="text" id="groupSearch" placeholder="🔍 جستجوی گروه..." ' +
     'style="width:100%; padding:12px 16px; background:#fff; border:2px solid #bfdbfe; color:#0c1e3e; border-radius:12px; font-family:inherit; font-size:15px; box-sizing:border-box; font-weight:600;" ' +
     'oninput="filterGroups(this.value)">' +
   '</div>';
 
-  // کادر انتخاب شده‌ها
   html += '<div id="selectedGroupsBox" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe); border:2px solid #1e40af; border-radius:12px; padding:10px 14px; margin-bottom:12px; font-size:13px; font-weight:700; color:#1e3a8a; min-height:44px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">' +
     '<span style="color:#64748b">هنوز گروهی انتخاب نشده</span>' +
   '</div>';
 
-  // دسته‌های عادی
   Object.keys(cats).forEach(function(catName) {
     var cat = cats[catName];
     if (!cat.items.length) return;
@@ -587,7 +523,6 @@ function renderGroupSelector(selected) {
     html += '</div></div></div>';
   });
 
-  // دسته‌های سفارشی
   if (customCategories.length) {
     customCategories.forEach(function(cat) {
       var catId = 'custom-' + cat.id;
@@ -601,7 +536,6 @@ function renderGroupSelector(selected) {
       html += '<div id="' + catId + '" style="display:none; padding:12px; background:#faf5ff;">';
       html += '<div class="checkboxes-grid">';
 
-      // کل دسته
       var catChecked = selected.indexOf(catKey) !== -1 ? 'checked' : '';
       html += '<label class="checkbox-item" data-name="کل ' + esc(cat.name) + '" data-key="' + esc(catKey) + '" style="background:rgba(124,58,237,.08)">' +
         '<input type="checkbox" class="group-check" value="' + catKey + '" ' + catChecked + ' onchange="toggleCustomCat(\'' + cat.id + '\', this.checked)">' +
@@ -609,7 +543,6 @@ function renderGroupSelector(selected) {
         '<span class="label">📢 کل ' + cat.name + '</span>' +
       '</label>';
 
-      // زیرمجموعه‌ها
       (cat.subcategories || []).forEach(function(sub) {
         var checked = selected.indexOf(sub.id) !== -1 ? 'checked' : '';
         html += '<label class="checkbox-item" data-name="' + esc(sub.name) + '" data-key="' + esc(sub.id) + '">' +
@@ -711,16 +644,12 @@ function getSelectedGroups() {
 function updateSaveBtn() {
   var name = document.getElementById('memberName').value.trim();
   var phone = document.getElementById('memberPhone').value.trim();
-  var topic = document.getElementById('memberTopic').value.trim();
   var groups = getSelectedGroups();
   var btn = document.getElementById('modalSaveBtn');
-  var ok = name.length >= 2 && /^09\d{9}$/.test(phone) && groups.length > 0 && topic.length > 5;
+  var ok = name.length >= 2 && /^09\d{9}$/.test(phone) && groups.length > 0;
   btn.disabled = !ok;
 }
 
-// ═══════════════════════════════════════════════════
-// ➕ افزودن/ویرایش
-// ═══════════════════════════════════════════════════
 function openAddModal() {
   if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
   editingIndex = -1;
@@ -728,7 +657,7 @@ function openAddModal() {
   document.getElementById('memberName').value = '';
   document.getElementById('memberPhone').value = '';
   document.getElementById('memberProvince').value = '';
-  document.getElementById('memberTopic').value = '';
+  document.getElementById('memberTopic').value = '__auto__';
   document.getElementById('modalErr').textContent = '';
   renderGroupSelector([]);
   updateSaveBtn();
@@ -744,7 +673,7 @@ function editMember(index) {
   document.getElementById('memberName').value = m.name || '';
   document.getElementById('memberPhone').value = m.phone || '';
   document.getElementById('memberProvince').value = m.province || '';
-  document.getElementById('memberTopic').value = m.personalTopic || '';
+  document.getElementById('memberTopic').value = m.personalTopic || '__auto__';
   document.getElementById('modalErr').textContent = '';
   renderGroupSelector(m.groups || []);
   updateSaveBtn();
@@ -760,13 +689,11 @@ async function saveMember() {
   var name = document.getElementById('memberName').value.trim();
   var phone = document.getElementById('memberPhone').value.trim();
   var province = document.getElementById('memberProvince').value.trim();
-  var personalTopic = document.getElementById('memberTopic').value.trim();
   var groups = getSelectedGroups();
 
   if (name.length < 2) return document.getElementById('modalErr').textContent = '❌ نام باید حداقل ۲ حرف باشد';
   if (!/^09\d{9}$/.test(phone)) return document.getElementById('modalErr').textContent = '❌ شماره باید ۱۱ رقم و با ۰۹ شروع شود';
   if (!groups.length) return document.getElementById('modalErr').textContent = '❌ حداقل یک گروه انتخاب کن';
-  if (!personalTopic || personalTopic.length < 5) return document.getElementById('modalErr').textContent = '❌ کد اختصاصی رو با 🎲 بساز';
 
   var dup = members.findIndex(function(m, i) { return m.phone === phone && i !== editingIndex; });
   if (dup >= 0) return document.getElementById('modalErr').textContent = '❌ این شماره قبلاً ثبت شده';
@@ -776,8 +703,13 @@ async function saveMember() {
   btn.disabled = true;
   btn.textContent = '⏳ ذخیره...';
 
-  var newMember = { phone: phone, name: name, groups: groups, personalTopic: personalTopic };
+  var newMember = { phone: phone, name: name, groups: groups };
   if (province) newMember.province = province;
+
+  // نگه‌داشتن کد اختصاصی قدیمی اگر وجود داشته باشد
+  if (editingIndex >= 0 && members[editingIndex] && members[editingIndex].personalTopic) {
+    newMember.personalTopic = members[editingIndex].personalTopic;
+  }
 
   var oldMembers = members.slice();
   if (editingIndex >= 0) members[editingIndex] = newMember;
@@ -814,9 +746,6 @@ async function deleteMember(index) {
   }
 }
 
-// ═══════════════════════════════════════════════════
-// 💾 ذخیره در گیت‌هاب
-// ═══════════════════════════════════════════════════
 async function saveToGitHub(commitMsg) {
   if (!getToken()) throw new Error('توکن موجود نیست');
 
@@ -839,9 +768,6 @@ async function saveToGitHub(commitMsg) {
   if (!putR.ok) throw new Error('ذخیره نشد (' + putR.status + ')');
 }
 
-// ═══════════════════════════════════════════════════
-// 🔑 توکن
-// ═══════════════════════════════════════════════════
 function saveToken() {
   var t = document.getElementById('token').value.trim();
   var msgEl = document.getElementById('tokenMsg');
@@ -878,27 +804,22 @@ function showToast(msg, isError) {
   setTimeout(function() { toast.classList.remove('show'); }, 3500);
 }
 
-// ═══════════════════════════════════════════════════
-// 📱 دعوت‌نامه
-// ═══════════════════════════════════════════════════
 function openInviteModal(index) {
   var m = members[index];
   if (!m) return;
 
   var topics = [];
-  if (m.personalTopic) topics.push({ name: 'شخصی', emoji: '👤', topic: m.personalTopic, personal: true });
-
   (m.groups || []).forEach(function(g) {
     if (C.groups[g]) {
-      topics.push({ name: C.groups[g].name, emoji: C.groups[g].emoji, topic: C.groups[g].topic, personal: false });
+      topics.push({ name: C.groups[g].name, emoji: C.groups[g].emoji, topic: C.groups[g].topic });
     } else if (g.indexOf('__cat__') === 0) {
       var catId = g.substring(7);
       var cat = customCategories.find(function(c) { return c.id === catId; });
-      if (cat && cat.topic) topics.push({ name: 'کل ' + cat.name, emoji: cat.emoji || '📁', topic: cat.topic, personal: false });
+      if (cat && cat.topic) topics.push({ name: 'کل ' + cat.name, emoji: cat.emoji || '📁', topic: cat.topic });
     } else {
       for (var i = 0; i < customCategories.length; i++) {
         var sub = (customCategories[i].subcategories || []).find(function(s) { return s.id === g; });
-        if (sub && sub.topic) { topics.push({ name: sub.name, emoji: sub.emoji || '👤', topic: sub.topic, personal: false }); break; }
+        if (sub && sub.topic) { topics.push({ name: sub.name, emoji: sub.emoji || '👤', topic: sub.topic }); break; }
       }
     }
   });
@@ -923,7 +844,6 @@ function openInviteModal(index) {
 
   var dlg = document.getElementById('inviteModal');
   if (!dlg) {
-    // ساخت مودال دعوت‌نامه
     var newDlg = document.createElement('dialog');
     newDlg.id = 'inviteModal';
     newDlg.style.cssText = 'max-width:600px; padding:28px 26px; border-radius:24px; border:none; box-shadow:0 24px 80px rgba(12,30,62,.4);';
@@ -950,20 +870,15 @@ function openInviteModal(index) {
   document.getElementById('inviteText').value = inviteText;
 
   document.getElementById('inviteTopics').innerHTML = topics.map(function(t) {
-    return '<div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:' + (t.personal ? '#f3e8ff' : '#fff') + '; border-radius:8px; margin-bottom:6px; border:1px solid ' + (t.personal ? '#d8b4fe' : 'transparent') + '; flex-wrap:wrap;">' +
+    return '<div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:#fff; border-radius:8px; margin-bottom:6px; border:1px solid transparent; flex-wrap:wrap;">' +
       '<span style="font-size:18px;">' + t.emoji + '</span>' +
-      '<span style="font-weight:800; font-size:13px; color:' + (t.personal ? '#6d28d9' : '#1e3a8a') + ';">' + t.name + '</span>' +
-      '<code style="background:#fff; padding:4px 10px; border-radius:6px; font-family:monospace; font-size:12px; font-weight:700; color:#0f172a; margin-right:auto;">' + t.topic + '</code>' +
+      '<span style="font-weight:800; font-size:13px; color:#1e3a8a;">' + t.name + '</span>' +
+      '<code style="background:#f0f7ff; padding:4px 10px; border-radius:6px; font-family:monospace; font-size:12px; font-weight:700; color:#0f172a; margin-right:auto;">' + t.topic + '</code>' +
       '<button type="button" onclick="copyText(\'' + t.topic + '\')" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed); color:#fff; border:none; padding:5px 12px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:800; font-family:inherit;">📋</button>' +
     '</div>';
   }).join('');
 
   dlg.showModal();
-}
-
-function closeInviteModal() {
-  var dlg = document.getElementById('inviteModal');
-  if (dlg) dlg.close();
 }
 
 function copyInvite() {
@@ -1000,24 +915,12 @@ function shareSMS() {
   window.location.href = 'sms:' + phone + '?body=' + encodeURIComponent(text);
 }
 
-// ═══════════════════════════════════════════════════
-// 🚀 شروع
-// ═══════════════════════════════════════════════════
 document.getElementById('saveTokenBtn').addEventListener('click', saveToken);
 document.getElementById('searchInput').addEventListener('input', renderMembers);
 
-['memberName', 'memberPhone', 'memberProvince', 'memberTopic'].forEach(function(id) {
+['memberName', 'memberPhone', 'memberProvince'].forEach(function(id) {
   var el = document.getElementById(id);
   if (el) el.addEventListener('input', updateSaveBtn);
-});
-
-document.getElementById('memberName').addEventListener('blur', function() {
-  var name = document.getElementById('memberName').value.trim();
-  var topic = document.getElementById('memberTopic').value.trim();
-  if (name && !topic) {
-    document.getElementById('memberTopic').value = generatePersonalTopic(name);
-    updateSaveBtn();
-  }
 });
 
 document.addEventListener('keydown', function(e) {
@@ -1034,28 +937,27 @@ document.getElementById('memberModal').addEventListener('click', function(e) {
 
 updateTokenUI();
 loadMembers();
-    // 🔓 افشای توابع برای onclick در HTML
-  window.openAddModal = openAddModal;
-  window.saveMember = saveMember; 
-    window.editMember = editMember;
-  window.deleteMember = deleteMember;
-  window.generateTopic = generateTopic;
-  window.closeModal = closeModal;
-  window.loadMembers = loadMembers;
-  window.openInviteModal = openInviteModal;
-  window.closeInviteModal = closeInviteModal;
-  window.copyInvite = copyInvite;
-  window.shareEitaa = shareEitaa;
-  window.shareSMS = shareSMS;
-  window.saveToken = saveToken;
-  window.logout = logout;
 
-    window.toggleGroupCat = toggleGroupCat;
-  window.toggleCustomCat = toggleCustomCat;
-  window.updateSelectedBox = updateSelectedBox;
-  window.filterGroups = filterGroups;
+window.openAddModal = openAddModal;
+window.saveMember = saveMember;
+window.editMember = editMember;
+window.deleteMember = deleteMember;
+window.closeModal = closeModal;
+window.loadMembers = loadMembers;
+window.openInviteModal = openInviteModal;
+window.copyInvite = copyInvite;
+window.shareEitaa = shareEitaa;
+window.shareSMS = shareSMS;
+window.saveToken = saveToken;
+window.logout = logout;
+window.copyText = copyText;
+window.toggleGroupCat = toggleGroupCat;
+window.toggleCustomCat = toggleCustomCat;
+window.updateSelectedBox = updateSelectedBox;
+window.filterGroups = filterGroups;
+
 })();
 </script>
-  
+
 </body>
 </html>
