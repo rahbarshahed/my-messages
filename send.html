@@ -746,14 +746,14 @@ async function send() {
     // ═══════════════════════════════════════════════════════════
     setStatus('در حال ارسال اعلان...');
     var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
-    var notifTitle = 'New message in Sama';
+var notifBody = '';
     var notifTags = 'bell,envelope';
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
     // متن اعلان شامل نام فرستنده و لینک پاسخ
       // متن اعلان شامل لینک پاسخ
-var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.html?reply=1';
-var notifBody = text || 'پیام جدید';
+var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.html?mid=' + crypto.randomUUID();
+    var notifBody = text || 'پیام جدید';
     // جمع‌آوری همه topic ها
     var allTopics = [];
     selected.forEach(function(g) {
@@ -776,7 +776,10 @@ var notifBody = text || 'پیام جدید';
           'Title': notifTitle,
           'Tags': notifTags,
           'Priority': 'default',
-       'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+'Click': replyLink,
+'Title': notifTitle,
+          'Click': replyLink,
         },
         body: notifBody
       }).then(function(r) {
