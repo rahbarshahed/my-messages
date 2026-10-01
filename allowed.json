@@ -227,6 +227,14 @@
         "rabet_mazandaran"
       ],
       "province": "مازندران"
+    },
+    {
+      "phone": "09171984900",
+      "name": "علی اسپید",
+      "groups": [
+        "rabet_hormozgan"
+      ],
+      "province": "هرمزگان"
     }
   ]
 }
