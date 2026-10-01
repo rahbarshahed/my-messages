@@ -1032,6 +1032,21 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-10-01T08:14:15.217Z"
+    },
+    {
+      "id": "admin-K1OrPlhIwiqJ",
+      "ntfyId": "K1OrPlhIwiqJ",
+      "isAdminMessage": true,
+      "text": "پیام رسید",
+      "image": "",
+      "from": "حاج حسین عرفانی شیرآباد",
+      "phone": "09118493298",
+      "userGroup": "edare_hessein",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-10-01T09:04:30.164Z"
     }
   ],
   "reactions": [
