@@ -115,6 +115,14 @@
         "rabet_az_gharbi"
       ],
       "province": "آذربایجان غربی"
+    },
+    {
+      "phone": "09176423262",
+      "name": "علی دانشیان آزاد",
+      "groups": [
+        "rabet_bushehr"
+      ],
+      "province": "بوشهر"
     }
   ]
 }
