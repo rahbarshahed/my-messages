@@ -147,6 +147,14 @@
         "rabet_sistan"
       ],
       "province": "سیستان و بلوچستان"
+    },
+    {
+      "phone": "09179911981",
+      "name": "محمد جواد امیریان",
+      "groups": [
+        "rabet_fars"
+      ],
+      "province": "فارس"
     }
   ]
 }
