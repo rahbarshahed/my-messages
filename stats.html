@@ -680,17 +680,26 @@ function renderMessageCard(m) {
   const groupName = group ? group.emoji + ' ' + group.name : '—';
 
   const seen = (db.seen || []).filter(s => s.messageId === m.id);
-  const seenNames = seen.map(s => s.from);
+ const seenNames = seen.map(s => s.from);
+const seenPhones = seen.map(s => s.phone).filter(Boolean);
 
-  const members = membersDb.members.filter(mb => mb.group === m.group);
-
+const members = membersDb.members.filter(mb => mb.group === m.group);
   let seenSection = '';
 
   if (members.length) {
-    const seenCount = members.filter(mb =>
-      seenNames.includes(mb.fullName) || seenNames.includes(mb.firstName)
-    ).length;
-
+    const seenCount = members.filter(mb => {
+  // ۱. تطابق با نام
+  if (seenNames.includes(mb.fullName) || seenNames.includes(mb.firstName)) return true;
+  // ۲. تطابق با شماره
+  if (mb.phone && seenPhones.includes(mb.phone)) return true;
+  // ۳. تطابق جزئی نام (مثلاً «مهدی آشتیانی» در «مهدی سلیمانی آشتیانی»)
+  return seenNames.some(sn => {
+    if (!sn || !mb.fullName) return false;
+    const a = String(sn).replace(/[👤🏢\s]/g, '').trim();
+    const b = String(mb.fullName).replace(/[👤🏢\s]/g, '').trim();
+    return a && b && (a.includes(b) || b.includes(a));
+  });
+}).length;
     const pct = Math.round(seenCount / members.length * 100);
 
     seenSection = `
@@ -704,9 +713,17 @@ function renderMessageCard(m) {
         </div>
         <div class="member-list">
           ${members.map(mb => {
-            const seenItem = seen.find(s =>
-              s.from === mb.fullName || s.from === mb.firstName
-            );
+           const seenItem = seen.find(s => {
+  if (s.from === mb.fullName || s.from === mb.firstName) return true;
+  if (mb.phone && s.phone === mb.phone) return true;
+  if (s.from && mb.fullName) {
+    const a = String(s.from).replace(/[👤🏢\s]/g, '').trim();
+    const b = String(mb.fullName).replace(/[👤🏢\s]/g, '').trim();
+    if (a && b && (a.includes(b) || b.includes(a))) return true;
+  }
+  return false;
+});
+            
             const isSeen = !!seenItem;
             const phoneLink = mb.phone
               ? `<a class="phone" href="tel:${esc(mb.phone)}">📞 ${esc(mb.phone)}</a>`
