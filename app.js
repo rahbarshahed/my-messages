@@ -580,6 +580,7 @@ function openReply(mid) {
   q.textContent = m && m.text ? m.text : '[عکس]';
   t.value = '';
   dlg.showModal();
+    addAdminBtnToReply();
   setTimeout(() => t.focus(), 50);
 }
 
@@ -869,6 +870,29 @@ function openAdminMsgDialog() {
   dlg.showModal();
 }
 
+// ═══════════════════════════════════════════════════════
+// 📨 دکمه «پیام به مدیر» در پنجره پاسخ
+// ═══════════════════════════════════════════════════════
+function addAdminBtnToReply() {
+  const dlg = document.getElementById('replyDlg');
+  if (!dlg || dlg.dataset.adminBtnAdded === '1') return;
+  dlg.dataset.adminBtnAdded = '1';
+
+  const menu = dlg.querySelector('menu');
+  if (!menu) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.textContent = '📨 پیام به مدیر';
+  btn.style.cssText = 'background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:#fff; border:none; padding:10px 20px; border-radius:12px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(124,58,237,.35); margin-left:auto;';
+  btn.onclick = () => {
+    try { dlg.close(); } catch(e) {}
+    openAdminMsgDialog();
+  };
+
+  menu.insertBefore(btn, menu.firstChild);
+}
+  
 // ═══════════════════════════════════════════════════════
 // ⚙️ تنظیمات
 // ═══════════════════════════════════════════════════════
