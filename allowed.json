@@ -235,6 +235,14 @@
         "rabet_hormozgan"
       ],
       "province": "هرمزگان"
+    },
+    {
+      "phone": "09356591288",
+      "name": "محمد پور",
+      "groups": [
+        "rabet_hamedan"
+      ],
+      "province": "همدان"
     }
   ]
 }
