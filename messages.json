@@ -974,6 +974,27 @@
       "emoji": "👍",
       "from": "فرهاد عبداللهی",
       "time": "2026-10-01T04:40:03.000Z"
+    },
+    {
+      "id": "rM41WcFh4jYo",
+      "messageId": "216d5bd0-baf5-47ca-9fe7-dae4cb6c0df7",
+      "emoji": "👍",
+      "from": "پرورش",
+      "time": "2026-10-01T06:11:04.000Z"
+    },
+    {
+      "id": "H3OpB1pZVsSC",
+      "messageId": "216d5bd0-baf5-47ca-9fe7-dae4cb6c0df7",
+      "emoji": "👍",
+      "from": "پرورش",
+      "time": "2026-10-01T06:11:06.000Z"
+    },
+    {
+      "id": "Lw9PvDxirl7X",
+      "messageId": "216d5bd0-baf5-47ca-9fe7-dae4cb6c0df7",
+      "emoji": "❤️",
+      "from": "پرورش",
+      "time": "2026-10-01T06:11:28.000Z"
     }
   ],
   "replies": [
@@ -1415,6 +1436,11 @@
       "messageId": "216d5bd0-baf5-47ca-9fe7-dae4cb6c0df7",
       "from": "مهدی سلیمانی آشتیانی",
       "time": "2026-10-01T04:39:58.000Z"
+    },
+    {
+      "messageId": "216d5bd0-baf5-47ca-9fe7-dae4cb6c0df7",
+      "from": "پرورش",
+      "time": "2026-10-01T06:10:50.000Z"
     }
   ]
 }
