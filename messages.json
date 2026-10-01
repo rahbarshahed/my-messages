@@ -1047,6 +1047,17 @@
       ],
       "group": "__toAdmin__",
       "time": "2026-10-01T09:04:30.164Z"
+    },
+    {
+      "id": "bb052f05-76c2-4f56-ba6e-fc5e0c7bf7fe",
+      "text": "سلام تست",
+      "groups": [
+        "friends"
+      ],
+      "group": "friends",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-10-01T10:15:05.065Z"
     }
   ],
   "reactions": [
