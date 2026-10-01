@@ -646,22 +646,33 @@ function observeSeen() {
       if (!e.isIntersecting) return;
       const mid = e.target.dataset.mid;
       if (mid) sendSeen(mid);
-      seenObserver.unobserve(e.target);
+      // ✅ دیگر unobserve نمی‌کنیم — اگر اسم کاربر عوض شد، باز ثبت شود
     });
-  }, { threshold: 0.6 });
+  }, { threshold: 0.4 });   // حساس‌تر (قبلاً 0.6 بود)
   document.querySelectorAll('.card[data-mid]').forEach(c => seenObserver.observe(c));
 }
-
+  
 function sendSeen(messageId) {
-  if (!state.myName || seenSent.has(messageId)) return;
-  seenSent.add(messageId);
-  try { localStorage.setItem('seenSent', JSON.stringify(Array.from(seenSent).slice(-1000))); } catch(e) {}
+  if (!state.myName) return;
+  // کلید یکتا: نام + شماره (اگر شماره باشد)
+  var myPhone = localStorage.getItem('myPhone') || '';
+  var seenKey = messageId + '::' + state.myName + '::' + myPhone;
+  if (seenSent.has(seenKey)) return;
+  seenSent.add(seenKey);
+  try {
+    localStorage.setItem('seenSent', JSON.stringify(Array.from(seenSent).slice(-2000)));
+  } catch(e) {}
   fetch(C.ntfyBase + '/' + C.interactionsTopic, {
     method: 'POST',
-    body: JSON.stringify({ type: 'seen', messageId, from: state.myName })
+    body: JSON.stringify({
+      type: 'seen',
+      messageId: messageId,
+      from: state.myName,
+      phone: myPhone
+    })
   }).catch(() => {});
 }
-
+  
 // ═══════════════════════════════════════════════════════
 // 🔄 SSE
 // ═══════════════════════════════════════════════════════
