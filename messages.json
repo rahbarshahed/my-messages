@@ -1058,6 +1058,17 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-10-01T10:15:05.065Z"
+    },
+    {
+      "id": "13f66eca-b72e-40c6-9b49-22baca28abd4",
+      "text": "تست دوم",
+      "groups": [
+        "friends"
+      ],
+      "group": "friends",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-10-01T10:21:14.013Z"
     }
   ],
   "reactions": [
