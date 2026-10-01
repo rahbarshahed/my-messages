@@ -936,6 +936,36 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-10-01T07:31:52.042Z"
+    },
+    {
+      "id": "admin-q8fmSmRFJzZS",
+      "ntfyId": "q8fmSmRFJzZS",
+      "isAdminMessage": true,
+      "text": "سلام",
+      "image": "",
+      "from": "امیر علی",
+      "phone": "09911453955",
+      "userGroup": "amirali",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-10-01T06:01:53.474Z"
+    },
+    {
+      "id": "admin-Xl1vGkCsFY7P",
+      "ntfyId": "Xl1vGkCsFY7P",
+      "isAdminMessage": true,
+      "text": "سلام",
+      "image": "",
+      "from": "علی دانشیان آزاد",
+      "phone": "09176423262",
+      "userGroup": "rabet_bushehr",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-10-01T07:12:32.960Z"
     }
   ],
   "reactions": [
