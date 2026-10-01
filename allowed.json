@@ -139,6 +139,14 @@
         "rabet_khozestan"
       ],
       "province": "خوزستان"
+    },
+    {
+      "phone": "09153426759",
+      "name": "صادق امینی",
+      "groups": [
+        "rabet_sistan"
+      ],
+      "province": "سیستان و بلوچستان"
     }
   ]
 }
