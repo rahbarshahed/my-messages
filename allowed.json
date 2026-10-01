@@ -187,6 +187,14 @@
         "rabet_kerman"
       ],
       "province": "کرمان"
+    },
+    {
+      "phone": "09192903517",
+      "name": "نصرتی",
+      "groups": [
+        "rabet_kermanshah"
+      ],
+      "province": "کرمانشاه"
     }
   ]
 }
