@@ -99,6 +99,14 @@
         "rabet_ilam"
       ],
       "province": "ایلام"
+    },
+    {
+      "phone": "09149628302",
+      "name": "رشیدی",
+      "groups": [
+        "rabet_az_sharghi"
+      ],
+      "province": "آذربایجان شرقی"
     }
   ]
 }
