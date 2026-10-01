@@ -1069,6 +1069,36 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-10-01T10:21:14.013Z"
+    },
+    {
+      "id": "admin-aRdW5E9cPirl",
+      "ntfyId": "aRdW5E9cPirl",
+      "isAdminMessage": true,
+      "text": "سلام",
+      "image": "",
+      "from": "همسر",
+      "phone": "09195426733",
+      "userGroup": "hamsar",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-10-01T10:16:37.157Z"
+    },
+    {
+      "id": "admin-EmnZaZo59MM6",
+      "ntfyId": "EmnZaZo59MM6",
+      "isAdminMessage": true,
+      "text": "1",
+      "image": "",
+      "from": "مهدی سلیمانی آشتیانی",
+      "phone": "09192946413",
+      "userGroup": "admin",
+      "groups": [
+        "__toAdmin__"
+      ],
+      "group": "__toAdmin__",
+      "time": "2026-10-01T10:18:56.284Z"
     }
   ],
   "reactions": [
