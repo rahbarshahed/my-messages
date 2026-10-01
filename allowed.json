@@ -171,6 +171,14 @@
         "rabet_qom"
       ],
       "province": "قم"
+    },
+    {
+      "phone": "09189839152",
+      "name": "خنجری",
+      "groups": [
+        "rabet_kordestan"
+      ],
+      "province": "کردستان"
     }
   ]
 }
