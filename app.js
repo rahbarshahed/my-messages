@@ -538,15 +538,12 @@ function renderMessageCard(m) {
       (m.text ? '<div class="text">' + esc(m.text) + '</div>' : '') +
       imgHtml +
       '<div class="meta"><span>' + (groupLabels || '—') + '</span><span>' + fmtTime(m.time) + '</span></div>' +
-      '<div class="reactions">' + chips + palette + seenHtml +
-        '<button class="reply-btn" data-mid="' + m.id + '">💬 پاسخ</button>' +
-      '</div>' +
-      '<div style="text-align:center; margin-top:10px; font-size:12px; color:#7c3aed; font-weight:700">💡 اگر پیامی برای شماست، روی دکمه «💬 پاسخ» بزنید</div>' +
+      '<div class="reactions">' + chips + palette + seenHtml + '</div>' +
+      '<button class="reply-btn" data-mid="' + m.id + '" style="width:100%; margin-top:12px; padding:14px 20px; background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:#fff; border:none; border-radius:14px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(124,58,237,.35);">📩 پاسخ به این پیام</button>' +
       repliesHtml +
     '</article>'
   );
 }
-
 // ═══════════════════════════════════════════════════════
 // ❤️ ری‌اکشن
 // ═══════════════════════════════════════════════════════
