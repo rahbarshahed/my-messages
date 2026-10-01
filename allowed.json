@@ -163,6 +163,14 @@
         "rabet_qazvin"
       ],
       "province": "قزوین"
+    },
+    {
+      "phone": "09139965338",
+      "name": "فرهاد عبداللهی",
+      "groups": [
+        "rabet_qom"
+      ],
+      "province": "قم"
     }
   ]
 }
