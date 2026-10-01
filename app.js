@@ -540,10 +540,8 @@ function renderMessageCard(m) {
       '<div class="meta"><span>' + (groupLabels || '—') + '</span><span>' + fmtTime(m.time) + '</span></div>' +
       '<div class="reactions">' + chips + palette + seenHtml +
         '<button class="reply-btn" data-mid="' + m.id + '">💬 پاسخ</button>' +
-          '</div>' +
-      '<div style="text-align:center; margin-top:10px; font-size:12px; color:#7c3aed; font-weight:700">💡 اگر پیامی برای شماست، روی دکمه «💬 پاسخ» بزنید</div>' +
       '</div>' +
-          '</div>' +
+      '<div style="text-align:center; margin-top:10px; font-size:12px; color:#7c3aed; font-weight:700">💡 اگر پیامی برای شماست، روی دکمه «💬 پاسخ» بزنید</div>' +
       repliesHtml +
     '</article>'
   );
