@@ -243,6 +243,14 @@
         "rabet_hamedan"
       ],
       "province": "همدان"
+    },
+    {
+      "phone": "09132513669",
+      "name": "عماد رضایی",
+      "groups": [
+        "rabet_yazd"
+      ],
+      "province": "یزد"
     }
   ]
 }
