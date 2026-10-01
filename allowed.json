@@ -131,6 +131,14 @@
         "rabet_tehran"
       ],
       "province": "تهران"
+    },
+    {
+      "phone": "09057491744",
+      "name": "پیر مرادی",
+      "groups": [
+        "rabet_khozestan"
+      ],
+      "province": "خوزستان"
     }
   ]
 }
