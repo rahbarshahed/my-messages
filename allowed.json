@@ -107,6 +107,14 @@
         "rabet_az_sharghi"
       ],
       "province": "آذربایجان شرقی"
+    },
+    {
+      "phone": "09359535081",
+      "name": "سجاد یکانی",
+      "groups": [
+        "rabet_az_gharbi"
+      ],
+      "province": "آذربایجان غربی"
     }
   ]
 }
