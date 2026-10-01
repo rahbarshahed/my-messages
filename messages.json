@@ -881,6 +881,17 @@
         }
       ],
       "time": "2026-10-01T04:36:37.395Z"
+    },
+    {
+      "id": "e0774991-b0ff-4f87-aab6-8001c39254cc",
+      "text": "سلام",
+      "groups": [
+        "khayerin"
+      ],
+      "group": "khayerin",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-10-01T07:00:11.294Z"
     }
   ],
   "reactions": [
