@@ -541,6 +541,8 @@ function renderMessageCard(m) {
       '<div class="reactions">' + chips + palette + seenHtml +
         '<button class="reply-btn" data-mid="' + m.id + '">💬 پاسخ</button>' +
       '</div>' +
+          '</div>' +
+      '<div style="text-align:center; margin-top:12px; padding:8px 12px; background:linear-gradient(135deg,#eff6ff,#dbeafe); border:1.5px dashed #93c5fd; border-radius:12px; font-size:13px; color:#1e40af; font-weight:700">👇 برای پاسخ روی دکمه «💬 پاسخ» بالا بزنید</div>' +
       repliesHtml +
     '</article>'
   );
