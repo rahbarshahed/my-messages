@@ -123,6 +123,14 @@
         "rabet_bushehr"
       ],
       "province": "بوشهر"
+    },
+    {
+      "phone": "09109271672",
+      "name": "پرورش",
+      "groups": [
+        "rabet_tehran"
+      ],
+      "province": "تهران"
     }
   ]
 }
