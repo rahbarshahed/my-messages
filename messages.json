@@ -1099,6 +1099,17 @@
       ],
       "group": "__toAdmin__",
       "time": "2026-10-01T10:18:56.284Z"
+    },
+    {
+      "id": "1e2f916a-2f03-4172-9c30-2a28baf34f27",
+      "text": "تست دوم",
+      "groups": [
+        "friends"
+      ],
+      "group": "friends",
+      "personalRecipients": [],
+      "customRecipients": [],
+      "time": "2026-10-01T10:53:30.508Z"
     }
   ],
   "reactions": [
