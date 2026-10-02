@@ -779,7 +779,7 @@ var replyLink = 'https://rahbarshahed-crypto.github.io/my-messages/index.html?re
   'Actions': 'view, Reply, ' + replyLink + ', clear=true',
   'Click': replyLink
 }
-         body: notifBody
+         body: notifBody,
       }).then(function(r) {
         console.log('✅ ' + topic + ' → ' + r.status);
         return { topic: topic, ok: r.ok, status: r.status };
