@@ -771,16 +771,17 @@ var replyLink = 'https://rahbarshahed-crypto.github.io/my-messages/index.html?re
 
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
-        method: 'POST',
-       headers: {
-  'Title': 'پیام جدید', // به جای notifTitle یک متن ثابت بذارید
-  'Tags': notifTags,
-  'Priority': 'default',
-  'Actions': 'view, Reply, ' + replyLink + ', clear=true',
-  'Click': replyLink
-}
-         body: notifBody,
-      }).then(function(r) {
+  method: 'POST',
+  headers: {
+    'Title': 'پیام جدید',
+    'Tags': notifTags,
+    'Priority': 'default',
+    'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+    'Click': replyLink
+  },
+  body: notifBody
+}).then(function(r) {
+  // ادامه کد...
         console.log('✅ ' + topic + ' → ' + r.status);
         return { topic: topic, ok: r.ok, status: r.status };
       }).catch(function(e) {
