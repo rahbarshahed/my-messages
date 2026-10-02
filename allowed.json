@@ -291,6 +291,14 @@
         "rabet_mazandaran"
       ],
       "province": "مازندران"
+    },
+    {
+      "phone": "09103313804",
+      "name": "یزد",
+      "groups": [
+        "rabet_yazd"
+      ],
+      "province": "یزد"
     }
   ]
 }
