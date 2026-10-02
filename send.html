@@ -345,14 +345,13 @@ function saveToken() {
   reload();
 }
 function logout() {
-  // بدون confirm — مستقیم پاک کن
   localStorage.removeItem(TOKEN_KEY);
   tokenEl.value = '';
   updateTokenUI();
   setStatus('✅ توکن پاک شد. لطفاً توکن جدید وارد کن.', 'ok');
   setTimeout(function() { setStatus(''); }, 3000);
 }
-  function updateTokenUI() {
+function updateTokenUI() {
   var t = getToken();
   document.getElementById('tokenSaved').hidden = !t;
   document.getElementById('tokenForm').hidden = !!t;
@@ -742,18 +741,16 @@ async function send() {
     bar.style.width = '85%';
 
     // ═══════════════════════════════════════════════════════════
-    // 📤 ارسال اعلان به ntfy (نسخه نهایی و یکتا)
+    // 📤 ارسال اعلان به ntfy
     // ═══════════════════════════════════════════════════════════
     setStatus('در حال ارسال اعلان...');
     var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
-var notifBody = '';
+    var notifBody = text || 'پیام جدید';
     var notifTags = 'bell,envelope';
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
-    // متن اعلان شامل نام فرستنده و لینک پاسخ
-      // متن اعلان شامل لینک پاسخ
-var replyLink = 'https://rahbarshahed-crypto.github.io/my-messages/index.html?reply=1&t=' + Date.now();
-    var notifBody = text || 'پیام جدید';
+    var replyLink = 'https://rahbarshahed.github.io/my-messages/index.html?reply=1&t=' + Date.now();
+
     // جمع‌آوری همه topic ها
     var allTopics = [];
     selected.forEach(function(g) {
@@ -771,17 +768,16 @@ var replyLink = 'https://rahbarshahed-crypto.github.io/my-messages/index.html?re
 
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
-  method: 'POST',
-  headers: {
-    'Title': 'پیام جدید',
-    'Tags': notifTags,
-    'Priority': 'default',
-    'Actions': 'view, Reply, ' + replyLink + ', clear=true',
-    'Click': replyLink
-  },
-  body: notifBody
-}).then(function(r) {
-  // ادامه کد...
+        method: 'POST',
+        headers: {
+          'Title': 'پیام جدید',
+          'Tags': notifTags,
+          'Priority': 'default',
+          'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+          'Click': replyLink
+        },
+        body: notifBody
+      }).then(function(r) {
         console.log('✅ ' + topic + ' → ' + r.status);
         return { topic: topic, ok: r.ok, status: r.status };
       }).catch(function(e) {
