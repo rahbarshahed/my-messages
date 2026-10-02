@@ -772,16 +772,14 @@ var replyLink = 'https://solimaniashteyani-crypto.github.io/my-messages/index.ht
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
-        headers: {
-          'Title': notifTitle,
-          'Tags': notifTags,
-          'Priority': 'default',
-'Actions': 'view, Reply, ' + replyLink + ', clear=true',
-'Click': replyLink,
-'Title': notifTitle,
-          'Click': replyLink,
-        },
-        body: notifBody
+       headers: {
+  'Title': 'پیام جدید', // به جای notifTitle یک متن ثابت بذارید
+  'Tags': notifTags,
+  'Priority': 'default',
+  'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+  'Click': replyLink
+}
+         body: notifBody
       }).then(function(r) {
         console.log('✅ ' + topic + ' → ' + r.status);
         return { topic: topic, ok: r.ok, status: r.status };
