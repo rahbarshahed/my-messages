@@ -1205,6 +1205,20 @@
         }
       ],
       "time": "2026-10-02T18:40:11.478Z"
+    },
+    {
+      "id": "2ceb0e1b-fea9-4f7b-b5c6-5985598b0948",
+      "text": "📤 ارسال به topic ها: ['chal-v11-mahdi-ashtiani-c3d4']0: \"chal-v11-mahdi-ashtiani-c3d4\"length: 1[[Prototype]]: Array(0)",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-10-02T18:47:27.212Z"
     }
   ],
   "reactions": [
