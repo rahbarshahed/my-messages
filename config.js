@@ -1,5 +1,5 @@
 window.CONFIG = {
-  owner: 'rahbarshahed-crypto',
+owner: 'rahbarshahed',
   repo: 'my-messages',
   branch: 'main',
   ntfyBase: 'https://ntfy.sh',
