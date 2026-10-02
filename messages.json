@@ -1152,6 +1152,20 @@
         }
       ],
       "time": "2026-10-01T18:49:47.188Z"
+    },
+    {
+      "id": "dd97d69c-1f2f-4cf3-9766-958041ac59b9",
+      "text": "سلام\nتست ده ها زار و یکم",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-10-02T04:12:06.717Z"
     }
   ],
   "reactions": [
