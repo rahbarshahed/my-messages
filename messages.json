@@ -1275,6 +1275,20 @@
         }
       ],
       "time": "2026-10-03T02:25:21.392Z"
+    },
+    {
+      "id": "2fc3fb05-c757-4dfc-923f-2e1596a1dfdb",
+      "text": "یسشی",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-10-03T02:33:09.057Z"
     }
   ],
   "reactions": [
