@@ -1509,6 +1509,22 @@
         }
       ],
       "time": "2026-10-03T03:54:10.362Z"
+    },
+    {
+      "id": "895af1cf-4ee5-47e8-a129-2fbb4cc555c8",
+      "text": "نتااتال ات",
+      "groups": [
+        "khayerin"
+      ],
+      "group": "khayerin",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-10-03T03:56:43.694Z"
     }
   ],
   "reactions": [
