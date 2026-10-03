@@ -771,11 +771,11 @@ async function send() {
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
-        headers: {
+           headers: {
           'Title': 'New Message',
           'Tags': notifTags,
           'Priority': 'default',
-          'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+          'Actions': 'view, Reply, ' + replyLink + ', clear=true'
         },
         body: notifBody
       }).then(function(r) {
