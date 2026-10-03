@@ -766,11 +766,13 @@ async function send() {
     allTopics = Array.from(new Set(allTopics));
     console.log('📤 ارسال به topic ها:', allTopics);
 
+      // ✅ فقط پیام دوم (با Title فارسی نمی‌شه، پس انگلیسی می‌ذاریم)
+    // ✅ پیام اول حذف شد — فقط یه بار fetch می‌زنیم
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
         headers: {
-          'Title': 'پیام جدید رسیده',
+          'Title': 'New Message',
           'Tags': notifTags,
           'Priority': 'default',
           'Actions': 'view, Reply, ' + replyLink + ', clear=true',
@@ -785,7 +787,6 @@ async function send() {
         return { topic: topic, ok: false, error: e.message };
       });
     }));
-
     console.log('📊 نتیجه:', notifResults);
     bar.style.width = '100%';
 
