@@ -776,7 +776,6 @@ async function send() {
           'Tags': notifTags,
           'Priority': 'default',
           'Actions': 'view, Reply, ' + replyLink + ', clear=true',
-          'Click': replyLink
         },
         body: notifBody
       }).then(function(r) {
