@@ -1465,6 +1465,22 @@
         }
       ],
       "time": "2026-10-03T03:47:22.893Z"
+    },
+    {
+      "id": "2b9abf84-0154-41d7-a95b-b83486dd8b0c",
+      "text": "ککککککککککککککککککککککککککککککککککک",
+      "groups": [
+        "khayerin"
+      ],
+      "group": "khayerin",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-10-03T03:48:53.164Z"
     }
   ],
   "reactions": [
