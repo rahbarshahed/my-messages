@@ -745,11 +745,11 @@ async function send() {
     // ═══════════════════════════════════════════════════════════
     setStatus('در حال ارسال اعلان...');
     var ntfyBase = (window.CONFIG && window.CONFIG.ntfyBase) || 'https://ntfy.sh';
-    var notifBody = text || 'پیام جدید';
+    var notifBody = (text || 'پیام جدید') + '\n\nراهنما: جهت پاسخ به مدیر روی پیام بزنید';
     var notifTags = 'bell,envelope';
     if (imageUrl) notifTags = 'bell,envelope,frame_with_picture';
 
-var replyLink = 'https://rahbarshahed.github.io/my-messages/index.html?reply=1'
+    var replyLink = 'https://rahbarshahed.github.io/my-messages/index.html?reply=1';
 
     // جمع‌آوری همه topic ها
     var allTopics = [];
@@ -770,7 +770,7 @@ var replyLink = 'https://rahbarshahed.github.io/my-messages/index.html?reply=1'
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
         headers: {
-        'Title': 'New Message',
+          'Title': 'New Message',
           'Tags': notifTags,
           'Priority': 'default',
           'Actions': 'view, Reply, ' + replyLink + ', clear=true',
