@@ -1289,6 +1289,20 @@
         }
       ],
       "time": "2026-10-03T02:33:09.057Z"
+    },
+    {
+      "id": "406ec17f-ce32-45f9-a977-e945ef289b3f",
+      "text": "کمال",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        }
+      ],
+      "time": "2026-10-03T02:35:23.735Z"
     }
   ],
   "reactions": [
