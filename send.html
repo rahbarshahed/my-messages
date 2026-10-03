@@ -1,3 +1,697 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>سامانه پیام‌رسان سما — پنل ادمین</title>
+<link rel="manifest" href="admin-manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="پنل ادمین سما">
+<meta name="theme-color" content="#1e40af">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+  :root{
+    --primary:#1e40af; --primary-2:#3b82f6; --primary-deep:#1e3a8a;
+    --text:#0c1e3e; --muted:#64748b; --border:#bfdbfe; --border-strong:#93c5fd;
+    --ok:#16a34a; --err:#dc2626; --card:#fff; --card-soft:#f0f7ff;
+    --purple:#7c3aed;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    font-family:Vazirmatn,system-ui,sans-serif; font-size:17px;
+    background:radial-gradient(1200px 600px at 100% -10%, #93c5fd 0%, transparent 55%),
+      radial-gradient(900px 500px at -10% 110%, #bfdbfe 0%, transparent 55%),
+      linear-gradient(160deg,#dbeafe 0%, #eff6ff 45%, #fff 100%);
+    background-attachment:fixed; color:var(--text);
+    padding:28px 20px 60px; line-height:1.75; min-height:100vh;
+  }
+  .wrap{max-width:860px; margin:0 auto}
+  .header{text-align:center; margin-bottom:24px}
+  .header .icon{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:80px; height:80px; border-radius:24px;
+    background:linear-gradient(135deg,#1e40af,#3b82f6);
+    color:#fff; font-size:38px;
+    box-shadow:0 16px 40px rgba(30,64,175,.35); margin-bottom:14px;
+  }
+  .header h1{
+    font-size:28px; margin:0 0 6px; font-weight:900;
+    background:linear-gradient(135deg,#1e40af,#3b82f6);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .header .subtitle{color:var(--muted); font-size:15px; font-weight:600}
+  .card{
+    background:var(--card); border:1px solid var(--border);
+    border-radius:24px; padding:28px 24px;
+    box-shadow:0 12px 40px rgba(30,64,175,.15), 0 4px 14px rgba(12,30,62,.06);
+    position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:''; position:absolute; top:0; right:0; left:0; height:5px;
+    background:linear-gradient(90deg,#1e40af,#3b82f6,#60a5fa);
+  }
+  .nav-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:22px}
+  @media(max-width:640px){.nav-row{grid-template-columns:1fr}}
+  .nav-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 16px; border-radius:14px;
+    font-family:inherit; font-size:15px; font-weight:800;
+    text-decoration:none; cursor:pointer; border:none;
+    transition:all .25s ease; text-align:center;
+  }
+  .nav-btn.primary{background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff; box-shadow:0 6px 18px rgba(30,64,175,.35)}
+  .nav-btn.ghost{background:var(--card-soft); color:var(--primary-deep); border:2px solid var(--border)}
+  .token-card{
+    background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+    border:2px solid #6ee7b7; border-radius:16px; padding:16px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:14px; flex-wrap:wrap; margin-bottom:22px;
+  }
+  .token-card[hidden]{display:none}
+  .token-card .info{display:flex; align-items:center; gap:10px; font-weight:800; color:#047857; font-size:16px}
+  .token-card .logout-btn{
+    background:transparent; color:#047857; border:2px solid #047857;
+    padding:8px 18px; font-size:14px; font-weight:800; border-radius:10px;
+    font-family:inherit; cursor:pointer;
+  }
+  .token-form[hidden]{display:none}
+  .token-form label{display:block; margin:0 0 10px; font-size:16px; font-weight:800}
+  .token-input{
+    width:100%; padding:16px 20px; background:var(--card-soft);
+    border:2.5px solid var(--border); color:var(--text); border-radius:14px;
+    font-family:inherit; font-size:17px;
+  }
+  .btn-save-token{
+    padding:16px 26px; border-radius:14px;
+    background:linear-gradient(135deg,#1e40af,#3b82f6);
+    color:#fff; border:none; font-family:inherit;
+    font-size:17px; font-weight:800; cursor:pointer;
+    box-shadow:0 6px 18px rgba(30,64,175,.35); white-space:nowrap;
+  }
+  .groups-section{
+    background:var(--card-soft); border:2px solid var(--border);
+    border-radius:18px; padding:20px 22px; margin:24px 0;
+  }
+  .groups-header{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px; padding-bottom:14px;
+    border-bottom:2px dashed var(--border); margin-bottom:16px;
+  }
+  .groups-header h3{margin:0; font-size:19px; font-weight:900; color:var(--primary-deep)}
+  .quick-buttons{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px}
+  .quick-btn{
+    padding:10px 16px; border-radius:12px; font-family:inherit;
+    font-size:14px; font-weight:800; background:#fff; color:var(--primary-deep);
+    border:2px solid var(--border); cursor:pointer; transition:all .2s;
+  }
+  .quick-btn.primary{background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff; border-color:transparent}
+  .quick-btn.clear{color:var(--err); border-color:#fca5a5}
+  .category-box{
+    background:#fff; border:1.5px solid var(--border);
+    border-radius:14px; margin-bottom:10px; overflow:hidden;
+  }
+  .category-box.custom{border:2px dashed var(--purple)}
+  .category-header{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 18px; cursor:pointer;
+    background:linear-gradient(135deg,#f0f7ff,#dbeafe);
+  }
+  .category-box.custom .category-header{background:linear-gradient(135deg,#faf5ff,#f3e8ff)}
+  .category-title{display:flex; align-items:center; gap:10px; font-size:16px; font-weight:900; color:var(--primary-deep)}
+  .category-box.custom .category-title{color:var(--purple)}
+  .category-title .count{background:rgba(30,64,175,.15); color:var(--primary-deep); padding:2px 10px; border-radius:999px; font-size:12px; font-weight:800}
+  .category-box.custom .category-title .count{background:rgba(124,58,237,.15); color:var(--purple)}
+  .category-title .selected-count{background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:2px 10px; border-radius:999px; font-size:12px; font-weight:800; display:none}
+  .category-arrow{font-size:16px; color:var(--primary-deep); transition:transform .3s ease}
+  .category-box.open .category-arrow{transform:rotate(90deg)}
+  .category-body{display:none; padding:14px 18px}
+  .category-box.open .category-body{display:block}
+  .checkboxes-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:8px}
+  .checkbox-item{
+    display:flex; align-items:center; gap:8px; padding:10px 12px;
+    background:var(--card-soft); border:1.5px solid transparent;
+    border-radius:10px; cursor:pointer; font-size:14px; font-weight:600;
+    transition:all .2s ease; user-select:none;
+  }
+  .checkbox-item input{display:none}
+  .checkbox-item .check{
+    width:22px; height:22px; border:2px solid var(--border-strong);
+    border-radius:6px; display:flex; align-items:center; justify-content:center;
+    background:#fff; flex-shrink:0;
+  }
+  .checkbox-item .check::after{content:'✓'; color:#fff; font-weight:900; font-size:14px; opacity:0}
+  .checkbox-item input:checked + .check{background:linear-gradient(135deg,#1e40af,#3b82f6); border-color:transparent}
+  .checkbox-item input:checked + .check::after{opacity:1}
+  .checkbox-item:has(input:checked){background:linear-gradient(135deg,#dbeafe,#bfdbfe); border-color:var(--primary)}
+  .checkbox-item.custom:has(input:checked){background:linear-gradient(135deg,#e9d5ff,#d8b4fe); border-color:var(--purple)}
+  .checkbox-item.custom input:checked + .check{background:linear-gradient(135deg,#7c3aed,#8b5cf6)}
+  .selection-summary{
+    background:linear-gradient(135deg,#dbeafe,#bfdbfe);
+    border:2px solid var(--primary); border-radius:12px;
+    padding:12px 18px; margin-top:14px;
+    font-size:15px; font-weight:800; color:var(--primary-deep); text-align:center;
+  }
+  .selection-summary.empty{background:linear-gradient(135deg,#fef2f2,#fee2e2); border-color:#fca5a5; color:#b91c1c}
+  .field{margin-bottom:24px}
+  .field-label{display:block; margin:0 0 12px; font-size:18px; font-weight:800; color:var(--text)}
+  .field textarea, .field input[type="file"]{
+    width:100%; padding:18px 22px; background:var(--card-soft);
+    border:2.5px solid var(--border); color:var(--text); border-radius:16px;
+    font-family:inherit; font-size:18px;
+  }
+  .field textarea{min-height:140px; line-height:1.8; resize:vertical}
+  .preview{max-width:240px; border-radius:16px; margin-top:16px; display:none}
+  .actions{display:flex; gap:12px; margin-top:24px; flex-wrap:wrap}
+  .btn-main{
+    flex:1; min-width:160px; padding:20px 28px;
+    background:linear-gradient(135deg,#1e40af,#3b82f6); color:#fff;
+    border:none; border-radius:16px; cursor:pointer;
+    font-family:inherit; font-size:20px; font-weight:900;
+    box-shadow:0 10px 26px rgba(30,64,175,.4);
+  }
+  .btn-main:disabled{opacity:.5; cursor:not-allowed}
+  .btn-ghost{
+    padding:18px 26px; background:transparent; color:var(--muted);
+    border:2.5px solid var(--border-strong); border-radius:16px;
+    cursor:pointer; font-family:inherit; font-size:16px; font-weight:800;
+  }
+  .btn-danger{
+    padding:18px 26px; background:linear-gradient(135deg,#ef4444,#dc2626);
+    color:#fff; border:none; border-radius:16px;
+    cursor:pointer; font-family:inherit; font-size:16px; font-weight:800;
+  }
+  .progress{height:8px; background:#dbeafe; border-radius:6px; overflow:hidden; margin-top:20px; display:none}
+  .progress > div{height:100%; background:linear-gradient(90deg,#1e40af,#3b82f6,#1e40af); background-size:200% 100%; width:0; transition:width .3s ease}
+  #status{margin-top:20px; font-size:17px; font-weight:800; min-height:28px; text-align:center}
+  .ok{color:var(--ok)} .err{color:var(--err)}
+  .modal-backdrop{
+    display:none; position:fixed; inset:0; z-index:100;
+    background:rgba(12,30,62,.6); backdrop-filter:blur(6px);
+    justify-content:center; align-items:center; padding:20px;
+  }
+  .modal-backdrop.show{display:flex}
+  .modal{background:#fff; border-radius:24px; padding:28px 26px; max-width:440px; width:100%}
+  .modal h3{font-size:22px; margin:0 0 10px; color:#b91c1c; font-weight:900}
+  .modal .warning-text{color:#64748b; font-size:15px; margin-bottom:20px; line-height:1.7; font-weight:600}
+  .modal label{display:block; margin:14px 0 8px; font-size:15px; font-weight:800}
+  .modal input{width:100%; padding:16px 20px; background:#f0f7ff; border:2.5px solid #bfdbfe; color:#0c1e3e; border-radius:14px; font-family:inherit; font-size:18px; font-weight:700; text-align:center; letter-spacing:8px}
+  .modal .error-msg{color:#dc2626; font-size:14px; font-weight:700; margin-top:10px; text-align:center; min-height:20px}
+  .modal .actions{display:flex; gap:10px; margin-top:22px; justify-content:flex-end}
+  .modal .actions button{padding:13px 24px; border-radius:12px; font-family:inherit; font-size:15px; font-weight:800; cursor:pointer; border:none}
+  .modal .cancel{background:transparent; color:#64748b; border:2px solid #93c5fd}
+  .modal .confirm{background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff}
+  .modal .confirm:disabled{opacity:.4; cursor:not-allowed}
+  .toast{position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(120%); background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:16px 28px; border-radius:16px; font-size:16px; font-weight:800; z-index:200; transition:transform .3s ease}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+  @media(max-width:480px){
+    body{padding:20px 14px 40px; font-size:16px}
+    .header h1{font-size:24px}
+    .card{padding:22px 18px}
+    .nav-row{grid-template-columns:1fr}
+    .checkboxes-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="icon">📤</div>
+    <h1>سامانه پیام‌رسان سما</h1>
+    <div class="subtitle">پنل ادمین — نسخه ۶/۱۱</div>
+  </div>
+
+  <div class="card">
+
+    <div class="nav-row">
+      <a href="./index.html" class="nav-btn primary">🌐 نمایش پیام‌ها</a>
+      <a href="./stats.html" class="nav-btn ghost">📊 صفحه آمار</a>
+      <a href="./members.html" class="nav-btn ghost">👥 مدیریت اعضا</a>
+    </div>
+
+    <div class="token-card" id="tokenSaved" hidden>
+      <div class="info"><span>✅ توکن ذخیره شده — آماده ارسال</span></div>
+      <button class="logout-btn" onclick="logout()">خروج از حساب</button>
+    </div>
+
+    <div class="token-form" id="tokenForm">
+      <label>🔑 توکن گیت‌هاب</label>
+      <input type="password" id="token" class="token-input" placeholder="github_pat_...">
+      <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+        <button class="btn-save-token" id="saveTokenBtn">💾 ذخیره توکن</button>
+        <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:#2563eb; font-size:15px; font-weight:700">از این صفحه بساز ↗</a>
+      </div>
+      <div id="tokenMsg" style="margin-top:14px; font-size:16px; font-weight:700"></div>
+    </div>
+
+    <div class="groups-section">
+      <div class="groups-header">
+        <h3>📁 انتخاب مخاطبین</h3>
+      </div>
+
+      <div class="quick-buttons">
+        <button class="quick-btn primary" id="btnSelectAll">✓ همه</button>
+        <button class="quick-btn primary" id="btnSelectOstanSpecial">✓ همه استان‌ها + ویژه</button>
+        <button class="quick-btn" id="btnSelectOstanOnly">✓ فقط استان‌ها</button>
+        <button class="quick-btn" id="btnSelectSpecialOnly">✓ فقط ویژه</button>
+        <button class="quick-btn" id="btnSelectFamilyOnly">✓ فقط خانواده</button>
+        <button class="quick-btn" id="btnSelectPersonalOnly">✓ فقط افراد</button>
+        <button class="quick-btn" id="btnSelectCustomOnly">✓ فقط دسته‌های سفارشی</button>
+        <button class="quick-btn clear" id="btnClearAll">✗ پاک کردن همه</button>
+      </div>
+
+      <div id="groupsContainer"></div>
+
+      <div class="selection-summary empty" id="selectionSummary">هیچ گروهی انتخاب نشده</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">✍️ متن پیام</label>
+      <textarea id="msg" placeholder="سلام..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">🖼 عکس (اختیاری)</label>
+      <input type="file" id="imgFile" accept="image/*">
+      <img id="preview" class="preview">
+    </div>
+
+    <div class="actions">
+      <button class="btn-main" id="btnSend">ارسال 🚀</button>
+      <button class="btn-ghost" id="btnReload">🔄</button>
+      <button class="btn-danger" id="btnReset">🗑 پاک کردن همه</button>
+    </div>
+
+    <div class="progress" id="prog"><div id="progBar"></div></div>
+    <div id="status"></div>
+
+  </div>
+</div>
+
+<div class="modal-backdrop" id="resetModal">
+  <div class="modal">
+    <h3>🗑 پاک کردن همه پیام‌ها</h3>
+    <div class="warning-text">
+      همه پیام‌ها، ری‌اکشن‌ها، پاسخ‌ها و بازدیدها پاک می‌شن.<br>
+      <b style="color:#16a34a">اعضا و دسته‌ها دست‌نخورده می‌مونن.</b>
+    </div>
+    <label>🔐 رمز امنیتی</label>
+    <input type="password" id="resetPassword" placeholder="••••" maxlength="4" inputmode="numeric">
+    <div class="error-msg" id="resetError"></div>
+    <div class="actions">
+      <button class="cancel" onclick="closeResetModal()">لغو</button>
+      <button class="confirm" id="confirmResetBtn" disabled>🗑 پاک کن</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script>
+(function() {
+'use strict';
+
+var C = window.CONFIG;
+var API = 'https://api.github.com/repos/' + C.owner + '/' + C.repo + '/contents';
+var MSG_PATH = 'messages.json';
+var TOKEN_KEY = 'gh_token';
+var RESET_PASSWORD = '5113';
+var RAW_ALLOWED = 'https://raw.githubusercontent.com/' + C.owner + '/' + C.repo + '/' + C.branch + '/allowed.json';
+var RAW_CATS = 'https://raw.githubusercontent.com/' + C.owner + '/' + C.repo + '/' + C.branch + '/categories.json';
+
+var tokenEl = document.getElementById('token');
+var allowedMembers = [];
+var customCategories = [];
+
+function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+
+// ───── توکن ─────
+function saveToken() {
+  var t = tokenEl.value.trim();
+  var msgEl = document.getElementById('tokenMsg');
+  if (!t) { msgEl.innerHTML = '<span style="color:#dc2626">❌ توکن رو وارد کن</span>'; return; }
+  if (t.indexOf('github_pat_') !== 0 && t.indexOf('ghp_') !== 0) {
+    msgEl.innerHTML = '<span style="color:#dc2626">❌ فرمت اشتباه</span>'; return;
+  }
+  localStorage.setItem(TOKEN_KEY, t);
+  msgEl.innerHTML = '<span style="color:#16a34a">✅ ذخیره شد!</span>';
+  updateTokenUI();
+  reload();
+}
+function logout() {
+  localStorage.removeItem(TOKEN_KEY);
+  tokenEl.value = '';
+  updateTokenUI();
+  setStatus('✅ توکن پاک شد. لطفاً توکن جدید وارد کن.', 'ok');
+  setTimeout(function() { setStatus(''); }, 3000);
+}
+function updateTokenUI() {
+  var t = getToken();
+  document.getElementById('tokenSaved').hidden = !t;
+  document.getElementById('tokenForm').hidden = !!t;
+}
+var setStatus = function(t, cls) {
+  document.getElementById('status').innerHTML = '<span class="' + (cls || '') + '">' + (t || '') + '</span>';
+};
+
+// ───── بارگیری ─────
+async function loadAllowedMembers() {
+  try {
+    var res = await fetch(RAW_ALLOWED + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    var data = await res.json();
+    allowedMembers = data.allowed || [];
+  } catch(e) { console.warn(e); }
+}
+async function loadCustomCategories() {
+  try {
+    var res = await fetch(RAW_CATS + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    var data = await res.json();
+    customCategories = data.categories || [];
+  } catch(e) { console.warn(e); }
+}
+async function reload() {
+  try {
+    setStatus('در حال بارگیری مجدد...');
+    await loadAllowedMembers();
+    await loadCustomCategories();
+    await loadAll();
+    setStatus('✅ بارگیری شد', 'ok');
+    setTimeout(function() { setStatus(''); }, 2000);
+  } catch(e) {
+    setStatus('❌ ' + e.message, 'err');
+  }
+}
+
+async function loadAll() {
+  await loadAllowedMembers();
+  await loadCustomCategories();
+  renderGroups();
+}
+
+// ═══════════════════════════════════════════════════════
+// 👑 مدیریت دسته سفارشی
+// ═══════════════════════════════════════════════════════
+function handleCustomCatClick(catCheckbox) {
+  var catId = catCheckbox.dataset.customCat;
+  var isChecked = catCheckbox.checked;
+  var subChecks = document.querySelectorAll(
+    '.custom-sub-check[data-custom-cat="' + catId + '"]'
+  );
+  subChecks.forEach(function(sub) { sub.checked = isChecked; });
+}
+
+function handleCustomSubClick(subCheckbox) {
+  var catId = subCheckbox.dataset.customCat;
+  var allSubs = document.querySelectorAll(
+    '.custom-sub-check[data-custom-cat="' + catId + '"]'
+  );
+  var allChecked = Array.from(allSubs).every(function(s) { return s.checked; });
+  var catCheckbox = document.querySelector(
+    '.custom-cat-check[data-custom-cat="' + catId + '"]'
+  );
+  if (catCheckbox) catCheckbox.checked = allChecked;
+}
+
+// ═══════════════════════════════════════════════════════
+// 📁 ساخت گروه‌ها
+// ═══════════════════════════════════════════════════════
+function renderGroups() {
+  var container = document.getElementById('groupsContainer');
+
+  var categories = {
+    family:  { name: 'خانواده', emoji: '🏡', open: true,  items: [] },
+    special: { name: 'ویژه',    emoji: '🕌', open: false, items: [] },
+    ostan:   { name: 'استان‌ها', emoji: '🗺', open: false, items: [] },
+    other:   { name: 'سایر',    emoji: '👥', open: true,  items: [] },
+    personal:{ name: 'افراد اختصاصی', emoji: '👤', open: false, items: [], isPersonal: true }
+  };
+  var catMap = { 'خانواده': 'family', 'ویژه': 'special', 'استان': 'ostan', 'سایر': 'other' };
+
+  Object.keys(C.groups).forEach(function(key) {
+    var g = C.groups[key];
+    var catName = g.category || 'سایر';
+    var catKey = catMap[catName] || 'other';
+    categories[catKey].items.push(Object.assign({ key: key }, g));
+  });
+
+  allowedMembers.forEach(function(m, idx) {
+    categories.personal.items.push({
+      key: '__personal__' + idx,
+      name: m.name,
+      personalTopic: m.personalTopic,
+      groups: m.groups || []
+    });
+  });
+
+  var html = '';
+
+  Object.keys(categories).forEach(function(catKey) {
+    var cat = categories[catKey];
+    if (!cat.items.length) return;
+
+    html += '<div class="category-box ' + (cat.open ? 'open' : '') + '" data-cat="' + catKey + '">';
+    html += '<div class="category-header" data-toggle="' + catKey + '">';
+    html += '<div class="category-title">' + cat.emoji + ' ' + cat.name;
+    html += ' <span class="count">' + cat.items.length + '</span>';
+    html += ' <span class="selected-count" id="sel-' + catKey + '">0</span>';
+    html += '</div><span class="category-arrow">◀</span></div>';
+    html += '<div class="category-body"><div class="checkboxes-grid">';
+
+    cat.items.forEach(function(g) {
+      if (cat.isPersonal) {
+        var groupsText = (g.groups || []).map(function(gk) {
+          var gr = C.groups[gk];
+          return gr ? gr.emoji + ' ' + gr.name : '';
+        }).filter(Boolean).join(' + ');
+        html += '<label class="checkbox-item personal-item">';
+        html += '<input type="checkbox" class="group-check personal-check" data-cat="' + catKey + '" data-personal-topic="' + (g.personalTopic || '') + '" data-personal-name="' + g.name + '" value="' + g.key + '">';
+        html += '<span class="check"></span>';
+        html += '<span class="label">👤 <b>' + g.name + '</b><small style="display:block;color:#7c3aed;font-size:11px;font-weight:700">' + (groupsText || 'بدون گروه') + '</small></span>';
+        html += '</label>';
+      } else {
+        html += '<label class="checkbox-item">';
+        html += '<input type="checkbox" class="group-check" data-cat="' + catKey + '" value="' + g.key + '">';
+        html += '<span class="check"></span>';
+        html += '<span class="label">' + g.emoji + ' ' + g.name + '</span>';
+        html += '</label>';
+      }
+    });
+
+    html += '</div></div></div>';
+  });
+
+  if (customCategories.length) {
+    html += '<div style="margin:20px 0 8px; padding-top:16px; border-top:2px dashed var(--purple)"><h4 style="color:var(--purple); font-weight:900; font-size:16px; margin:0 0 12px">🏢 دسته‌های سفارشی</h4></div>';
+
+    customCategories.forEach(function(cat) {
+      html += '<div class="category-box custom" data-cat="custom-' + cat.id + '">';
+      html += '<div class="category-header" data-toggle="custom-' + cat.id + '">';
+      html += '<div class="category-title">' + (cat.emoji || '📁') + ' ' + cat.name;
+      html += ' <span class="count">' + ((cat.subcategories || []).length) + '</span>';
+      html += ' <span class="selected-count" id="sel-custom-' + cat.id + '">0</span>';
+      html += '</div><span class="category-arrow">◀</span></div>';
+      html += '<div class="category-body">';
+
+      html += '<label class="checkbox-item custom" style="margin-bottom:10px; background:rgba(124,58,237,.08)">';
+      html += '<input type="checkbox" class="group-check custom-cat-check" data-cat="custom-' + cat.id + '" data-custom-cat="' + cat.id + '" data-custom-topic="' + (cat.topic || '') + '" data-custom-name="📢 کل ' + cat.name + '" value="__cat__' + cat.id + '">';
+      html += '<span class="check"></span>';
+      html += '<span class="label">📢 کل ' + cat.name + '</span></label>';
+
+      html += '<div class="checkboxes-grid">';
+      (cat.subcategories || []).forEach(function(sub) {
+        html += '<label class="checkbox-item custom">';
+        html += '<input type="checkbox" class="group-check custom-sub-check" data-cat="custom-' + cat.id + '" data-custom-cat="' + cat.id + '" data-custom-topic="' + (sub.topic || '') + '" data-custom-name="' + sub.name + '" value="' + sub.id + '">';
+        html += '<span class="check"></span>';
+        html += '<span class="label">' + (sub.emoji || '👤') + ' ' + sub.name + '</span>';
+        html += '</label>';
+      });
+      html += '</div></div></div>';
+    });
+  }
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('[data-toggle]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var box = el.closest('.category-box');
+      if (box) box.classList.toggle('open');
+    });
+  });
+
+  container.querySelectorAll('.group-check').forEach(function(cb) {
+    cb.addEventListener('change', function() {
+      if (cb.classList.contains('custom-cat-check')) {
+        handleCustomCatClick(cb);
+      } else if (cb.classList.contains('custom-sub-check')) {
+        handleCustomSubClick(cb);
+      }
+      updateSelectionSummary();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// انتخاب‌ها
+// ═══════════════════════════════════════════════════════
+function getSelectedGroups() {
+  return Array.from(document.querySelectorAll('.group-check:checked'))
+    .filter(function(x) {
+      return !x.classList.contains('personal-check')
+          && !x.classList.contains('custom-cat-check')
+          && !x.classList.contains('custom-sub-check');
+    })
+    .map(function(x) { return x.value; });
+}
+
+function getSelectedPersonalMembers() {
+  return Array.from(document.querySelectorAll('.personal-check:checked')).map(function(x) {
+    return { name: x.dataset.personalName, topic: x.dataset.personalTopic };
+  }).filter(function(m) { return m.topic; });
+}
+
+function getSelectedCustomTopics() {
+  return Array.from(document.querySelectorAll('.custom-cat-check:checked, .custom-sub-check:checked')).map(function(x) {
+    return { name: x.dataset.customName || 'سفارشی', topic: x.dataset.customTopic };
+  }).filter(function(c) { return c.topic; });
+}
+
+function updateSelectionSummary() {
+  var selected = getSelectedGroups();
+  var personal = getSelectedPersonalMembers();
+  var custom = getSelectedCustomTopics();
+  var total = selected.length + personal.length + custom.length;
+  var summary = document.getElementById('selectionSummary');
+
+  if (!total) {
+    summary.textContent = 'هیچ گروهی انتخاب نشده';
+    summary.className = 'selection-summary empty';
+  } else {
+    var parts = [];
+    if (selected.length) parts.push(selected.length + ' گروه');
+    if (personal.length) parts.push(personal.length + ' فرد');
+    if (custom.length) parts.push(custom.length + ' سفارشی');
+    summary.textContent = '✓ ' + total + ' انتخاب (' + parts.join(' + ') + ')';
+    summary.className = 'selection-summary';
+  }
+}
+
+// ───── دکمه‌های سریع ─────
+function selectAll() {
+  document.querySelectorAll('.group-check').forEach(function(x) { x.checked = true; });
+  updateSelectionSummary();
+}
+function selectOstanAndSpecial() {
+  document.querySelectorAll('.group-check').forEach(function(x) {
+    if (x.classList.contains('personal-check') || x.classList.contains('custom-cat-check') || x.classList.contains('custom-sub-check')) return;
+    x.checked = (x.dataset.cat === 'special' || x.dataset.cat === 'ostan');
+  });
+  updateSelectionSummary();
+}
+function selectOstanOnly() {
+  document.querySelectorAll('.group-check').forEach(function(x) {
+    if (x.classList.contains('personal-check') || x.classList.contains('custom-cat-check') || x.classList.contains('custom-sub-check')) return;
+    x.checked = (x.dataset.cat === 'ostan');
+  });
+  updateSelectionSummary();
+}
+function selectSpecialOnly() {
+  document.querySelectorAll('.group-check').forEach(function(x) {
+    if (x.classList.contains('personal-check') || x.classList.contains('custom-cat-check') || x.classList.contains('custom-sub-check')) return;
+    x.checked = (x.dataset.cat === 'special');
+  });
+  updateSelectionSummary();
+}
+function selectFamilyOnly() {
+  document.querySelectorAll('.group-check').forEach(function(x) {
+    if (x.classList.contains('personal-check') || x.classList.contains('custom-cat-check') || x.classList.contains('custom-sub-check')) return;
+    x.checked = (x.dataset.cat === 'family');
+  });
+  updateSelectionSummary();
+}
+function selectPersonalOnly() {
+  document.querySelectorAll('.group-check').forEach(function(x) { x.checked = x.classList.contains('personal-check'); });
+  updateSelectionSummary();
+}
+function selectCustomOnly() {
+  document.querySelectorAll('.group-check').forEach(function(x) { x.checked = x.classList.contains('custom-cat-check') || x.classList.contains('custom-sub-check'); });
+  updateSelectionSummary();
+}
+function clearAll() {
+  document.querySelectorAll('.group-check').forEach(function(x) { x.checked = false; });
+  updateSelectionSummary();
+}
+
+// ───── Base64 + File ─────
+function b64decode(b64) {
+  var bin = atob(b64.replace(/\n/g, ''));
+  return new TextDecoder().decode(Uint8Array.from(bin, function(c) { return c.charCodeAt(0); }));
+}
+function b64encodeStr(s) {
+  var bytes = new TextEncoder().encode(s);
+  var bin = '';
+  for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+function fileToBase64(file) {
+  return new Promise(function(res, rej) {
+    var r = new FileReader();
+    r.onload = function() { res(r.result.split(',')[1]); };
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+var imgFile = document.getElementById('imgFile');
+var preview = document.getElementById('preview');
+imgFile.onchange = function() {
+  var f = imgFile.files[0];
+  if (!f) { preview.style.display = 'none'; return; }
+  preview.src = URL.createObjectURL(f);
+  preview.style.display = 'block';
+};
+
+// ───── API ─────
+async function getFile(path) {
+  var r = await fetch(API + '/' + path + '?t=' + Date.now(), {
+    headers: { Authorization: 'token ' + getToken() }
+  });
+  if (r.status === 404) return { sha: null, data: null };
+  if (r.status === 401) throw new Error('401 — توکن منقضی');
+  if (!r.ok) throw new Error('خطا (' + r.status + ')');
+  var j = await r.json();
+  return { sha: j.sha, data: JSON.parse(b64decode(j.content)) };
+}
+async function putFile(path, base64Content, sha, commitMsg) {
+  var body = { message: commitMsg, content: base64Content };
+  if (sha) body.sha = sha;
+  var r = await fetch(API + '/' + path, {
+    method: 'PUT',
+    headers: { Authorization: 'token ' + getToken(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error('آپدیت نشد (' + r.status + ')');
+  return r.json();
+}
+async function uploadImage(file) {
+  var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  var filename = crypto.randomUUID() + '.' + ext;
+  var path = 'images/' + filename;
+  var b64 = await fileToBase64(file);
+  await putFile(path, b64, null, 'upload image');
+  return 'https://raw.githubusercontent.com/' + C.owner + '/' + C.repo + '/' + C.branch + '/' + path;
+}
+
+// ═══════════════════════════════════════════════════════
+// ارسال
+// ═══════════════════════════════════════════════════════
 async function send() {
   if (!getToken()) return setStatus('اول توکن رو وارد کن', 'err');
 
@@ -105,3 +799,93 @@ async function send() {
     setTimeout(function() { prog.style.display = 'none'; bar.style.width = '0'; }, 1000);
   }
 }
+
+// ───── Reset ─────
+function openResetModal() {
+  if (!getToken()) { showToast('❌ اول توکن رو وارد کن', true); return; }
+  document.getElementById('resetPassword').value = '';
+  document.getElementById('resetError').textContent = '';
+  document.getElementById('confirmResetBtn').disabled = true;
+  document.getElementById('resetModal').classList.add('show');
+  setTimeout(function() { document.getElementById('resetPassword').focus(); }, 100);
+}
+function closeResetModal() { document.getElementById('resetModal').classList.remove('show'); }
+
+async function confirmReset() {
+  var pass = document.getElementById('resetPassword').value.trim();
+  if (pass !== RESET_PASSWORD) return;
+  var btn = document.getElementById('confirmResetBtn');
+  btn.disabled = true; btn.textContent = '⏳...';
+  try {
+    var token = getToken();
+    var emptyDb = { messages: [], reactions: [], replies: [], seen: [] };
+    var r = await fetch(API + '/' + MSG_PATH + '?t=' + Date.now(), { headers: { Authorization: 'token ' + token } });
+    if (!r.ok) throw new Error('خطا');
+    var j = await r.json();
+    await fetch(API + '/' + MSG_PATH, {
+      method: 'PUT',
+      headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'reset all messages',
+        content: b64encodeStr(JSON.stringify(emptyDb, null, 2)),
+        sha: j.sha
+      })
+    });
+    localStorage.removeItem('seenSent'); localStorage.removeItem('feedLimit');
+    closeResetModal(); showToast('✅ پاک شد!');
+    setTimeout(function() { reload(); }, 800);
+  } catch (e) {
+    document.getElementById('resetError').textContent = '❌ ' + e.message;
+    btn.disabled = false; btn.textContent = '🗑 پاک کن';
+  }
+}
+
+function showToast(msg, isError) {
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show' + (isError ? ' err' : '');
+  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+// ───── اتصال رویدادها ─────
+document.getElementById('saveTokenBtn').addEventListener('click', saveToken);
+document.getElementById('btnSelectAll').addEventListener('click', selectAll);
+document.getElementById('btnSelectOstanSpecial').addEventListener('click', selectOstanAndSpecial);
+document.getElementById('btnSelectOstanOnly').addEventListener('click', selectOstanOnly);
+document.getElementById('btnSelectSpecialOnly').addEventListener('click', selectSpecialOnly);
+document.getElementById('btnSelectFamilyOnly').addEventListener('click', selectFamilyOnly);
+document.getElementById('btnSelectPersonalOnly').addEventListener('click', selectPersonalOnly);
+document.getElementById('btnSelectCustomOnly').addEventListener('click', selectCustomOnly);
+document.getElementById('btnClearAll').addEventListener('click', clearAll);
+document.getElementById('btnSend').addEventListener('click', send);
+document.getElementById('btnReload').addEventListener('click', reload);
+document.getElementById('btnReset').addEventListener('click', openResetModal);
+
+document.getElementById('resetPassword').addEventListener('input', function(e) {
+  var val = e.target.value.trim();
+  var btn = document.getElementById('confirmResetBtn');
+  var err = document.getElementById('resetError');
+  if (val.length === 0) { btn.disabled = true; err.textContent = ''; }
+  else if (val === RESET_PASSWORD) { btn.disabled = false; err.textContent = '✅ رمز صحیح'; err.style.color = '#16a34a'; }
+  else { btn.disabled = true; err.textContent = '❌ رمز اشتباه'; err.style.color = '#dc2626'; }
+});
+
+document.getElementById('confirmResetBtn').addEventListener('click', confirmReset);
+document.getElementById('resetModal').addEventListener('click', function(e) {
+  if (e.target.id === 'resetModal') closeResetModal();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeResetModal();
+});
+
+// ───── شروع ─────
+tokenEl.value = getToken() || '';
+updateTokenUI();
+loadAll();
+if (getToken()) reload();
+
+})();
+</script>
+</body>
+</html>
