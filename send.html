@@ -768,14 +768,16 @@ async function send() {
 
       // ✅ فقط پیام دوم (با Title فارسی نمی‌شه، پس انگلیسی می‌ذاریم)
     // ✅ پیام اول حذف شد — فقط یه بار fetch می‌زنیم
+     // ✅ فقط یه بار پیام می‌فرستیم — تموم شد!
     var notifResults = await Promise.all(allTopics.map(function(topic) {
       return fetch(ntfyBase + '/' + topic, {
         method: 'POST',
-           headers: {
+        headers: {
           'Title': 'New Message',
           'Tags': notifTags,
           'Priority': 'default',
-          'Actions': 'view, Reply, ' + replyLink + ', clear=true'
+          'Actions': 'view, Reply, ' + replyLink + ', clear=true',
+          'Click': replyLink
         },
         body: notifBody
       }).then(function(r) {
@@ -785,8 +787,7 @@ async function send() {
         console.error('❌ ' + topic + ' → ' + e.message);
         return { topic: topic, ok: false, error: e.message };
       });
-    }));
-    console.log('📊 نتیجه:', notifResults);
+    }));    console.log('📊 نتیجه:', notifResults);
     bar.style.width = '100%';
 
     document.getElementById('msg').value = '';
