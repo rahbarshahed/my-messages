@@ -1561,6 +1561,48 @@
       "personalRecipients": [],
       "customRecipients": [],
       "time": "2026-10-03T11:28:39.588Z"
+    },
+    {
+      "id": "c17a7e95-0c53-403b-90bb-69cf351e85f4",
+      "text": "سلام علیکم \nعرض ادب خدمت همکاران عزیز\nاز این پس با خیال راحت استخاره بگیرید \nهدیه امشب من به شما، سامانه استخاره است \nسامانه در تبلیغ تخصصی ۲ بارگزاری شده است",
+      "groups": [],
+      "group": "__personal__",
+      "personalRecipients": [],
+      "customRecipients": [
+        {
+          "name": "📢 کل اداره",
+          "topic": "chal-v11-edare-h1i2j3"
+        },
+        {
+          "name": "حسین عرفانی",
+          "topic": "chal-v11-hossein-erfani-a1b2"
+        },
+        {
+          "name": "مهدی آشتیانی",
+          "topic": "chal-v11-mahdi-ashtiani-c3d4"
+        },
+        {
+          "name": "کاظم مرادی",
+          "topic": "chal-v11-kazem-moradi-e5f6"
+        },
+        {
+          "name": "سید عباس",
+          "topic": "chal-v11-seyyed-abbas-g7h8"
+        },
+        {
+          "name": "علی کلاته",
+          "topic": "chal-v11-ali-kalate-i9j0"
+        },
+        {
+          "name": "مهدی مختارپور",
+          "topic": "chal-v11-mahdi-mokhtarpour-k1l2"
+        },
+        {
+          "name": "جواد اسماعیلی",
+          "topic": "chal-v11-javad-esmaili-m3n4"
+        }
+      ],
+      "time": "2026-10-05T18:29:37.717Z"
     }
   ],
   "reactions": [
